@@ -1,4 +1,4 @@
-package com.example.projectcab202;
+package com.example.projectcab302;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

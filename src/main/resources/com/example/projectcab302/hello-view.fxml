@@ -5,7 +5,7 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.projectcab202.HelloController"
+      fx:controller="com.example.projectcab302.HelloController"
       alignment="CENTER" spacing="10" prefWidth="320" prefHeight="240">
 
     <Label fx:id="welcomeLabel" text="Welcome to JavaFX!" />

@@ -13,3 +13,10 @@
 .button:hover {
     -fx-background-color: #45a049;
 }
+
+.textField:hover {
+    -fx-background-color: #45a049
+}
+.favFood:hover {
+    -fx-background-color: #f00000
+}

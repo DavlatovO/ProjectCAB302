@@ -9,7 +9,10 @@
       alignment="CENTER" spacing="10" prefWidth="320" prefHeight="240">
 
     <Label fx:id="welcomeLabel" text="Welcome to JavaFX!" />
-    <TextField fx:id="nameInput" promptText="Enter your name" />
+    <Label fx:id="foodResponse" text="#########" />
+    <TextField fx:id="nameInput" promptText="Please don't inject here" />
+    <TextField fx:id="favFood" promptText="What is your favourite Food"/>
     <Button text="Say Hello" onAction="#onHelloButtonClick" />
+    <Button text="Fav Food" onAction="#onNewButtonClick" />
 
 </VBox>

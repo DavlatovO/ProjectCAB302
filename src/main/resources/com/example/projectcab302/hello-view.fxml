@@ -12,4 +12,10 @@
     <TextField fx:id="nameInput" promptText="Enter your name" />
     <Button text="Say Hello" onAction="#onHelloButtonClick" />
 
+
+    <Button fx:id="TranslateDemo"
+            text="TranslateDemo"
+            onAction="#TranslateDemoTransition"
+
+    />
 </VBox>

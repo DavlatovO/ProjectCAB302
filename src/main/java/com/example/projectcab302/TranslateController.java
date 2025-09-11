@@ -96,7 +96,7 @@ public class TranslateController {
         translateButton.setDisable(true);
         welcomeText.setText("Translating...");
 
-        final String projectId = "plucky-snowfall-469503-p5";
+        final String projectId = "mythical-patrol-471101-q1";
         final String target = "vi";
 
         // 1) Collect inputs in order (EnglishText first, then options)

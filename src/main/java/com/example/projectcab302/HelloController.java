@@ -22,13 +22,10 @@ public class HelloController {
     private TextField nameInput;
 
 
-
     @FXML
     protected void onHelloButtonClick() {
         welcomeLabel.setText("Hello, " + nameInput.getText() + "!");
     }
-
-
 
     @FXML
     protected void TranslateDemoTransition() throws IOException {

@@ -65,15 +65,8 @@ public class TranslateController {
     @FXML private RadioButton transRadioFour;
     @FXML private TextField transOptionFour;
 
-
-
-
     @FXML
     private Label welcomeText;
-
-
-
-
 
     @FXML
     protected void onHelloButtonClick() {
@@ -86,10 +79,7 @@ public class TranslateController {
     private Button nextButton;
 
 
-
-
     // Set and pass variables to overloaded translateText() method for translation.
-
 
     @FXML
     public void translateText() {

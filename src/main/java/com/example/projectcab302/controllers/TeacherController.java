@@ -1,16 +1,10 @@
-package com.example.projectcab302;
+package com.example.projectcab302.controllers;
 
 import com.example.projectcab302.utils.ViewManager;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
-import javafx.scene.control.ScrollPane;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TeacherController {
     @FXML
@@ -25,6 +19,11 @@ public class TeacherController {
     @FXML
     protected void onQuizButtonClick() {
         ViewManager.getInstance().switchToQuizzesView();
+    }
+
+    @FXML
+    protected void onTestingButtonClick() {
+        ViewManager.getInstance().switchToTranslateView("C:/Users/anodi/Downloads/trans-472009-db2d770946a8.json","trans-472009");
     }
 
 //    protected void onSettingsButtonClick() {

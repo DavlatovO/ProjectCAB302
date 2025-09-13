@@ -1,9 +1,5 @@
-package com.example.projectcab302;
+package com.example.projectcab302.utils;
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
 import java.sql.*;
 
 public class UserData {

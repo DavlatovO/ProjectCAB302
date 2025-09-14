@@ -8,46 +8,8 @@
     -fx-background-color: #4CAF50;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-min-height: 25;
-    -fx-font-size: 14px;
 }
 
 .button:hover {
-    -fx-background-color: derive(#4CAF50, -15%);
-}
-
-.tileButton {
-    -fx-background-color: grey;
-    -fx-min-height: 150;
-}
-
-.tileButton:hover {
-    -fx-background-color: derive(grey, -15%)
-}
-
-#pageHeader {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-}
-
-#lvbar {
-    -fx-border-color: transparent black transparent transparent; /* top, right, bottom, left */
-    -fx-border-width: 0 2 0 0;  /* right border 2px */
-}
-
-#logoutButton {
-    -fx-background-color:#FFAA00;
-    -fx-min-width: 60;
-}
-
-#logoutButton:hover {
-    -fx-background-color: #FF3333;
-}
-
-#createNewButton {
-    -fx-background-color: #00AAFF;
-}
-
-#createNewButton:hover {
-    -fx-background-color: derive(#00AAFF, -15%);
+    -fx-background-color: #45a049;
 }

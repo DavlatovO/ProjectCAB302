@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns:fx="http://javafx.com/javafx"
+            fx:controller="com.example.projectcab302.TeacherController"
+            stylesheets="@style.css"
+            prefWidth="1000" prefHeight="700">
+    <top>
+        <StackPane>
+            <!-- Header in the middle -->
+            <Label fx:id="pageHeader" text="Quizzes"
+                   StackPane.alignment="TOP_CENTER"/>
+
+            <!-- Back button in the top right -->
+            <Button fx:id="BackButton"
+                    text="Back"
+                    alignment="TOP_RIGHT"
+                    onAction="#onBackButtonClick"
+                    style="-fx-min-width: 25; -fx-min-height: 25; -fx-font-size: 14px;"
+                    StackPane.alignment="TOP_RIGHT"/>
+        </StackPane>
+    </top>
+
+    <center>
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" style="-fx-padding: 10;-fx-background-color: transparent;">
+            <BorderPane.margin>
+                <Insets top="20" right="0" bottom="20" left="0"/>
+            </BorderPane.margin>
+            <content>
+                <GridPane fx:id="gridContent" hgap="10" vgap="10">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="33.33"/>
+                        <ColumnConstraints percentWidth="33.33"/>
+                        <ColumnConstraints percentWidth="33.33"/>
+                    </columnConstraints>
+                    <children>
+                        <Button styleClass="tileButton"
+                                text="placeholderQuiz1"
+                                maxWidth="Infinity"
+                                GridPane.columnIndex="0"
+                                GridPane.rowIndex="0"/>
+
+                        <Button styleClass="tileButton"
+                                text="placeholderQuiz2"
+                                maxWidth="Infinity"
+                                GridPane.columnIndex="1"
+                                GridPane.rowIndex="0"/>
+
+                        <Button styleClass="tileButton"
+                                text="placeholderQuiz3"
+                                maxWidth="Infinity"
+                                GridPane.columnIndex="2"
+                                GridPane.rowIndex="0"/>
+                    </children>
+                </GridPane>
+            </content>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <StackPane>
+            <Button fx:id="createNewButton"
+                    text="+ Create New"
+                    StackPane.alignment="BOTTOM_RIGHT"/>
+        </StackPane>
+    </bottom>
+</BorderPane>

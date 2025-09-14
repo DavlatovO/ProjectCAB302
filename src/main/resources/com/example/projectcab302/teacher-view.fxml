@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/javafx"
+            fx:controller="com.example.projectcab302.TeacherController"
+            stylesheets="@style.css"
+            prefWidth="1000" prefHeight="700">
+
+    <left>
+        <VBox fx:id="lvbar" styleClass="navbar" spacing="10" style="-fx-min-width: 140; -fx-background-color: #f0f0f0;">
+            <children>
+                <Button fx:id="settingsButton" text="Settings" style="-fx-min-width: 120; -fx-min-height: 25; -fx-font-size: 14px;"/>
+                <Button fx:id="quizzesButton" onAction="#onQuizButtonClick" text="Quizzes" style="-fx-min-width: 120; -fx-min-height: 25; -fx-font-size: 14px;"/>
+                <Button fx:id="flashcardsButton" text="Flashcards" style="-fx-min-width: 120; -fx-min-height: 25; -fx-font-size: 14px;" />
+                <Button fx:id="classroomsButton" text="Classrooms" style="-fx-min-width: 120; -fx-min-height: 25; -fx-font-size: 14px;"/>
+                <Button fx:id="testTranslationButton" onAction="#onTestingButtonClick" text="testingDBTranslation" style="-fx-min-width: 120; -fx-min-height: 25; -fx-font-size: 14px;"/>
+                <Region VBox.vgrow="ALWAYS"/>
+                <Button fx:id="logoutButton" text="Logout"/>
+            </children>
+        </VBox>
+    </left>
+
+    <center>
+        <Label fx:id="pageHeader" text="Welcome to the Dashboard"/>
+    </center>
+
+    
+</BorderPane>

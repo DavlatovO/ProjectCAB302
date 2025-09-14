@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns:fx="http://javafx.com/javafx"
-            fx:controller="com.example.projectcab302.TeacherController"
+            fx:controller="com.example.projectcab302.Controller.TeacherController"
             stylesheets="@style.css"
             prefWidth="1000" prefHeight="700">
 
@@ -14,7 +14,7 @@
             <children>
                 <Button fx:id="settingsButton" text="Settings" style="-fx-min-width: 120; -fx-min-height: 25; -fx-font-size: 14px;"/>
                 <Button fx:id="quizzesButton" onAction="#onQuizButtonClick" text="Quizzes" style="-fx-min-width: 120; -fx-min-height: 25; -fx-font-size: 14px;"/>
-                <Button fx:id="flashcardsButton" text="Flashcards" style="-fx-min-width: 120; -fx-min-height: 25; -fx-font-size: 14px;" />
+                <Button fx:id="flashcardsButton" onAction="#onFlashcardsButtonClick" text="Flashcards" style="-fx-min-width: 120; -fx-min-height: 25; -fx-font-size: 14px;" />
                 <Button fx:id="classroomsButton" text="Classrooms" style="-fx-min-width: 120; -fx-min-height: 25; -fx-font-size: 14px;"/>
                 <Button fx:id="testTranslationButton" onAction="#onTestingButtonClick" text="testingDBTranslation" style="-fx-min-width: 120; -fx-min-height: 25; -fx-font-size: 14px;"/>
                 <Region VBox.vgrow="ALWAYS"/>

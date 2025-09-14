@@ -5,8 +5,8 @@ import javafx.stage.Stage;
 
 public class TeacherApp extends Application {
 
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = 600;
+    public static final int WIDTH = 1280;
+    public static final int HEIGHT = 720;
     // View constants are no longer needed with direct method calls
 
     @Override

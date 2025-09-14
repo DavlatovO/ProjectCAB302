@@ -182,7 +182,7 @@ public class FlashcardController {
                                 "Answer A:" + answer + "\n" +
                                 "Answer B:" + response + "\n" +
                                 "Output:";
-                // change num_thread to how many cores your cpu has
+                // change num_thread to how many cores your cpu has.
                 String body = """
                         {
                           "model": "llama3.1:latest",

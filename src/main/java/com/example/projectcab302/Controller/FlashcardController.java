@@ -33,7 +33,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class FlashcardController {
     @FXML
-    private Label welcomeText;
+
     private IFlashcardDAO flashcardDAO;
 
 
@@ -41,19 +41,20 @@ public class FlashcardController {
     private StackPane cubeGroup;
     @FXML
     private Text question;
-    @FXML
-    private Box cube;
-    @FXML
-    private VBox frontFace;
+
+    private List<Flashcard> flashcards;
+
     @FXML
     private Text test;
     @FXML
     private Text cardNum;
 
-    @FXML
-    private Button flip;
 
-    private int clicks = 0;
+    // keeps track of card if flipped or not, if clicks is even, then answer is not showing
+    private boolean cardShowsAnswer = false;
+
+
+    // keeps track of how many flashcard there are
     private int cardCount = 0;
 
 
@@ -63,7 +64,7 @@ public class FlashcardController {
         cubeGroup.setRotationAxis(Rotate.Y_AXIS);
         cubeGroup.setRotate(180); // rotate 45° before showing
         flashcardDAO = new SqliteFlashcardDAO();
-        List<Flashcard> flashcards = flashcardDAO.getAllFlashcard();
+        flashcards = flashcardDAO.getAllFlashcard();
         if (flashcards.isEmpty()){
             flashcardDAO.insertSampleData();
             flashcards = flashcardDAO.getAllFlashcard();
@@ -76,30 +77,30 @@ public class FlashcardController {
     @FXML
     protected void prevCard() {
         if (cardCount == 0) {
-            List<Flashcard> flashcards = flashcardDAO.getAllFlashcard();
+
             cardCount = flashcards.size() - 1;
         } else {
             cardCount--;
         }
 
-        if (clicks % 2 == 1) { //when odd, show back of card/ blank side
+        if (cardShowsAnswer) {
             flipCard();
         }
-        List<Flashcard> flashcards = flashcardDAO.getAllFlashcard();
+
         question.setText(flashcards.get(cardCount).getQuestion());
         cardNum.setText((cardCount + 1) + "/" + flashcards.size());
     }
 
     @FXML
     protected void nextCard() {
-        List<Flashcard> flashcards = flashcardDAO.getAllFlashcard();
+
         if (cardCount == flashcards.size() - 1) {
             cardCount = 0;
         } else {
             cardCount++;
         }
 
-        if (clicks % 2 == 1) { //when odd, show back of card/ blank side
+        if (cardShowsAnswer) { //when odd, show back of card/ blank side
             flipCard();
         }
         question.setText(flashcards.get(cardCount).getQuestion());
@@ -107,38 +108,27 @@ public class FlashcardController {
     }
 
     @FXML
-    protected void flipCard() {
+    private void flipCard() {
 
-        List<Flashcard> flashcards = flashcardDAO.getAllFlashcard();
+
         float duration = 0.25F;
 
-        // Make 2D face participate in depth testing
-        //cube.setDepthTest(DepthTest.ENABLE);
-        //frontFace.setDepthTest(DepthTest.ENABLE);
 
-        // Size the face to match the cube’s front
-        //frontFace.setPrefSize(cube.getWidth(), cube.getHeight());
-
-        // Place the face exactly on the front side: translateZ = depth/2 + epsilon
-        //frontFace.setTranslateZ(cube.getDepth() / 2.0 + 0.5); // 0.5 avoids z-fighting
-        //test.setTranslateZ(cube.getDepth() / 2.0 + 0.5); // 0.5 avoids z-fighting
-
-        // Rotate the whole unit (box + face) together
         RotateTransition spin = new RotateTransition(Duration.seconds(duration), cubeGroup);
         spin.setAxis(Rotate.Y_AXIS);
         spin.setByAngle(180);
 
 
         PauseTransition halfway = new PauseTransition(Duration.seconds(duration / 4));
-        if (clicks % 2 == 1) { //when odd, show back of card/ blank side
+        if (cardShowsAnswer) { //when odd, show back of card/ blank side
             halfway.setOnFinished(e -> test.setText(""));
+            cardShowsAnswer = false;
         } else { //if front of card / answer side
             halfway.setOnFinished(e -> test.setText(flashcards.get(cardCount).getAnswer()));
+            cardShowsAnswer = true;
         }
-        clicks++;
 
 
-        //spin.setCycleCount(Animation.INDEFINITE);
         new ParallelTransition(spin, halfway).play();
 
 
@@ -150,7 +140,7 @@ public class FlashcardController {
     Text aiResponse;
 
     @FXML
-    protected void onSubmit() {
+    private void onSubmit() {
         String response = Answer.getText();
         if (response.isEmpty()) {
             aiResponse.setText("Please enter valid answer");
@@ -247,7 +237,7 @@ public class FlashcardController {
     Button createButton;
 
     @FXML
-    protected void onCreateFlashcard() throws IOException {
+    private void onCreateFlashcard() throws IOException {
         Stage stage = (Stage) createButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("createFlashcard-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
@@ -255,7 +245,7 @@ public class FlashcardController {
     }
 
     @FXML
-    protected void onBack() throws IOException {
+    private void onBack() throws IOException {
         Stage stage = (Stage) createButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("teacher-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);

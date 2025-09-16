@@ -10,9 +10,8 @@ public class QuizController {
 
     }
 
-
     @FXML
-    protected void onBackButtonClick() {
+    protected void onBack() {
         SceneManager.switchTo("teacher-view.fxml");
     }
 

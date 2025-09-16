@@ -7,24 +7,31 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
-            stylesheets="@style.css"
+            stylesheets="@dashboards.css"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.projectcab302.Controller.CoursesController"
-            prefWidth="900" prefHeight="650" style="-fx-padding:10;">
+            prefWidth="900" prefHeight="650">
 
 
     <left>
-        <VBox alignment="CENTER" spacing="10"
-              style="-fx-border-color: black; -fx-border-width: 1; -fx-padding: 10;">
-            <Button fx:id="back"  text="Back" onAction="#onBack"/>
-            <Button fx:id="createCourse" text="Create Course" onAction="#onCreateCourse"/>
+        <VBox spacing="10" styleClass="sidebar-dark">
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Courses" styleClass="sidebar-title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="back" text="Back" onAction="#onBack" styleClass="nav-button"/>
+                </HBox>
+
+                <Region VBox.vgrow="ALWAYS"/>
+                <Button fx:id="createCourse" alignment="bottom_left" text="+  Create Course" onAction="#onCreateCourse"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+            </children>
         </VBox>
     </left>
 
     <center>
         <HBox fx:id="courseBox" alignment="CENTER" spacing="10"
               style="-fx-border-color: black; -fx-border-width: 1; -fx-padding: 10;">
-
         </HBox>
     </center>
 

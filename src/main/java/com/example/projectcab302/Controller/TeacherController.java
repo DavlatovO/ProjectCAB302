@@ -24,15 +24,10 @@ public class TeacherController {
     @FXML
     private GridPane quizzesGrid;
 
-    @FXML
-    protected void onQuizButtonClick() {
-        SceneManager.switchTo("quiz.fxml");
-    }
-
-    @FXML
-    protected void onTestingButtonClick() {
-        ViewManager.getInstance().switchToTranslateView("C:/Users/anodi/Downloads/trans-472009-db2d770946a8.json","trans-472009");
-    }
+//    @FXML
+//    protected void onTestingButtonClick() {
+//        ViewManager.getInstance().switchToTranslateView("C:/Users/anodi/Downloads/trans-472009-db2d770946a8.json","trans-472009");
+//    }
 
 //    protected void onSettingsButtonClick() {
 //        ViewManager.getInstance().switchToSettingsView();
@@ -49,6 +44,10 @@ public class TeacherController {
     @FXML
     protected void openSettings() {
 
+    }
+    @FXML
+    protected void onQuizButtonClick() throws IOException {
+        SceneManager.switchTo("quiz.fxml");
     }
 
     @FXML

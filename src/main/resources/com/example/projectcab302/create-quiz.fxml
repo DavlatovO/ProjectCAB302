@@ -10,7 +10,7 @@
     <HBox alignment="CENTER_LEFT" spacing="10">
         <Label text="Create Quiz" styleClass="page-header"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <Button fx:id="backButton" text="Back" onAction="#onBackButtonClick" styleClass="top-button"/>
+        <Button fx:id="backButton" text="Back" onAction="#onBack" styleClass="top-button"/>
     </HBox>
 
     <!-- Question Field -->

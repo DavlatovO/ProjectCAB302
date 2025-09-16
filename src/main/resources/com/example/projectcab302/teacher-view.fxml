@@ -30,11 +30,9 @@
 
                 <VBox spacing="10" styleClass="sidebar-dark">
                     <children>
-                        <Label text="Dashboard" styleClass="sidebar-title"/>
                         <Button fx:id="quizzesButton" text="Quizzes" onAction="#onQuizButtonClick" styleClass="nav-button"/>
                         <Button fx:id="flashcardsButton" text="Flashcards" onAction="#onFlashcardsButtonClick" styleClass="nav-button"/>
                         <Button fx:id="classroomsButton" text="Classrooms" styleClass="nav-button"/>
-                        <Button fx:id="testTranslationButton" text="testingDBTranslation" onAction="#onTestingButtonClick" styleClass="nav-button"/>
                         <Region VBox.vgrow="ALWAYS"/>
                     </children>
                 </VBox>
@@ -43,7 +41,7 @@
                     <top>
                         <ToolBar styleClass="content-toolbar">
                             <Label fx:id="pageHeader" text="Study Sets" styleClass="page-title"/>
-                            <Button text="New Set" onAction="#onQuizButtonClick"/>
+                            <Button text="New Set" onAction="#onFlashcardsButtonClick"/>
                         </ToolBar>
                     </top>
 

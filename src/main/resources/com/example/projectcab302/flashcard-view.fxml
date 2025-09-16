@@ -8,10 +8,10 @@
 
 <?import javafx.scene.text.Text?>
 <BorderPane xmlns="http://javafx.com/javafx/21"
-            stylesheets="@style.css"
+            stylesheets="@dashboards.css"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.projectcab302.Controller.FlashcardController"
-            prefWidth="900" prefHeight="650" style="-fx-padding:10;">
+            prefWidth="900" prefHeight="650">
 
     <!-- TOP (optional) -->
     <!--
@@ -25,12 +25,20 @@
     <!-- LEFT / RIGHT / BOTTOM regions are optional; add if needed -->
     <!-- LEFT: Create Flashcard button -->
     <left>
-        <VBox alignment="CENTER" spacing="10"
-              style="-fx-border-color: black; -fx-border-width: 1; -fx-padding: 10;">
-            <Button text="Back" onAction="#onBack"/>
-            <Button fx:id="modifyButton" text="Modify flashcard" onAction="#onModifyFlashcard"/>
-            <Button fx:id="pvp" text="PvP" onAction="#onPvP"/>
-            <Button fx:id="preview" text="preview" onAction="#initialize"/>
+        <VBox styleClass="sidebar-dark" spacing="10">
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Courses" styleClass="sidebar-title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="Back" onAction="#onBack" styleClass="nav-button"/>
+                </HBox>
+
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <Button fx:id="pvp" text="PvP" onAction="#onPvP"/>
+                <Button fx:id="preview" text="Preview" onAction="#initialize"/>
+                <Button fx:id="modifyButton" text="Modify flashcard" onAction="#onModifyFlashcard"/>
+            </children>
         </VBox>
     </left>
 
@@ -52,7 +60,7 @@
                 <Button fx:id="flipButton" text="Flip" onAction="#flipCard"/>
             </StackPane>
             <StackPane fx:id="cubeGroup">
-                <Rectangle width="800" height="400"
+                <Rectangle width="400" height="200"
                            fill="lightblue" stroke="black" strokeWidth="2"/>
                 <!-- Example 3D Box (commented out)
                 <Box fx:id="cube" width="800" height="400" depth="50">
@@ -67,6 +75,7 @@
                       promptText="Type your answer..."
                       wrapText="true"
                       editable="true"
+                      prefHeight="400"
             />
 
             <StackPane >

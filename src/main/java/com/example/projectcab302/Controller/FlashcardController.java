@@ -461,12 +461,9 @@ public class FlashcardController {
         SceneManager.switchTo("createFlashcard-view.fxml");
     }
 
-
-
-
     @FXML
     private void onBack() throws IOException {
-        SceneManager.switchTo("teacher-view.fxml");
+        SceneManager.switchTo("createFlashcard-view.fxml");
     }
 
 

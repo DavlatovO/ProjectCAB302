@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:id="root"
+            fx:controller="com.example.projectcab302.Controller.TeacherController"
+            stylesheets="@style.css"
+            prefWidth="1000" prefHeight="700"
+            styleClass="app-root">
+
+    <top>
+        <HBox spacing="12" styleClass="topbar" BorderPane.alignment="CENTER_LEFT">
+            <children>
+                <Label text="Teacher Dashboard" styleClass="topbar-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="profileButton" text="Profile" onAction="#handleOpenUserProfile" styleClass="topbar-btn"/>
+                <Button fx:id="settingsTopButton" text="Settings" onAction="#handleOpenSettings" styleClass="topbar-btn"/>
+                <Separator orientation="VERTICAL"/>
+                <Button fx:id="backButton" text="Back" onAction="#onBackButtonClick" styleClass="topbar-btn"/>
+                <Button fx:id="logoutButton" text="Logout" onAction="#onBackButtonClick" styleClass="topbar-btn danger"/>
+            </children>
+        </HBox>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.2">
+            <items>
+
+                <VBox spacing="10" styleClass="sidebar-dark">
+                    <children>
+                        <Label text="Dashboard" styleClass="sidebar-title"/>
+                        <Button fx:id="quizzesButton" text="Quizzes" onAction="#onQuizButtonClick" styleClass="nav-button"/>
+                        <Button fx:id="flashcardsButton" text="Flashcards" onAction="#onFlashcardsButtonClick" styleClass="nav-button"/>
+                        <Button fx:id="classroomsButton" text="Classrooms" styleClass="nav-button"/>
+                        <Button fx:id="testTranslationButton" text="testingDBTranslation" onAction="#onTestingButtonClick" styleClass="nav-button"/>
+                        <Region VBox.vgrow="ALWAYS"/>
+                    </children>
+                </VBox>
+
+                <BorderPane>
+                    <top>
+                        <ToolBar styleClass="content-toolbar">
+                            <Label fx:id="pageHeader" text="Study Sets" styleClass="page-title"/>
+                            <Button text="New Set" onAction="#onQuizButtonClick"/>
+                        </ToolBar>
+                    </top>
+
+                    <center>
+                        <ScrollPane fitToWidth="true" fitToHeight="true" pannable="true" hbarPolicy="NEVER">
+                            <content>
+                                <StackPane styleClass="content">
+                                    <children>
+                                        <VBox spacing="16" alignment="TOP_LEFT" styleClass="card">
+                                            <children>
+                                                <Label wrapText="true"
+                                                       text="Welcome to dashboard"/>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </StackPane>
+                            </content>
+                        </ScrollPane>
+                    </center>
+                </BorderPane>
+
+            </items>
+        </SplitPane>
+    </center>
+
+</BorderPane>

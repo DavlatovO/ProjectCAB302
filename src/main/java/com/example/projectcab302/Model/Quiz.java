@@ -34,6 +34,8 @@ public class Quiz {
         this.course = course;
     }
 
+
+
     public int getQuizID() {
         return quizID;
     }
@@ -65,6 +67,9 @@ public class Quiz {
     {
         return course;
     }
+    public void setQuizID(Integer quizID) {
+        this.quizID = quizID;
+    }
     public void setQuizName(String QuizName) {
          this.QuizName = QuizName;
     }
@@ -87,6 +92,9 @@ public class Quiz {
     }
     public void setCorrectAnswer(String correctAnswer) {
         this.correctAnswer = correctAnswer;
+    }
+    public void setCourse(String course) {
+        this.course = course;
     }
 
 

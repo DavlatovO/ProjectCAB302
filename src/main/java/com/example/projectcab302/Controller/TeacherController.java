@@ -1,6 +1,7 @@
 package com.example.projectcab302.Controller;
 
-import com.example.projectcab302.HelloApplication;
+
+import com.example.projectcab302.SceneManager;
 import com.example.projectcab302.ViewManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +26,7 @@ public class TeacherController {
 
     @FXML
     protected void onQuizButtonClick() {
-        ViewManager.getInstance().switchToQuizzesView();
+        SceneManager.switchTo("quiz.fxml");
     }
 
     @FXML
@@ -41,16 +42,24 @@ public class TeacherController {
     Button flashcardsButton;
 
     @FXML
-    protected void onFlashcardsButtonClick() throws IOException {
-        Stage stage = (Stage) flashcardsButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("courses-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
+    protected void openUserProfile() {
+
     }
 
     @FXML
-    protected void onBackButtonClick() {
-        ViewManager.getInstance().switchToTeacherView();
+    protected void openSettings() {
+
     }
 
+    @FXML
+    protected void onFlashcardsButtonClick() throws IOException {
+        SceneManager.switchTo("courses-view.fxml");
+    }
+
+
+    @FXML
+    protected void logout() {
+        SceneManager.switchTo("landingpage.fxml");
+    }
 }
+

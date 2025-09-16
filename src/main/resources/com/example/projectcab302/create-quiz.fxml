@@ -1,0 +1,36 @@
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/javafx"
+      fx:controller="com.example.projectcab302.Controller.QuizController"
+      spacing="20" style="-fx-padding: 30;" prefWidth="800">
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="Create Quiz" styleClass="page-header"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="backButton" text="Back" onAction="#onBackButtonClick" styleClass="top-button"/>
+    </HBox>
+
+    <!-- Question Field -->
+    <Label text="Question:"/>
+    <TextField fx:id="questionField" promptText="Enter your question here" maxWidth="600"/>
+
+    <!-- Option Fields -->
+    <Label text="Options:"/>
+    <TextField fx:id="optionAField" promptText="Option A" maxWidth="600"/>
+    <TextField fx:id="optionBField" promptText="Option B" maxWidth="600"/>
+    <TextField fx:id="optionCField" promptText="Option C" maxWidth="600"/>
+    <TextField fx:id="optionDField" promptText="Option D" maxWidth="600"/>
+
+    <!-- Answer Field -->
+    <Label text="Correct Answer:"/>
+    <TextField fx:id="answerField" promptText="Enter correct option (e.g., A, B, C, D)" maxWidth="600"/>
+
+    <!-- Submit Button -->
+    <HBox alignment="CENTER_RIGHT">
+        <Button fx:id="submitButton" text="Save Quiz" onAction="#submitQuiz" styleClass="create-button"/>
+    </HBox>
+
+</VBox>

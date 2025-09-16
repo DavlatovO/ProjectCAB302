@@ -1,0 +1,47 @@
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/javafx"
+            fx:controller="com.example.projectcab302.Controller.QuizController"
+            stylesheets="@style.css"
+            prefWidth="1000" prefHeight="700">
+
+    <!-- Top bar with header and back button -->
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 20;">
+            <Label fx:id="pageHeader" text="Quizzes" styleClass="page-header"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="backButton"
+                    text="Back"
+                    onAction="#onBackButtonClick"
+                    styleClass="top-button"/>
+        </HBox>
+    </top>
+
+    <!-- Center scrollable grid of quiz tiles -->
+    <center>
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" fitToHeight="true"
+                    style="-fx-background-color: transparent;">
+            <VBox spacing="20" style="-fx-padding: 20;">
+                <GridPane fx:id="quizzesGrid" hgap="20" vgap="20">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="33.33"/>
+                        <ColumnConstraints percentWidth="33.33"/>
+                        <ColumnConstraints percentWidth="33.33"/>
+                    </columnConstraints>
+                    <!-- Quiz tiles will be added dynamically -->
+                </GridPane>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <!-- Bottom bar with create button -->
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" style="-fx-padding: 20;">
+            <Button fx:id="createNewButton"
+                    text="+ Create New"
+                    styleClass="create-button" onAction="#createQuiz"/>
+        </HBox>
+    </bottom>
+</BorderPane>

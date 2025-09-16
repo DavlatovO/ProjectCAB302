@@ -1,8 +1,9 @@
 package com.example.projectcab302.Controller;
 
-import com.example.projectcab302.HelloApplication;
+
 import com.example.projectcab302.Model.SqliteFlashcardDAO;
 import com.example.projectcab302.Model.UserData;
+import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -61,12 +62,10 @@ public class LoginController {
         }
     }
 
+    //Switching to the Register window from login window
     @FXML
     protected void switchToRegister() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("register-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = (Stage) usernameField.getScene().getWindow();
-        stage.setScene(scene);
+        SceneManager.switchTo("register-view.fxml");
     }
 
 
@@ -75,20 +74,14 @@ public class LoginController {
     Button loginTeacher;
     @FXML
     protected void onLoginAsTeacher() throws IOException {
-        Stage stage = (Stage) loginTeacher.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("teacher-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
+        SceneManager.switchTo("teacher-view.fxml");
     }
 
     @FXML
     Button loginStudent;
     @FXML
     protected void onLoginAsStudent() throws IOException {
-        Stage stage = (Stage) loginTeacher.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("teacher-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
+        SceneManager.switchTo("teacher-view.fxml");
     }
 
 }

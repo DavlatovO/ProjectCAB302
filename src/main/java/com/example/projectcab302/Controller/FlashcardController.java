@@ -3,13 +3,17 @@ package com.example.projectcab302.Controller;
 import com.example.projectcab302.Model.Course;
 import javafx.animation.*;
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Box;
@@ -33,6 +37,15 @@ import java.util.concurrent.CompletableFuture;
 
 public class FlashcardController {
     @FXML
+    public HBox previewOptions;
+    @FXML
+    public HBox pvpOptions;
+    @FXML
+    public Button next;
+    @FXML
+    public Button prev;
+
+    @FXML
 
     private IFlashcardDAO flashcardDAO;
 
@@ -54,15 +67,35 @@ public class FlashcardController {
     private boolean cardShowsAnswer = false;
 
 
-    // keeps track of how many flashcard there are
+    // keeps track of which flashcard is currently showing
     private int cardCount = 0;
+
+    @FXML
+    private Button pvpSubmitButton;
+
+    @FXML
+    private Button ready;
+    @FXML
+    private Text player1;
+
+    @FXML
+    private Text player2;
 
 
     @FXML
     private void initialize() {
+        pvpOptions.setVisible(false);
 
+        player1.setVisible(false);
+        player2.setVisible(false);
+        countdown.setVisible(false);
+        pvpActive = false;
+        previewOptions.setVisible(true);
 
-
+        ready.setVisible(false);
+        bar.setVisible(false);
+        flipButton.setVisible(true);
+        flipButton.setDisable(false);
     }
 
     private Course course;
@@ -82,20 +115,164 @@ public class FlashcardController {
     @FXML private ProgressBar bar;
     private Timeline fill; // keep a strong reference
 
+    @FXML private Button flipButton;
+    @FXML private Text countdown;
+    @FXML private Boolean pvpActive;
+
+    @FXML private Boolean p1Turn;
+    @FXML private Boolean p2Turn;
+
+    @FXML private int p1Score;
+    @FXML private int p2Score;
+
+
     @FXML
     public void onPvP() {
+        bar.setVisible(true);
+        ready.setVisible(true);
+        cardCount = 0;
+        p1Score = 0;
+        p2Score = 0;
+        player1.setVisible(true);
+        player2.setVisible(true);
+        player1.setText("player 1: " + p1Score);
+        player2.setText("player 1: " + p1Score);
+        player2.setVisible(true);
+
+        previewOptions.setVisible(false);
+        pvpOptions.setVisible(true);
+        pvpActive = true;
+        p1Turn = true;
+        flipButton.setVisible(false);
+
+
+        startRound();
+
+        // once user submits save score and flip card
+
+
+        // give laptop to player 2
+
+
+        // Enable ready button
+        // start 3 second count down and hide question
+        // start 10 second progress bar
+        // once user submits save score and flip card
+
+        // once all cards are down show who won
+
+
+
+
         System.out.println("onPvP clicked");
+
+
+    }
+
+    @FXML
+    public void startRound() {
+        ready.setDisable(true);
+        pvpSubmitButton.setDisable(true);
+        // start 3 second count down and hide question
+        countdown.setVisible(true);
+        int start = 3;
+        IntegerProperty seconds = new SimpleIntegerProperty(start);
+
+        // show initial "3"
+        question.textProperty().bind(seconds.asString());
+
+        Timeline tl = new Timeline(
+                new KeyFrame(Duration.seconds(1), e -> seconds.set(seconds.get() - 1))
+        );
+        tl.setCycleCount(start); // run 3 ticks: 3→2→1→0 (finishes after hitting 0)
+
+        tl.setOnFinished(e -> {
+            pvpSubmitButton.setDisable(false);
+            question.textProperty().unbind();
+            question.setText(flashcards.get(cardCount).getQuestion());
+            submitButton.setDisable(false);
+            // start 10 second progress bar
+            startProgressBar();
+            // countdown.setVisible(false);  // if you want to hide it after
+        });
+
+        tl.play();
+    }
+
+    @FXML
+    public void onPvpSubmit() {
+        if (fill != null && fill.getStatus() == Animation.Status.RUNNING) {
+            fill.stop();                 // onFinished WILL NOT fire
+        }
+        String response = Answer.getText();
+        if (response.isEmpty()) {
+            aiResponse.setText("Score 0/10, no answer given" );
+            flipCard();
+        } else{
+            onSubmit();
+        }
+
+        if (cardCount == (flashcards.size() - 1) && p2Turn){
+            if (p1Score > p2Score){
+                countdown.setText("player 1 won");
+            } else{
+                countdown.setText("player 2 won");
+            }
+            return;
+
+        }
+        ready.setDisable(false);
+        pvpSubmitButton.setDisable(true);
+        if (p1Turn){
+            countdown.setText("Give Laptop to player 2");
+            System.out.println("p1Turn");
+            System.out.println(flashcards.get(cardCount).getAnswer());
+            p1Turn = false;
+            p2Turn = true;
+        } else if (p2Turn){
+            System.out.println("p2Turn");
+            System.out.println(flashcards.get(cardCount).getAnswer());
+            countdown.setText("Give Laptop to player 1");
+            p1Turn = true;
+            p2Turn = false;
+        }
+
+
+
+    }
+
+    @FXML
+    public void onReady() {
+        aiResponse.setText("");
+        countdown.setText("");
+        flipCard();
+        if (p1Turn){
+            cardCount++;
+        }
+        startRound();
+
+
+    }
+
+
+    private void startProgressBar() {
         if (fill != null) fill.stop();
-        bar.setProgress(0); // optional reset
+        bar.setProgress(0);
 
         fill = new Timeline(
-                new KeyFrame(Duration.ZERO,
-                        new KeyValue(bar.progressProperty(), 0)),
-                new KeyFrame(Duration.seconds(10),
-                        new KeyValue(bar.progressProperty(), 1))
+                new KeyFrame(Duration.ZERO, new KeyValue(bar.progressProperty(), 0)),
+                new KeyFrame(Duration.seconds(10), new KeyValue(bar.progressProperty(), 1))
         );
-        fill.playFromStart();
 
+        fill.setOnFinished(e -> {
+
+            pvpSubmitButton.setDisable(true);
+            String response = Answer.getText();
+            onPvpSubmit();
+
+        });
+
+        fill.playFromStart();
     }
 
     @FXML
@@ -142,7 +319,8 @@ public class FlashcardController {
         spin.setAxis(Rotate.Y_AXIS);
         spin.setByAngle(180);
 
-
+        System.out.println(cardCount);
+        System.out.println(cardCount);
         PauseTransition halfway = new PauseTransition(Duration.seconds(duration / 4));
         if (cardShowsAnswer) { //when odd, show back of card/ blank side
             halfway.setOnFinished(e -> test.setText(""));
@@ -164,13 +342,16 @@ public class FlashcardController {
     Text aiResponse;
 
     @FXML
+    Button submitButton;
+
+    @FXML
     private void onSubmit() {
         String response = Answer.getText();
         if (response.isEmpty()) {
             aiResponse.setText("Please enter valid answer");
             return;
         }
-        List<Flashcard> flashcards = flashcardDAO.getAllFlashcard();
+
         String question = flashcards.get(cardCount).getQuestion();
         String answer = flashcards.get(cardCount).getAnswer();
 
@@ -234,6 +415,20 @@ public class FlashcardController {
                     String responseText = outer.getString("response"); // this is the JSON string
                     int score = new JSONObject(responseText).getInt("score");
                     String grade;
+                    if (pvpActive){
+                        submitButton.setDisable(true);
+                        flipCard();
+                        if (p1Turn){
+                            p1Score += score;
+                            player1.setText("player 1: " + p1Score);
+                        } else{
+                            p2Score += score;
+                            player2.setText("player 1: " + p2Score);
+
+                        }
+
+
+                    }
                     if (score == 1) {
                         grade = " Not close to answer at all";
                     } else if (score >= 2 && score <= 4) { // note: include 2
@@ -258,19 +453,26 @@ public class FlashcardController {
     }
 
     @FXML
-    Button createButton;
+    Button modifyButton;
 
     @FXML
-    private void onCreateFlashcard() throws IOException {
-        Stage stage = (Stage) createButton.getScene().getWindow();
+    private void onModifyFlashcard() throws IOException {
+        Stage stage = (Stage) modifyButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("createFlashcard-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        Parent root = fxmlLoader.load();                 // must load before getController()
+        CreateFlashcardController b = fxmlLoader.getController();
+        b.setCourse(course);
+        // pass whatever you need
+        Scene scene = new Scene(root, HelloApplication.WIDTH, HelloApplication.HEIGHT);
         stage.setScene(scene);
     }
 
+
+
+
     @FXML
     private void onBack() throws IOException {
-        Stage stage = (Stage) createButton.getScene().getWindow();
+        Stage stage = (Stage) modifyButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("teacher-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
         stage.setScene(scene);

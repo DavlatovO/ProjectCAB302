@@ -81,4 +81,14 @@ public class LoginController {
         stage.setScene(scene);
     }
 
+    @FXML
+    Button loginStudent;
+    @FXML
+    protected void onLoginAsStudent() throws IOException {
+        Stage stage = (Stage) loginTeacher.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("teacher-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        stage.setScene(scene);
+    }
+
 }

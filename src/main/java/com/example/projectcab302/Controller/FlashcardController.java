@@ -1,14 +1,14 @@
 package com.example.projectcab302.Controller;
 
-import javafx.animation.ParallelTransition;
-import javafx.animation.PauseTransition;
-import javafx.animation.RotateTransition;
+import com.example.projectcab302.Model.Course;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -61,17 +61,41 @@ public class FlashcardController {
     @FXML
     private void initialize() {
 
+
+
+    }
+
+    private Course course;
+    public void setCourse(Course Course) {
         cubeGroup.setRotationAxis(Rotate.Y_AXIS);
         cubeGroup.setRotate(180); // rotate 45° before showing
-        flashcardDAO = new SqliteFlashcardDAO();
-        flashcards = flashcardDAO.getAllFlashcard();
-        if (flashcards.isEmpty()){
-            flashcardDAO.insertSampleData();
-            flashcards = flashcardDAO.getAllFlashcard();
-        }
+
+        this.course = Course;
+        flashcards = course.getFlashcards();
         question.setText(flashcards.get(cardCount).getQuestion());
 
         cardNum.setText((cardCount + 1) + "/" + flashcards.size());
+
+
+    }
+
+    @FXML private ProgressBar bar;
+    private Timeline fill; // keep a strong reference
+
+    @FXML
+    public void onPvP() {
+        System.out.println("onPvP clicked");
+        if (fill != null) fill.stop();
+        bar.setProgress(0); // optional reset
+
+        fill = new Timeline(
+                new KeyFrame(Duration.ZERO,
+                        new KeyValue(bar.progressProperty(), 0)),
+                new KeyFrame(Duration.seconds(10),
+                        new KeyValue(bar.progressProperty(), 1))
+        );
+        fill.playFromStart();
+
     }
 
     @FXML

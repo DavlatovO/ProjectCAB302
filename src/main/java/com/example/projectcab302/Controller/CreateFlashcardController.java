@@ -1,7 +1,9 @@
 package com.example.projectcab302.Controller;
 
+import com.example.projectcab302.Model.Course;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -25,13 +27,20 @@ public class CreateFlashcardController {
     @FXML
     private void initialize() {
 
-        flashcardDAO = new SqliteFlashcardDAO();
-        List<Flashcard> flashcards = flashcardDAO.getAllFlashcard();
+
+
+
+    }
+
+    private Course course;
+    public void setCourse(Course Course) {
+        this.course = Course;
+        System.out.println(this.course.getTitle());
+        List<Flashcard> flashcards = course.getFlashcards();
 
         for (Flashcard card : flashcards){
             cardEntry.appendText(card.getQuestion() + "--{" + card.getAnswer() + "}" + "\n");
         }
-
     }
 
     @FXML
@@ -49,7 +58,7 @@ public class CreateFlashcardController {
             String question = matcher.group(1).trim();
             String answer   = matcher.group(2).trim();
 
-            Flashcard card = new Flashcard(question, answer);
+            Flashcard card = new Flashcard(course.getTitle(), question, answer);
 
             flashcardDAO.addFlashcard(card);
         }
@@ -61,9 +70,23 @@ public class CreateFlashcardController {
     @FXML
     Button backButton;
     @FXML
+    protected void onPreview() throws IOException {
+        Stage stage = (Stage) backButton.getScene().getWindow();
+
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("flashcard-view.fxml"));
+        Parent root = fxmlLoader.load();                 // must load before getController()
+        FlashcardController b = fxmlLoader.getController();
+        b.setCourse(course);
+        // pass whatever you need
+        Scene scene = new Scene(root, HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        stage.setScene(scene);
+
+    }
+
+    @FXML
     protected void onBack() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("flashcard-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("courses-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
         stage.setScene(scene);
     }

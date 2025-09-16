@@ -16,7 +16,7 @@ class FlashcardTest {
     @DisplayName("Constructor should set question and answer; id defaults to 0")
     void constructor_setsFields_andIdDefaultsToZero() {
         // Arrange & Act
-        Flashcard card = new Flashcard("What is OOP?", "Object-Oriented Programming");
+        Flashcard card = new Flashcard("What is OOP?", "Object-Oriented Programming", answer);
 
         // Assert
         // Verifies constructor correctly assigns question/answer
@@ -30,7 +30,7 @@ class FlashcardTest {
     @Test
     @DisplayName("setId should update the id field")
     void setId_updatesId() {
-        Flashcard card = new Flashcard("Q", "A");
+        Flashcard card = new Flashcard("Q", "A", answer);
 
         // Act
         card.setId(42);
@@ -43,7 +43,7 @@ class FlashcardTest {
     @Test
     @DisplayName("setQuestion should update the question field")
     void setQuestion_updatesQuestion() {
-        Flashcard card = new Flashcard("Old question", "A");
+        Flashcard card = new Flashcard("Old question", "A", answer);
 
         // Act
         card.setQuestion("New question");
@@ -56,7 +56,7 @@ class FlashcardTest {
     @Test
     @DisplayName("setAnswer should update the answer field")
     void setAnswer_updatesAnswer() {
-        Flashcard card = new Flashcard("Q", "Old answer");
+        Flashcard card = new Flashcard("Q", "Old answer", answer);
 
         // Act
         card.setAnswer("New answer");
@@ -69,7 +69,7 @@ class FlashcardTest {
     @Test
     @DisplayName("Setters should allow nulls (if desired behavior) for question/answer")
     void setters_allowNullValues() {
-        Flashcard card = new Flashcard("Q", "A");
+        Flashcard card = new Flashcard("Q", "A", answer);
 
         // Act
         card.setQuestion(null);
@@ -84,7 +84,7 @@ class FlashcardTest {
     @Test
     @DisplayName("Supports empty strings for question/answer")
     void supportsEmptyStrings() {
-        Flashcard card = new Flashcard("", "");
+        Flashcard card = new Flashcard("", "", answer);
 
         // Assert
         // Verifies empty strings are stored as-is

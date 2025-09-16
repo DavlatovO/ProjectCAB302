@@ -17,6 +17,6 @@
     <Button text="Login" onAction="#handleLogin"/>
     <Button text="Register" onAction="#switchToRegister"/>
     <Button fx:id="loginTeacher" text="Login as teacher" onAction="#onLoginAsTeacher"/>
-    <Button fx:id="loginStudent"  text="Login as student" onAction="#onLoginAsTeacher"/>
+    <Button fx:id="loginStudent"  text="Login as student" onAction="#onLoginAsStudent"/>
     <Label fx:id="errorLabel" textFill="red"/>
 </VBox>

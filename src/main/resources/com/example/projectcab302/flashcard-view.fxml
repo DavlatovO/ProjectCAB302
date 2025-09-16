@@ -29,6 +29,7 @@
               style="-fx-border-color: black; -fx-border-width: 1; -fx-padding: 10;">
             <Button text="Back" onAction="#onBack"/>
             <Button fx:id="createButton" text="Create flashcard" onAction="#onCreateFlashcard"/>
+            <Button fx:id="pvp" text="PvP" onAction="#onPvP"/>
         </VBox>
     </left>
 
@@ -36,7 +37,9 @@
         <VBox alignment="CENTER"
               style="-fx-border-color: black; -fx-border-width: 2;"
               spacing="20">
-
+            <ProgressBar fx:id="bar"
+                         prefWidth="600"
+                         style="-fx-accent: yellow; -fx-min-height: 28; -fx-pref-height: 28; -fx-max-height: 28;" />
             <Text fx:id="cardNum" fill="Black"/>
             <Text fx:id="question" fill="Black"/>
             <Button text="Flip" onAction="#flipCard"/>

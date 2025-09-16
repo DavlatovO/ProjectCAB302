@@ -9,8 +9,9 @@ public class Quiz {
     private String Answer3;
     private String Answer4;
     private String correctAnswer;
+    private String course;
 
-    public Quiz(int quizID, String QuizName, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer) {
+    public Quiz(int quizID, String QuizName, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer, String course) {
         this.quizID = quizID;
         this.QuizName = QuizName;
         this.QuizQuestion = QuizQuestion;
@@ -19,9 +20,10 @@ public class Quiz {
         this.Answer3 = Answer3;
         this.Answer4 = Answer4;
         this.correctAnswer = correctAnswer;
+        this.course = course;
     }
 
-    public Quiz(String QuizName, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer) {
+    public Quiz(String QuizName, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer, String course) {
         this.QuizName = QuizName;
         this.QuizQuestion = QuizQuestion;
         this.Answer1 = Answer1;
@@ -29,6 +31,7 @@ public class Quiz {
         this.Answer3 = Answer3;
         this.Answer4 = Answer4;
         this.correctAnswer = correctAnswer;
+        this.course = course;
     }
 
     public int getQuizID() {
@@ -58,7 +61,10 @@ public class Quiz {
     public String getCorrectAnswer() {
         return correctAnswer;
     }
-
+    public String getCourse()
+    {
+        return course;
+    }
     public void setQuizName(String QuizName) {
          this.QuizName = QuizName;
     }

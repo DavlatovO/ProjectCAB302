@@ -392,7 +392,7 @@ public class FlashcardController {
                             "top_p": 1,
                             "seed": 1234,
                             "num_predict": 8,
-                            "num_thread": 8,
+                            "num_thread": 4,
                             "num_batch": 256,
                             "num_gpu": 999
                           }

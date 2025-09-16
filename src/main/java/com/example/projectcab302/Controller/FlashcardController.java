@@ -223,23 +223,26 @@ public class FlashcardController {
         }
         ready.setDisable(false);
         pvpSubmitButton.setDisable(true);
+
+
+        Answer.setText("");
+
+    }
+
+    public void switchTurns() {
         if (p1Turn){
             countdown.setText("Give Laptop to player 2");
-            System.out.println("p1Turn");
-            System.out.println(flashcards.get(cardCount).getAnswer());
+
             p1Turn = false;
             p2Turn = true;
         } else if (p2Turn){
-            System.out.println("p2Turn");
-            System.out.println(flashcards.get(cardCount).getAnswer());
+
             countdown.setText("Give Laptop to player 1");
             p1Turn = true;
             p2Turn = false;
         }
-
-
-
     }
+
 
     @FXML
     public void onReady() {
@@ -421,11 +424,13 @@ public class FlashcardController {
                         if (p1Turn){
                             p1Score += score;
                             player1.setText("player 1: " + p1Score);
+
                         } else{
                             p2Score += score;
-                            player2.setText("player 1: " + p2Score);
+                            player2.setText("player 2: " + p2Score);
 
                         }
+                        switchTurns();
 
 
                     }

@@ -16,7 +16,7 @@
         <HBox alignment="CENTER"  spacing="10">
             <Button  text="Preview" onAction="#onPreview"/>
             <Button fx:id="backButton" text="Back" onAction="#onBack"/>
-            <Label text="TOP" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+            <Label fx:id="titleLabel" text="TOP" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
             <Button  text="Save" onAction="#onSave"/>
         </HBox>
         <Text text = "To make a flashcard, enter a question then place --{'Your answer'}, and click save"/>

@@ -42,7 +42,7 @@ public class CoursesController {
             btn.setOnAction(e -> {
                 try {
                     course = courses.get(idx);
-                    System.out.println(courses.get(idx).getTitle());
+                    Course.setTransferredTitle(course.getTitle()); // Get title from selected course to pass to CreateFlashcardController for page title.
                     onCourse();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);

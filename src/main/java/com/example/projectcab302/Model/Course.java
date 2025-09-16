@@ -10,6 +10,7 @@ public class Course {
     private int id;
     private List<Flashcard> flashcards;
     private String title;
+    private static String transferredTitle;
 
     public Course(String title) {
     this.title = title;
@@ -48,6 +49,14 @@ public class Course {
 
     public void setTitle(int id) {
         this.title = title;
+    }
+
+    public static String getTransferredTitle() {
+        return transferredTitle;
+    }
+
+    public static void setTransferredTitle(String text) {
+        transferredTitle = text;
     }
 
 

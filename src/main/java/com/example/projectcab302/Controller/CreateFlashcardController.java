@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
@@ -23,14 +24,14 @@ public class CreateFlashcardController {
     @FXML
     private TextArea cardEntry;
 
+    @FXML
+    private Label titleLabel;
+
     private IFlashcardDAO flashcardDAO;
 
     @FXML
     private void initialize() {
-
-
-
-
+        titleLabel.setText(course.getTransferredTitle()); // retrieve input from CoursesController for course title
     }
 
     private Course course;
@@ -66,8 +67,6 @@ public class CreateFlashcardController {
 
     }
 
-
-
     @FXML
     Button backButton;
     @FXML
@@ -78,6 +77,6 @@ public class CreateFlashcardController {
 
     @FXML
     protected void onBack() throws IOException {
-     SceneManager.switchTo("course-view.fxml");
+     SceneManager.switchTo("courses-view.fxml");
     }
 }

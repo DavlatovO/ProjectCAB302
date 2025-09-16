@@ -17,7 +17,7 @@ public class SceneManager {
     public static void switchTo(String fxmlFile) {
         try {
             Parent root = FXMLLoader.load(SceneManager.class.getResource("/com/example/projectcab302/" + fxmlFile));
-            stage.setScene(new Scene(root, 800, 600));
+            stage.setScene(new Scene(root, 1000, 600));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

@@ -43,7 +43,7 @@ public class SqlQuizDAO {
         try {
             // Clear before inserting
             Statement clearStatement = connection.createStatement();
-            String clearQuery = "DELETE FROM flashcards";
+            String clearQuery = "DELETE FROM quizs";
             clearStatement.execute(clearQuery);
 
         } catch (Exception e) {
@@ -55,11 +55,16 @@ public class SqlQuizDAO {
         // Create table if not exists
         try {
             Statement statement = connection.createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS flashcards ("
-                    + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "course VARCHAR NOT NULL,"
-                    + "question VARCHAR NOT NULL,"
-                    + "answer VARCHAR NOT NULL"
+            String query = "CREATE TABLE IF NOT EXISTS quizs ("
+                    + "quizID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "QuizName VARCHAR NOT NULL,"
+                    + "QuizQuestion VARCHAR NOT NULL,"
+                    + "Answer1 VARCHAR NOT NULL"
+                    + "Answer2 VARCHAR NOT NULL"
+                    + "Answer3 VARCHAR NOT NULL"
+                    + "Answer4 VARCHAR NOT NULL"
+                    + "correctAnswer VARCHAR NOT NULL"
+                    + "Course VARCHAR NOT NULL"
                     + ")";
             statement.execute(query);
         } catch (Exception e) {
@@ -71,10 +76,13 @@ public class SqlQuizDAO {
     @Override
     public void addFlashcard(Flashcard flashcard) {
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO flashcards (question, answer) VALUES (?, ?)");
-            statement.setString(1, flashcard.getQuestion());
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO quizs (QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES (?, ?, ?, ?, ?, ?)");
+            statement.setString(1, quizs.getQuestion());
             statement.setString(2, flashcard.getAnswer());
-
+            statement.setString(3, flashcard.getAnswer());
+            statement.setString(4, flashcard.getAnswer());
+            statement.setString(5, flashcard.getAnswer());
+            statement.setString(6, flashcard.getAnswer());
             statement.executeUpdate();
             // Set the id of the new contact
             ResultSet generatedKeys = statement.getGeneratedKeys();

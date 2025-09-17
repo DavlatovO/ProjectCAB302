@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SqlQuizDAO {
+public class SqlQuizDAO implements IQuizDAO{
     private Connection connection;
 
     public SqlQuizDAO() {
@@ -95,7 +95,6 @@ public class SqlQuizDAO {
     }
 
 
-    @Override
     public void updateQuiz(Quiz quizs) {
         try {
             PreparedStatement statement = connection.prepareStatement("UPDATE flashcards SET QuizQuestion = ?, Answer1 = ?, Answer2 = ?, Answer3 = ?, Answer4 = ?, correctAnswer = ?, WHERE QuizID = ?");
@@ -149,8 +148,10 @@ public class SqlQuizDAO {
         return null;
     }
 
+
+
     @Override
-    public List<Quiz> getAllqQuizs() {
+    public List<Quiz> getAllQuizs() {
         List<Quiz> quizs = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
@@ -167,13 +168,13 @@ public class SqlQuizDAO {
                 String answer3 = resultSet.getString("Answer3");
                 String answer4 = resultSet.getString("Answer4");
                 String correctAnswer = resultSet.getString("correctAnswer");
-                Flashcard flashcard = new Flashcard(course, question, answer);
-                flashcard.setId(id);
-                flashcards.add(flashcard);
+                Quiz quiz = new Quiz(name, question, answer1,answer2,answer3, answer4, correctAnswer, course);;
+                quiz.setQuizID(id);
+                quizs.add(quiz);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return flashcards;
+        return quizs;
     }
 }

@@ -1,22 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.projectcab302.Controller.LoginController"
-      spacing="10" alignment="CENTER">
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.projectcab302.Controller.LoginController">
 
-    <Label text="Login" style="-fx-font-size: 20px"/>
-    <TextField fx:id="usernameField" promptText="Username"/>
-    <PasswordField fx:id="passwordField" promptText="Password"/>
-    <Button text="Login" onAction="#handleLogin"/>
-    <Button text="Register" onAction="#switchToRegister"/>
-    <Button fx:id="loginTeacher" text="Login as teacher" onAction="#onLoginAsTeacher"/>
-    <Button fx:id="loginStudent"  text="Login as student" onAction="#onLoginAsStudent"/>
-    <Label fx:id="errorLabel" textFill="red"/>
-</VBox>
+    <!-- Top Navigation Bar -->
+    <top>
+        <HBox spacing="20" style="-fx-background-color: #2C3E50;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="FlashWise" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" />
+            <Region fx:id="spacer" HBox.hgrow="ALWAYS" />
+            <Button text="Sign In" fx:id="loginBtn" disable="true"/>
+            <Button text="Register" fx:id="SignUpBtn" onAction="#switchToRegister"/>
+        </HBox>
+    </top>
+
+    <!-- Center Login Form -->
+    <center>
+        <VBox alignment="CENTER" spacing="15" style="-fx-background-color: #2C3E50; -fx-font-family: 'Arial';">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
+
+            <Label text="Login" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <TextField fx:id="usernameField" promptText="Username" style="-fx-font-size: 14px;" prefWidth="300"/>
+            <PasswordField fx:id="passwordField" promptText="Password" style="-fx-font-size: 14px;" prefWidth="300"/>
+
+            <Button text="Login" onAction="#handleLogin"
+                    style="-fx-font-size: 14px; -fx-background-color: #3498DB; -fx-text-fill: white;" prefWidth="150"/>
+            <Button text="Register" onAction="#switchToRegister"
+                    style="-fx-font-size: 14px; -fx-background-color: #2ECC71; -fx-text-fill: white;" prefWidth="150"/>
+
+            <Label fx:id="errorLabel" textFill="red" style="-fx-font-size: 12px;"/>
+        </VBox>
+    </center>
+
+    <!-- Footer -->
+    <bottom>
+        <HBox alignment="CENTER">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="© 2025 FlashWise. All rights reserved." style="-fx-text-fill: #7F8C8D;" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

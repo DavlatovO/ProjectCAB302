@@ -1,41 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.layout.Region?>
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.collections.FXCollections?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.projectcab302.Controller.RegisterController"
-      spacing="10"
-      alignment="CENTER">
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.projectcab302.Controller.RegisterController">
 
-    <Label text="Register" style="-fx-font-size: 20px"/>
+    <!-- Top Navigation Bar -->
+    <top>
+        <HBox spacing="20" style="-fx-background-color: #2C3E50;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="FlashWise" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" />
+            <Region fx:id="spacer" HBox.hgrow="ALWAYS" />
+            <Button text="Sign In" fx:id="loginBtn" onAction="#switchToLogin"/>
+            <Button text="Register" fx:id="SignUpBtn" disable="true"/>
+        </HBox>
+    </top>
 
-    <TextField fx:id="usernameField" promptText="Username"/>
-    <TextField fx:id="emailField" promptText="Email"/>
+    <!-- Center Registration Form -->
+    <center>
+        <VBox alignment="CENTER" spacing="15">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
 
-    <PasswordField fx:id="passwordField" promptText="Password"/>
-    <PasswordField fx:id="confirmField" promptText="Confirm Password"/>
+            <Label text="Create Your Account" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
 
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="Role:"  />
-        <ComboBox fx:id="roleComboBox">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="Student" />
-                    <String fx:value="Teacher" />
-                </FXCollections>
-            </items>
-        </ComboBox>
-    </HBox>
+            <TextField fx:id="usernameField" promptText="Username" prefWidth="300"/>
+            <TextField fx:id="emailField" promptText="Email" prefWidth="300"/>
+            <PasswordField fx:id="passwordField" promptText="Password" prefWidth="300"/>
+            <PasswordField fx:id="confirmField" promptText="Confirm Password" prefWidth="300"/>
 
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Role:" />
+                <ComboBox fx:id="roleComboBox" prefWidth="150">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Student" />
+                            <String fx:value="Teacher" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </HBox>
 
-    <Button text="Register" onAction="#handleRegister"/>
-    <Button text="Back to Login" onAction="#switchToLogin"/>
-    <Label fx:id="errorLabel" textFill="red"/>
+            <Button text="Register" onAction="#handleRegister" prefWidth="150"/>
+            <Label fx:id="errorLabel" textFill="red"/>
 
-</VBox>
+        </VBox>
+    </center>
+
+    <!-- Footer -->
+    <bottom>
+        <HBox alignment="CENTER">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="© 2025 FlashWise. All rights reserved." style="-fx-text-fill: #7F8C8D;" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

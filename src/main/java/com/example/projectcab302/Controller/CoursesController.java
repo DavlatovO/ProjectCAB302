@@ -1,7 +1,8 @@
 package com.example.projectcab302.Controller;
 
-import com.example.projectcab302.HelloApplication;
+
 import com.example.projectcab302.Model.*;
+import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -41,7 +42,7 @@ public class CoursesController {
             btn.setOnAction(e -> {
                 try {
                     course = courses.get(idx);
-                    System.out.println(courses.get(idx).getTitle());
+                    Course.setTransferredTitle(course.getTitle()); // Get title from selected course to pass to CreateFlashcardController for page title.
                     onCourse();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
@@ -55,35 +56,20 @@ public class CoursesController {
     }
 
     private void onCourse() throws IOException {
-
-
-        Stage stage = (Stage) back.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("createFlashcard-view.fxml"));
-        Parent root = fxmlLoader.load();                 // must load before getController()
-        CreateFlashcardController b = fxmlLoader.getController();
-        b.setCourse(course);
-                   // pass whatever you need
-        Scene scene = new Scene(root, HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
+        SceneManager.switchTo("createFlashcard-view.fxml");
     }
 
     @FXML Button createCourse;
 
     @FXML
     private void onCreateCourse() throws IOException {
-        Stage stage = (Stage) createCourse.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("teacher-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
+       SceneManager.switchTo("flashcard.view.fxml");
     }
 
     @FXML Button back;
     @FXML
     private void onBack() throws IOException {
-        Stage stage = (Stage) back.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("teacher-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
+       SceneManager.switchTo("teacher-view.fxml");
     }
 
 }

@@ -6,68 +6,33 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.geometry.Insets?>
-<BorderPane xmlns:fx="http://javafx.com/javafx"
-            fx:controller="com.example.projectcab302.Controller.TeacherController"
-            stylesheets="@style.css"
-            prefWidth="1000" prefHeight="700">
-    <top>
-        <StackPane>
-            <!-- Header in the middle -->
-            <Label fx:id="pageHeader" text="Quizzes"
-                   StackPane.alignment="TOP_CENTER"/>
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            stylesheets="@dashboards.css"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.projectcab302.Controller.CoursesController"
+            prefWidth="900" prefHeight="650">
 
-            <!-- Back button in the top right -->
-            <Button fx:id="BackButton"
-                    text="Back"
-                    alignment="TOP_RIGHT"
-                    onAction="#onBackButtonClick"
-                    style="-fx-min-width: 25; -fx-min-height: 25; -fx-font-size: 14px;"
-                    StackPane.alignment="TOP_RIGHT"/>
-        </StackPane>
-    </top>
+
+    <left>
+        <VBox spacing="10" styleClass="sidebar-dark">
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Quizzes" styleClass="sidebar-title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="back" text="Back" onAction="#onBack" styleClass="nav-button"/>
+                </HBox>
+
+                <Region VBox.vgrow="ALWAYS"/>
+                <Button fx:id="createCourse" alignment="bottom_left" text="+  Create Quiz" onAction="#onCreateCourse"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+            </children>
+        </VBox>
+    </left>
 
     <center>
-        <ScrollPane fx:id="scrollPane" fitToWidth="true" style="-fx-padding: 10;-fx-background-color: transparent;">
-            <BorderPane.margin>
-                <Insets top="20" right="0" bottom="20" left="0"/>
-            </BorderPane.margin>
-            <content>
-                <GridPane fx:id="gridContent" hgap="10" vgap="10">
-                    <columnConstraints>
-                        <ColumnConstraints percentWidth="33.33"/>
-                        <ColumnConstraints percentWidth="33.33"/>
-                        <ColumnConstraints percentWidth="33.33"/>
-                    </columnConstraints>
-                    <children>
-                        <Button styleClass="tileButton"
-                                text="placeholderQuiz1"
-                                maxWidth="Infinity"
-                                GridPane.columnIndex="0"
-                                GridPane.rowIndex="0"/>
-
-                        <Button styleClass="tileButton"
-                                text="placeholderQuiz2"
-                                maxWidth="Infinity"
-                                GridPane.columnIndex="1"
-                                GridPane.rowIndex="0"/>
-
-                        <Button styleClass="tileButton"
-                                text="placeholderQuiz3"
-                                maxWidth="Infinity"
-                                GridPane.columnIndex="2"
-                                GridPane.rowIndex="0"/>
-                    </children>
-                </GridPane>
-            </content>
-        </ScrollPane>
+        <HBox fx:id="quizBox" alignment="CENTER" spacing="10"
+              style="-fx-border-color: black; -fx-border-width: 1; -fx-padding: 10;">
+        </HBox>
     </center>
 
-    <bottom>
-        <StackPane>
-            <Button fx:id="createNewButton"
-                    text="+ Create New"
-                    StackPane.alignment="BOTTOM_RIGHT"/>
-        </StackPane>
-    </bottom>
 </BorderPane>

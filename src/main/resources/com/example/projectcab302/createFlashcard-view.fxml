@@ -5,27 +5,44 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.text.Text?>
+
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
+            stylesheets="@dashboards.css"
             fx:controller="com.example.projectcab302.Controller.CreateFlashcardController"
-            prefWidth="900" prefHeight="650" style="-fx-padding:10;">
+            prefWidth="900" prefHeight="650">
+
     <top>
-        <VBox alignment="CENTER"  spacing="10">
-        <HBox alignment="CENTER"  spacing="10">
-            <Button  text="Preview" onAction="#onPreview"/>
-            <Button fx:id="backButton" text="Back" onAction="#onBack"/>
-            <Label text="TOP" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
-            <Button  text="Save" onAction="#onSave"/>
-        </HBox>
-        <Text text = "To make a flashcard, enter a question then place --{'Your answer'}, and click save"/>
+        <VBox>
+            <children>
+                <StackPane prefHeight="50" style="-fx-background-color: #243645;">
+                    <!-- Centered group -->
+                    <HBox spacing="10" alignment="CENTER">
+                        <Button text="Preview" onAction="#onPreview"/>
+                        <Label fx:id="titleLabel" text="TOP" style="-fx-font-fill: #ffffff; -fx-font-size: 20; -fx-font-weight: bold;"/>
+                        <Button text="Save" onAction="#onSave"/>
+                    </HBox>
+
+                    <!-- Left button overlaid -->
+                    <Button fx:id="backButton" text="Back" StackPane.alignment="CENTER_LEFT" onAction="#onBack"/>
+
+                    <!-- Optional right button -->
+                    <!--<Button text="Settings" StackPane.alignment="CENTER_RIGHT"/>-->
+                </StackPane>
+
+                <HBox alignment="CENTER" style="-fx-padding: 10 10 10 10;">
+                    <Label text="To make a flashcard, enter a question then place --{'Your answer'}, and click save"/>
+                </HBox>
+            </children>
         </VBox>
     </top>
+
     <center>
-    <TextArea fx:id="cardEntry"
-              wrapText="true"
-              editable="true"
-    />
+        <TextArea fx:id="cardEntry"
+                  wrapText="true"
+                  editable="true"
+        />
     </center>
+
 </BorderPane>

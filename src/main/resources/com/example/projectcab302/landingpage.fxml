@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.projectcab302.Controller.LandingPageController">
+
+    <!-- Top Navigation Bar -->
+    <top>
+        <HBox spacing="20" style="-fx-background-color: #2C3E50;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="FlashWise"
+                   style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" />
+            <Region fx:id="spacer" HBox.hgrow="ALWAYS" />
+            <Button text="Sign In" fx:id="loginBtn" onAction="#login"/>
+            <Button text="Register" fx:id="SignUpBtn" onAction="#signUp"/>
+        </HBox>
+    </top>
+
+    <!-- Center Hero Section -->
+    <center>
+        <VBox alignment="CENTER" spacing="20">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
+            <Label text="Smarter Study. Smarter Teaching."
+                   style="-fx-font-size: 28px; -fx-font-weight: bold;" />
+            <Label text="Create flashcards, assign quizzes, and track learning—all in one place."
+                   style="-fx-font-size: 16px;" />
+            <HBox spacing="30" alignment="CENTER">
+                <Button text="I'm a Student" fx:id="studentBtn" prefWidth="150" onAction="#studentDashboard"/>
+                <Button text="I'm a Teacher" fx:id="teacherBtn" onAction="#teacherDashboard" prefWidth="150" />
+            </HBox>
+        </VBox>
+    </center>
+
+    <!-- Optional Footer -->
+    <bottom>
+        <HBox alignment="CENTER">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="© 2025 FlashWise. All rights reserved."
+                   style="-fx-text-fill: #7F8C8D;" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

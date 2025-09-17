@@ -1,6 +1,7 @@
 package com.example.projectcab302.Controller;
 
 import com.example.projectcab302.Model.UserData;
+import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -53,10 +54,7 @@ public class RegisterController {
 
     @FXML
     protected void switchToLogin() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = (Stage) usernameField.getScene().getWindow();
-        stage.setScene(scene);
+        SceneManager.switchTo("login-view.fxml");
     }
 
     private boolean isValidEmail(String email) {

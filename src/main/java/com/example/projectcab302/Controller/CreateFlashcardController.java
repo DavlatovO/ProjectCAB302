@@ -1,14 +1,16 @@
 package com.example.projectcab302.Controller;
 
 import com.example.projectcab302.Model.Course;
+import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
-import com.example.projectcab302.HelloApplication;
+
 import com.example.projectcab302.Model.Flashcard;
 import com.example.projectcab302.Model.IFlashcardDAO;
 import com.example.projectcab302.Model.SqliteFlashcardDAO;
@@ -22,14 +24,14 @@ public class CreateFlashcardController {
     @FXML
     private TextArea cardEntry;
 
+    @FXML
+    private Label titleLabel;
+
     private IFlashcardDAO flashcardDAO;
 
     @FXML
     private void initialize() {
-
-
-
-
+        titleLabel.setText(course.getTransferredTitle()); // retrieve input from CoursesController for course title
     }
 
     private Course course;
@@ -65,29 +67,16 @@ public class CreateFlashcardController {
 
     }
 
-
-
     @FXML
     Button backButton;
     @FXML
     protected void onPreview() throws IOException {
-        Stage stage = (Stage) backButton.getScene().getWindow();
-
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("flashcard-view.fxml"));
-        Parent root = fxmlLoader.load();                 // must load before getController()
-        FlashcardController b = fxmlLoader.getController();
-        b.setCourse(course);
-        // pass whatever you need
-        Scene scene = new Scene(root, HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
+        SceneManager.switchTo("flashcard-view.fxml");
 
     }
 
     @FXML
     protected void onBack() throws IOException {
-        Stage stage = (Stage) backButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("courses-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
+     SceneManager.switchTo("courses-view.fxml");
     }
 }

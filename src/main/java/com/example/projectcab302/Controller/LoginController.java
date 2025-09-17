@@ -3,6 +3,7 @@ package com.example.projectcab302.Controller;
 import com.example.projectcab302.HelloApplication;
 import com.example.projectcab302.Model.SqliteFlashcardDAO;
 import com.example.projectcab302.Model.UserData;
+import com.example.projectcab302.ViewManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -75,20 +76,13 @@ public class LoginController {
     Button loginTeacher;
     @FXML
     protected void onLoginAsTeacher() throws IOException {
-        Stage stage = (Stage) loginTeacher.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("teacher-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
+        ViewManager.getInstance().switchToTeacherView();
     }
 
     @FXML
     Button loginStudent;
     @FXML
     protected void onLoginAsStudent() throws IOException {
-        Stage stage = (Stage) loginTeacher.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("teacher-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
+        ViewManager.getInstance().switchToStudentView();
     }
-
 }

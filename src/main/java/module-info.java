@@ -1,6 +1,7 @@
 module com.example.projectcab302 {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.prefs;
 
 
     requires java.sql;

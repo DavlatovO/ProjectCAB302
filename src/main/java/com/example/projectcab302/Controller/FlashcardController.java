@@ -1,7 +1,6 @@
 package com.example.projectcab302.Controller;
 
 import com.example.projectcab302.Model.Course;
-import com.example.projectcab302.SceneManager;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -22,7 +21,7 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
+import com.example.projectcab302.HelloApplication;
 import com.example.projectcab302.Model.Flashcard;
 import com.example.projectcab302.Model.IFlashcardDAO;
 import com.example.projectcab302.Model.SqliteFlashcardDAO;
@@ -463,12 +462,22 @@ public class FlashcardController {
 
     @FXML
     private void onModifyFlashcard() throws IOException {
-        SceneManager.switchTo("createFlashcard-view.fxml");
+        Stage stage = (Stage) modifyButton.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("createFlashcard-view.fxml"));
+        Parent root = fxmlLoader.load();                 // must load before getController()
+        CreateFlashcardController b = fxmlLoader.getController();
+        b.setCourse(course);
+        // pass whatever you need
+        Scene scene = new Scene(root, HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        stage.setScene(scene);
     }
 
     @FXML
     private void onBack() throws IOException {
-        SceneManager.switchTo("createFlashcard-view.fxml");
+        Stage stage = (Stage) modifyButton.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("teacher-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        stage.setScene(scene);
     }
 
 

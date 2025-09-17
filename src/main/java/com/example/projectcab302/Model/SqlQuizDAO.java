@@ -74,20 +74,20 @@ public class SqlQuizDAO {
 
 
     @Override
-    public void addFlashcard(Flashcard flashcard) {
+    public void addQuiz(Quiz quizs) {
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO quizs (QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES (?, ?, ?, ?, ?, ?)");
-            statement.setString(1, quizs.getQuestion());
-            statement.setString(2, flashcard.getAnswer());
-            statement.setString(3, flashcard.getAnswer());
-            statement.setString(4, flashcard.getAnswer());
-            statement.setString(5, flashcard.getAnswer());
-            statement.setString(6, flashcard.getAnswer());
+            statement.setString(1, quizs.getQuizQuestion());
+            statement.setString(2, quizs.getAnswer1());
+            statement.setString(3, quizs.getAnswer2());
+            statement.setString(4, quizs.getAnswer3());
+            statement.setString(5, quizs.getAnswer4());
+            statement.setString(6, quizs.getCorrectAnswer());
             statement.executeUpdate();
             // Set the id of the new contact
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
-                flashcard.setId(generatedKeys.getInt(1));
+                quizs.setQuizID(generatedKeys.getInt(1));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,12 +96,15 @@ public class SqlQuizDAO {
 
 
     @Override
-    public void updateFlashcard(Flashcard flashcard) {
+    public void updateQuiz(Quiz quizs) {
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE flashcards SET question = ?, answer = ?, WHERE id = ?");
-            statement.setString(1, flashcard.getQuestion());
-            statement.setString(2, flashcard.getAnswer());
-            statement.setInt(3, flashcard.getId());
+            PreparedStatement statement = connection.prepareStatement("UPDATE flashcards SET QuizQuestion = ?, Answer1 = ?, Answer2 = ?, Answer3 = ?, Answer4 = ?, correctAnswer = ?, WHERE QuizID = ?");
+            statement.setString(1, quizs.getQuizQuestion());
+            statement.setString(2, quizs.getAnswer1());
+            statement.setString(3, quizs.getAnswer2());
+            statement.setString(4, quizs.getAnswer3());
+            statement.setString(5, quizs.getAnswer4());
+            statement.setString(6, quizs.getCorrectAnswer());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,10 +112,10 @@ public class SqlQuizDAO {
     }
 
     @Override
-    public void deleteFlashcard(Flashcard flashcard) {
+    public void deleteQuiz(Quiz quizs) {
         try {
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM flashcards WHERE id = ?");
-            statement.setInt(1, flashcard.getId());
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM quizs WHERE QuizID = ?");
+            statement.setInt(1, quizs.getQuizID());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -120,18 +123,25 @@ public class SqlQuizDAO {
     }
 
     @Override
-    public Flashcard getFlashcard(int id) {
+    public Quiz getQuiz(int id) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM flashcards WHERE id = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM quizs WHERE QuizID = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String course = resultSet.getString("course");
-                String question = resultSet.getString("question");
-                String answer = resultSet.getString("answer");
-                Flashcard flashcard = new Flashcard(question, answer, answer);
-                flashcard.setId(id);
-                return flashcard;
+                String question = resultSet.getString("QuizQuestion");
+                String name = resultSet.getString("QuizName");
+
+                String answer1 = resultSet.getString("Answer1");
+                String answer2 = resultSet.getString("Answer2");
+                String answer3 = resultSet.getString("Answer3");
+                String answer4 = resultSet.getString("Answer4");
+                String correctAnswer = resultSet.getString("correctAnswer");
+
+                Quiz quizs = new Quiz(name, question, answer1,answer2,answer3, answer4, correctAnswer, course);
+                quizs.setQuizID(id);
+                return quizs;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -140,17 +150,23 @@ public class SqlQuizDAO {
     }
 
     @Override
-    public List<Flashcard> getAllFlashcard() {
-        List<Flashcard> flashcards = new ArrayList<>();
+    public List<Quiz> getAllqQuizs() {
+        List<Quiz> quizs = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            String query = "SELECT * FROM flashcards";
+            String query = "SELECT * FROM quizs";
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
+                int id = resultSet.getInt("QuizID");
                 String course = resultSet.getString("course");
-                String question = resultSet.getString("question");
-                String answer = resultSet.getString("answer");
+                String question = resultSet.getString("QuizQuestion");
+                String name = resultSet.getString("QuizName");
+
+                String answer1 = resultSet.getString("Answer1");
+                String answer2 = resultSet.getString("Answer2");
+                String answer3 = resultSet.getString("Answer3");
+                String answer4 = resultSet.getString("Answer4");
+                String correctAnswer = resultSet.getString("correctAnswer");
                 Flashcard flashcard = new Flashcard(course, question, answer);
                 flashcard.setId(id);
                 flashcards.add(flashcard);

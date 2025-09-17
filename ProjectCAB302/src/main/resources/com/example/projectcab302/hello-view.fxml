@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.projectcab302.HelloController"
+      alignment="CENTER" spacing="10" prefWidth="320" prefHeight="240">
+
+    <Label fx:id="welcomeLabel" text="Welcome to JavaFX!" />
+    <TextField fx:id="nameInput" promptText="Enter your name" />
+    <Button text="Say Hello" onAction="#onHelloButtonClick" />
+
+
+    <Button fx:id="TranslateDemo"
+            text="TranslateDemo"
+            onAction="#TranslateDemoTransition"
+
+    />
+</VBox>

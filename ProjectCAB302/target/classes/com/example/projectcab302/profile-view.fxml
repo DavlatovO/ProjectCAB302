@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.projectcab302.Controller.ProfileController"
+            stylesheets="@style.css"
+            prefWidth="900" prefHeight="600"
+            styleClass="app-root">
+
+    <top>
+        <HBox spacing="12" styleClass="topbar" BorderPane.alignment="CENTER_LEFT">
+            <children>
+                <Button fx:id="backButton" text="Back" onAction="#handleBack" styleClass="topbar-btn"/>
+                <Label fx:id="titleLabel" text="Profile" styleClass="topbar-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="logoutButton" text="Logout" onAction="#handleLogout" styleClass="topbar-btn danger"/>
+            </children>
+        </HBox>
+    </top>
+
+    <center>
+        <StackPane styleClass="content">
+            <children>
+                <HBox spacing="24" styleClass="card">
+                    <children>
+
+                        <VBox spacing="12" alignment="TOP_CENTER" prefWidth="220">
+                            <children>
+                                <StackPane styleClass="avatar-wrap">
+                                    <children>
+                                        <ImageView fx:id="avatarImage" fitWidth="140" fitHeight="140" preserveRatio="true"/>
+                                        <!-- If a placeholder is needed, use a different id -->
+                                        <!-- <ImageView fx:id="avatarPlaceholder" visible="false"/> -->
+                                    </children>
+                                </StackPane>
+                                <Button fx:id="uploadAvatarButton" text="Upload Avatar" onAction="#handleUploadAvatar"/>
+                            </children>
+                        </VBox>
+
+                        <!-- Right: Profile fields -->
+                        <GridPane hgap="18" vgap="14">
+                            <columnConstraints>
+                                <ColumnConstraints minWidth="120"/>
+                                <ColumnConstraints minWidth="260" hgrow="ALWAYS"/>
+                            </columnConstraints>
+
+                            <children>
+                                <!-- Name -->
+                                <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="field-label"/>
+                                <Label fx:id="nameLabel" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="field-value"/>
+                                <TextField fx:id="nameField" GridPane.rowIndex="0" GridPane.columnIndex="1" visible="false"/>
+
+                                <!-- Email -->
+                                <Label text="Email:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="field-label"/>
+                                <Label fx:id="emailLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="field-value"/>
+                                <TextField fx:id="emailField" GridPane.rowIndex="1" GridPane.columnIndex="1" visible="false"/>
+
+                                <!-- Role -->
+                                <Label text="Role:" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="field-label"/>
+                                <Label fx:id="roleLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="field-value"/>
+
+                                <!-- Actions -->
+                                <HBox spacing="10" GridPane.rowIndex="4" GridPane.columnIndex="1">
+                                    <children>
+                                        <Button fx:id="editSaveButton" text="Edit" onAction="#handleEditSave"/>
+                                        <Button fx:id="changePasswordButton" text="Change Password" onAction="#handleChangePassword"/>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </GridPane>
+
+                    </children>
+                </HBox>
+            </children>
+        </StackPane>
+    </center>
+</BorderPane>

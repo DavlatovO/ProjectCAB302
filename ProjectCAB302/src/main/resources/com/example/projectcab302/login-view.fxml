@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.projectcab302.Controller.LoginController"
+      spacing="10" alignment="CENTER">
+
+    <Label text="Login" style="-fx-font-size: 20px"/>
+    <TextField fx:id="usernameField" promptText="Username"/>
+    <PasswordField fx:id="passwordField" promptText="Password"/>
+    <Button text="Login" onAction="#handleLogin"/>
+    <Button text="Register" onAction="#switchToRegister"/>
+    <Button fx:id="loginTeacher" text="Login as teacher" onAction="#onLoginAsTeacher"/>
+    <Button fx:id="loginStudent"  text="Login as student" onAction="#onLoginAsStudent"/>
+    <Label fx:id="errorLabel" textFill="red"/>
+</VBox>

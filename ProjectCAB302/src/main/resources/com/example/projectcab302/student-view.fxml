@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:id="root"
+            fx:controller="com.example.projectcab302.Controller.StudentController"
+            stylesheets="@style.css"
+            prefWidth="1100" prefHeight="720"
+            styleClass="app-root">
+
+    <top>
+        <HBox spacing="12" styleClass="topbar" BorderPane.alignment="CENTER_LEFT">
+            <children>
+                <Label text="Student Dashboard" styleClass="topbar-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="profileButton" text="Profile" onAction="#handleOpenUserProfile" styleClass="topbar-btn"/>
+                <Button fx:id="settingsTopButton" text="Settings" onAction="#handleOpenSettings" styleClass="topbar-btn"/>
+                <Separator orientation="VERTICAL"/>
+                <Button fx:id="backButton" text="Back" onAction="#handleBack" styleClass="topbar-btn"/>
+                <Button fx:id="logoutButton" text="Logout" onAction="#handleLogout" styleClass="topbar-btn danger"/>
+            </children>
+        </HBox>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.2">
+            <items>
+
+                <VBox spacing="10" styleClass="sidebar-dark">
+                    <children>
+                        <Label text="Dashboard" styleClass="sidebar-title"/>
+                        <Button fx:id="quizButton" text="Quizzes" onAction="#handleQuiz" styleClass="nav-button"/>
+                        <Button fx:id="createFlashcardButton" text="Create Flashcard" onAction="#handleCreateFlashcard" styleClass="nav-button"/>
+                        <Button fx:id="viewFlashcardsButton" text="View Flashcards" onAction="#handleViewFlashcards" styleClass="nav-button"/>
+                        <Region VBox.vgrow="ALWAYS"/>
+                        <Button fx:id="settingsButton" text="Settings" onAction="#handleOpenSettings" styleClass="nav-button"/>
+                    </children>
+                </VBox>
+
+                <BorderPane>
+
+                    <top>
+                        <ToolBar styleClass="content-toolbar">
+                            <Label fx:id="pageHeader" text="Study Sets" styleClass="page-title"/>
+                            <Button text="New Set" onAction="#handleCreateFlashcard"/>
+                        </ToolBar>
+                    </top>
+
+                    <center>
+                        <ScrollPane fitToWidth="true" fitToHeight="true" pannable="true" hbarPolicy="NEVER">
+                            <content>
+                                <StackPane styleClass="content">
+                                    <children>
+                                        <VBox spacing="16" alignment="TOP_LEFT" styleClass="card">
+                                            <children>
+                                                <Label wrapText="true"
+                                                       text="Use the left navigation to access quizzes and flashcards. Your profile and settings are available in the top-right."/>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </StackPane>
+                            </content>
+                        </ScrollPane>
+                    </center>
+
+                </BorderPane>
+            </items>
+        </SplitPane>
+    </center>
+
+</BorderPane>

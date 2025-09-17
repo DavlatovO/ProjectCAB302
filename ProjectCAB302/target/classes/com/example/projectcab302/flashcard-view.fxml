@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.paint.PhongMaterial?>
+<?import javafx.scene.Group?>
+
+<?import javafx.scene.text.Text?>
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            stylesheets="@style.css"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.projectcab302.Controller.FlashcardController"
+            prefWidth="900" prefHeight="650" style="-fx-padding:10;">
+
+    <!-- TOP (optional) -->
+    <!--
+    <top>
+        <StackPane prefHeight="60" style="-fx-border-color:#333; -fx-border-width:1;">
+            <Label text="TOP" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+        </StackPane>
+    </top>
+    -->
+
+    <!-- LEFT / RIGHT / BOTTOM regions are optional; add if needed -->
+    <!-- LEFT: Create Flashcard button -->
+    <left>
+        <VBox alignment="CENTER" spacing="10"
+              style="-fx-border-color: black; -fx-border-width: 1; -fx-padding: 10;">
+            <Button text="Back" onAction="#onBack"/>
+            <Button fx:id="modifyButton" text="Modify flashcard" onAction="#onModifyFlashcard"/>
+            <Button fx:id="pvp" text="PvP" onAction="#onPvP"/>
+            <Button fx:id="preview" text="preview" onAction="#initialize"/>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox alignment="CENTER"
+              style="-fx-border-color: black; -fx-border-width: 2;"
+              spacing="20">
+            <ProgressBar fx:id="bar"
+                         prefWidth="600"
+                         style="-fx-accent: yellow; -fx-min-height: 28; -fx-pref-height: 28; -fx-max-height: 28;" />
+            <Text fx:id="cardNum" fill="Black"/>
+            <Text fx:id="question" fill="Black"/>
+            <StackPane >
+                <HBox alignment="CENTER" spacing="200">
+                    <Text fx:id="player1" fill="Black"/>
+                <Text fx:id="countdown" fill="Black"/>
+                    <Text fx:id="player2" fill="Black"/>
+                </HBox>
+                <Button fx:id="flipButton" text="Flip" onAction="#flipCard"/>
+            </StackPane>
+            <StackPane fx:id="cubeGroup">
+                <Rectangle width="800" height="400"
+                           fill="lightblue" stroke="black" strokeWidth="2"/>
+                <!-- Example 3D Box (commented out)
+                <Box fx:id="cube" width="800" height="400" depth="50">
+                    <material>
+                        <PhongMaterial diffuseColor="lightblue" />
+                    </material>
+                </Box>
+                -->
+                <Text fx:id="test" x="-50" y="0" fill="Black"/>
+            </StackPane>
+            <TextArea fx:id="Answer"
+                      promptText="Type your answer..."
+                      wrapText="true"
+                      editable="true"
+            />
+
+            <StackPane >
+                <HBox fx:id="previewOptions" alignment="CENTER" spacing="200">
+                <Button fx:id="prev" text="Prev" onAction="#prevCard"/>
+                <Button fx:id="submitButton" text="Submit" onAction="#onSubmit"/>
+                <Button fx:id="next" text="Next" onAction="#nextCard"/>
+                </HBox>
+                <HBox fx:id="pvpOptions" alignment="CENTER" spacing="200">
+                <Button fx:id="pvpSubmitButton" text="PSubmit" onAction="#onPvpSubmit"/>
+                <Button fx:id="ready" text="Ready up" onAction="#onReady"/>
+                </HBox>
+            </StackPane>
+
+
+
+            <Text fx:id="aiResponse" fill="Black"/>
+
+
+        </VBox>
+    </center>
+
+</BorderPane>

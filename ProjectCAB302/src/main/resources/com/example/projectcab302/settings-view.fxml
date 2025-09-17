@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.projectcab302.Controller.SettingsController">
+
+    <top>
+        <ToolBar>
+            <Label text="Settings" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button text="Back" onAction="#handleBack"/>
+        </ToolBar>
+    </top>
+
+    <center>
+        <VBox spacing="18" alignment="TOP_LEFT" BorderPane.alignment="CENTER">
+            <padding><Insets topRightBottomLeft="20"/></padding>
+
+            <!-- Appearance -->
+            <TitledPane text="Appearance" expanded="true">
+                <content>
+                    <VBox spacing="10">
+                        <CheckBox fx:id="darkModeCheckBox" text="Dark mode"/>
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="UI scale"/>
+                            <Slider fx:id="fontScaleSlider" min="0.85" max="1.30" value="1.0" blockIncrement="0.05" prefWidth="220"/>
+                            <Label fx:id="scaleValueLabel" text="100%"/>
+                        </HBox>
+                    </VBox>
+                </content>
+            </TitledPane>
+
+            <!-- Language -->
+            <TitledPane text="Language" expanded="true">
+                <content>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Language"/>
+                        <ComboBox fx:id="languageComboBox" prefWidth="180"/>
+                    </HBox>
+                </content>
+            </TitledPane>
+
+            <!-- Behavior (optional toggles) -->
+            <TitledPane text="Behavior" expanded="false">
+                <content>
+                    <VBox spacing="8">
+                        <CheckBox fx:id="soundEffectsCheckBox" text="Enable sound effects"/>
+                        <CheckBox fx:id="notificationsCheckBox" text="Enable notifications"/>
+                    </VBox>
+                </content>
+            </TitledPane>
+
+            <HBox spacing="10">
+                <Button text="Reset to defaults" onAction="#handleReset"/>
+                <Button text="Save" defaultButton="true" onAction="#handleSave"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
+

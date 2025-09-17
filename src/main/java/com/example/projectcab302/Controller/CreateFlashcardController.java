@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import com.example.projectcab302.HelloApplication;
@@ -23,20 +22,20 @@ public class CreateFlashcardController {
     @FXML
     private TextArea cardEntry;
 
-    @FXML
-    private Label titleLabel;
-
     private IFlashcardDAO flashcardDAO;
 
     @FXML
     private void initialize() {
+
+
+
+
     }
 
     private Course course;
     public void setCourse(Course Course) {
         this.course = Course;
         System.out.println(this.course.getTitle());
-        titleLabel.setText(course.getTitle());
         List<Flashcard> flashcards = course.getFlashcards();
 
         for (Flashcard card : flashcards){

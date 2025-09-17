@@ -1,12 +1,13 @@
 package com.example.projectcab302;
+
 import com.example.projectcab302.ViewManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class TeacherApp extends Application {
 
-    public static final int WIDTH = 1280;
-    public static final int HEIGHT = 720;
+    public static final int WIDTH = 600;
+    public static final int HEIGHT = 400;
     // View constants are no longer needed with direct method calls
 
     @Override

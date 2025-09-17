@@ -1,9 +1,9 @@
 package com.example.projectcab302.Controller;
 
-
+import com.example.projectcab302.HelloApplication;
 import com.example.projectcab302.Model.SqliteFlashcardDAO;
 import com.example.projectcab302.Model.UserData;
-import com.example.projectcab302.SceneManager;
+import com.example.projectcab302.ViewManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -62,10 +62,12 @@ public class LoginController {
         }
     }
 
-    //Switching to the Register window from login window
     @FXML
     protected void switchToRegister() throws IOException {
-        SceneManager.switchTo("register-view.fxml");
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("register-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = (Stage) usernameField.getScene().getWindow();
+        stage.setScene(scene);
     }
 
 
@@ -74,14 +76,13 @@ public class LoginController {
     Button loginTeacher;
     @FXML
     protected void onLoginAsTeacher() throws IOException {
-        SceneManager.switchTo("teacher-view.fxml");
+        ViewManager.getInstance().switchToTeacherView();
     }
 
     @FXML
     Button loginStudent;
     @FXML
     protected void onLoginAsStudent() throws IOException {
-        SceneManager.switchTo("teacher-view.fxml");
+        ViewManager.getInstance().switchToStudentView();
     }
-
 }

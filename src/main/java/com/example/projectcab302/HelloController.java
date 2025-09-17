@@ -32,6 +32,9 @@ public class HelloController {
 
     @FXML
     protected void TranslateDemoTransition() throws IOException {
-        SceneManager.switchTo("translate-view.fxml");
+        Stage stage = (Stage) TranslateDemo.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("translate-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        stage.setScene(scene);
     }
 }

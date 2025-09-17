@@ -42,7 +42,6 @@ public class CoursesController {
                 try {
                     course = courses.get(idx);
                     System.out.println(courses.get(idx).getTitle());
-                    Course.setTransferredTitle(courses.get(idx).getTitle());
                     onCourse();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
@@ -56,12 +55,14 @@ public class CoursesController {
     }
 
     private void onCourse() throws IOException {
+
+
         Stage stage = (Stage) back.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("createFlashcard-view.fxml"));
         Parent root = fxmlLoader.load();                 // must load before getController()
         CreateFlashcardController b = fxmlLoader.getController();
         b.setCourse(course);
-        // pass whatever you need
+                   // pass whatever you need
         Scene scene = new Scene(root, HelloApplication.WIDTH, HelloApplication.HEIGHT);
         stage.setScene(scene);
     }

@@ -472,6 +472,9 @@ public class FlashcardController {
         stage.setScene(scene);
     }
 
+
+
+
     @FXML
     private void onBack() throws IOException {
         Stage stage = (Stage) modifyButton.getScene().getWindow();

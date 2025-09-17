@@ -2,7 +2,6 @@ package com.example.projectcab302.Model;
 
 public class Quiz {
     private int quizID;
-    private String QuizName;
     private String QuizQuestion;
     private String Answer1;
     private String Answer2;
@@ -11,9 +10,8 @@ public class Quiz {
     private String correctAnswer;
     private String course;
 
-    public Quiz(int quizID, String QuizName, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer, String course) {
+    public Quiz(int quizID, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer, String course) {
         this.quizID = quizID;
-        this.QuizName = QuizName;
         this.QuizQuestion = QuizQuestion;
         this.Answer1 = Answer1;
         this.Answer2 = Answer2;
@@ -23,8 +21,7 @@ public class Quiz {
         this.course = course;
     }
 
-    public Quiz(String QuizName, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer, String course) {
-        this.QuizName = QuizName;
+    public Quiz(String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer, String course) {
         this.QuizQuestion = QuizQuestion;
         this.Answer1 = Answer1;
         this.Answer2 = Answer2;
@@ -33,21 +30,13 @@ public class Quiz {
         this.correctAnswer = correctAnswer;
         this.course = course;
     }
-
-
 
     public int getQuizID() {
         return quizID;
     }
-
-    public String getQuizName() {
-        return QuizName;
-    }
-
     public String getQuizQuestion() {
         return QuizQuestion;
     }
-
     public String getAnswer1() {
         return Answer1;
     }
@@ -67,17 +56,13 @@ public class Quiz {
     {
         return course;
     }
+
     public void setQuizID(Integer quizID) {
         this.quizID = quizID;
     }
-    public void setQuizName(String QuizName) {
-         this.QuizName = QuizName;
-    }
-
     public void setQuizQuestion(String QuizQuestion) {
          this.QuizQuestion = QuizQuestion;
     }
-
     public void setAnswer1(String Answer1) {
          this.Answer1 = Answer1;
     }
@@ -102,7 +87,6 @@ public class Quiz {
     public String toString() {
         return "Quiz{" +
                 "quizID=" + quizID +
-                ", QuizName='" + QuizName + '\'' +
                 ", QuizQuestion='" + QuizQuestion + '\'' +
                 ", Answer1=" + Answer1 + '\'' +
                 ", Answer2=" + Answer2 + '\'' +

@@ -19,7 +19,7 @@ public class QuizController {
     protected void createQuiz() {
         SceneManager.switchTo("create-quiz.fxml");
     }
-
+    //Note bug where if create quiz is pressed twice the scene manager switches to Teacher-view.fxml
 
     @FXML
     protected void submitQuiz() {

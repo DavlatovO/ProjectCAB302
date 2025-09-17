@@ -58,11 +58,11 @@ public class SqlQuizDAO implements IQuizDAO{
             String query = "CREATE TABLE IF NOT EXISTS quizs ("
                     + "quizID INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "QuizQuestion VARCHAR NOT NULL,"
-                    + "Answer1 VARCHAR NOT NULL"
-                    + "Answer2 VARCHAR NOT NULL"
-                    + "Answer3 VARCHAR NOT NULL"
-                    + "Answer4 VARCHAR NOT NULL"
-                    + "correctAnswer VARCHAR NOT NULL"
+                    + "Answer1 VARCHAR NOT NULL,"
+                    + "Answer2 VARCHAR NOT NULL,"
+                    + "Answer3 VARCHAR NOT NULL,"
+                    + "Answer4 VARCHAR NOT NULL,"
+                    + "correctAnswer VARCHAR NOT NULL,"
                     + "Course VARCHAR NOT NULL"
                     + ")";
             statement.execute(query);

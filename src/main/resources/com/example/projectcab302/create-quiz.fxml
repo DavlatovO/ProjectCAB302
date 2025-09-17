@@ -31,7 +31,7 @@
     <!-- Submit Button -->
     <HBox alignment="CENTER_RIGHT">
         <Button fx:id="submitButton" text="Save Quiz" onAction="#submitQuiz" styleClass="create-button"/>
-        <Label fx:id="errorLabel" textFill="red"/>
+        <Label fx:id="errorQuizLabel" textFill="red"/>
     </HBox>
 
 </VBox>

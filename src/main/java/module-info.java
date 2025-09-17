@@ -13,6 +13,7 @@ module com.example.projectcab302 {
     requires proto.google.cloud.translate.v3;
     requires java.net.http;
     requires com.google.gson;
+    requires javafx.graphics;
 
     opens com.example.projectcab302 to javafx.fxml;
     exports com.example.projectcab302.Controller;

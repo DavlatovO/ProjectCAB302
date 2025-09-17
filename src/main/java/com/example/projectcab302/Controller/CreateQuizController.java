@@ -1,10 +1,19 @@
 package com.example.projectcab302.Controller;
 
+import com.example.projectcab302.HelloApplication;
 import com.example.projectcab302.Model.*;
+import com.example.projectcab302.SceneManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
+import java.lang.String;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,19 +35,20 @@ public class CreateQuizController {
     private TextField optionDField;
     @FXML
     private TextField answerField;
+    @FXML
+    private Label errorQuizLabel;
 
     @FXML
     private IQuizDAO quizDAO;
 
     @FXML
-    protected void onsubmitQuiz() throws IOException {
+    private void initialize() {
+    }
+
+    @FXML
+    protected void submitQuiz(ActionEvent actionEvent) {
         quizDAO = new SqlQuizDAO();
         quizDAO.clearData();
-
-        if (questionField.isEmpty() || optionAField.isEmpty() || optionBField.isEmpty() || optionCField.isEmpty() || optionDField.isEmpty() || answerField.isEmpty()) {
-            errorLabel.setText("Please fill in all fields.");
-            return;
-        }
 
         String question = questionField.getText();
         String optionA = optionAField.getText();
@@ -48,9 +58,20 @@ public class CreateQuizController {
         String answer = answerField.getText();
         String course = "CAB302";
 
+        if (question.isEmpty() || optionA.isEmpty() || optionB.isEmpty() || optionC.isEmpty() || optionD.isEmpty() || answer.isEmpty()) {
+            errorQuizLabel.setText("Please fill in all fields.");
+            return;
+        }
         Quiz quizs = new Quiz(question, optionA, optionB, optionC, optionD, answer, course);
         quizDAO.addQuiz(quizs);
 
-
     }
+
+    @FXML
+    Button backButton;
+    @FXML
+    protected void onBack() {
+        SceneManager.switchTo("teacher-view.fxml");
+    }
+
 }

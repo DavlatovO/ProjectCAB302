@@ -10,6 +10,7 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        ViewManager.getInstance().setPrimaryStage(primaryStage);   // <-- add this
         SceneManager.setStage(primaryStage);
         SceneManager.switchTo("landingpage.fxml"); //Program starts at landing page as soon as it runs
     }

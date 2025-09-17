@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.projectcab302.Controller.SettingsController">
+
+    <!-- TOP BAR -->
+    <top>
+        <HBox spacing="12" alignment="CENTER_LEFT" BorderPane.alignment="CENTER"
+              styleClass="top-bar">
+            <children>
+                <Button text="Back" onAction="#handleBack" styleClass="top-button"/>
+                <Label text="Settings"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Button text="Save" onAction="#handleSave" styleClass="create-button"/>
+            </children>
+            <padding><Insets top="10" right="20" bottom="10" left="20"/></padding>
+        </HBox>
+    </top>
+
+    <!-- CONTENT -->
+    <center>
+        <ScrollPane fitToWidth="true">
+            <content>
+                <VBox spacing="24" styleClass="hero-section">
+                    <children>
+                        <Label text="Application Preferences" styleClass="page-header"/>
+
+                        <!-- FORM -->
+                        <GridPane hgap="18" vgap="14">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="35"/>
+                                <ColumnConstraints percentWidth="65"/>
+                            </columnConstraints>
+
+                            <!-- Dark mode -->
+                            <Label text="Dark mode:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                            <CheckBox fx:id="darkModeCheckBox" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                            <!-- UI Scale -->
+                            <Label text="UI scale:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                            <HBox spacing="10" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                                <children>
+                                    <Slider fx:id="fontScaleSlider" min="0.8" max="1.5" blockIncrement="0.05"
+                                            majorTickUnit="0.1" minorTickCount="0" showTickMarks="true"
+                                            showTickLabels="true"/>
+                                    <Label fx:id="scaleValueLabel" text="100%"/>
+                                </children>
+                            </HBox>
+
+                            <!-- Language -->
+                            <Label text="Language:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                            <ComboBox fx:id="languageComboBox" prefWidth="220"
+                                      GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                            <!-- Sound effects -->
+                            <Label text="Sound effects:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                            <CheckBox fx:id="soundEffectsCheckBox" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                            <!-- Notifications -->
+                            <Label text="Notifications:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                            <CheckBox fx:id="notificationsCheckBox" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                        </GridPane>
+
+                        <!-- ACTIONS -->
+                        <HBox spacing="10">
+                            <children>
+                                <Button text="Reset to defaults" onAction="#handleReset" styleClass="top-button"/>
+                                <Button text="Save changes" onAction="#handleSave" styleClass="create-button"/>
+                            </children>
+                        </HBox>
+                    </children>
+                    <padding><Insets top="20" right="24" bottom="40" left="24"/></padding>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+    <!-- FOOTER -->
+    <bottom>
+        <HBox alignment="CENTER" styleClass="footer">
+            <children>
+                <Label text="© Your App"/>
+            </children>
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+        </HBox>
+    </bottom>
+</BorderPane>

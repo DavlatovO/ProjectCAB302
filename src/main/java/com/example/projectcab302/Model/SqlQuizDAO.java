@@ -23,16 +23,16 @@ public class SqlQuizDAO implements IQuizDAO{
             String clearQuery = "DELETE FROM quizs";
             clearStatement.execute(clearQuery);
             Statement insertStatement = connection.createStatement();
-            String insertQuery = "INSERT INTO quizs(QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer, Course\n) VALUES "
-                    + "(' put the matching input in', 'c', 'a', 'b', 'd', 'd', 'CAB202'),"
-                    + "('put the non matching input in', 'a','b','c','b','b', 'CAB202),"
-                    + "('Is this loss', '|','||','||','|_','|_', 'CAB202'),"
-                    + "('What is a valid type of signal modulation? ', 'Bell', 'Gate', 'Digitisation', 'Phase', 'Phase', 'EGB342'),"
-                    + "( 'Fourier transform of a Gate function? ', 'Sin', 'Cos', 'Sinc', 'Cot', 'Sinc', 'EGB342'),"
-                    + "( 'What Filter is used in FM signal reception', '', 'Matched', 'Bandpass', 'Lowpass', 'IDK','Matched', 'EGB342'),"
-                    + "('What are diodes made of?', 'Doped silicon', 'Doped lemon', 'Spicy rocks?', 'Copper', 'Doped silicon', 'EGB348'),"
-                    + "('What isn't a Diode?', 'LED', 'Zener', 'Fast Switch', 'BJT', 'BJT', 'EGB348'),"
-                    + "('Which is a lowpass active filter?', 'Weber', 'Butterworth', 'XMT', 'Winebago', 'Butterworth', 'EGB348')";
+            String insertQuery = "INSERT INTO quizs(QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES "
+                    + "(' put the matching input in', 'c', 'a', 'b', 'd', 'd'),"
+                    + "('put the non matching input in', 'a','b','c','b','b'),"
+                    + "('Is this loss', '|','||','||','|_','|_'),"
+                    + "('What is a valid type of signal modulation? ', 'Bell', 'Gate', 'Digitisation', 'Phase', 'Phase'),"
+                    + "( 'Fourier transform of a Gate function? ', 'Sin', 'Cos', 'Sinc', 'Cot', 'Sinc'),"
+                    + "( 'What Filter is used in FM signal reception', '', 'Matched', 'Bandpass', 'Lowpass', 'IDK','Matched'),"
+                    + "('What are diodes made of?', 'Doped silicon', 'Doped lemon', 'Spicy rocks?', 'Copper', 'Doped silicon'),"
+                    + "('What isn't a Diode?', 'LED', 'Zener', 'Fast Switch', 'BJT', 'BJT'),"
+                    + "('Which is a lowpass active filter?', 'Weber', 'Butterworth', 'XMT', 'Winebago', 'Butterworth')";
             insertStatement.execute(insertQuery);
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,8 +62,8 @@ public class SqlQuizDAO implements IQuizDAO{
                     + "Answer2 VARCHAR NOT NULL,"
                     + "Answer3 VARCHAR NOT NULL,"
                     + "Answer4 VARCHAR NOT NULL,"
-                    + "correctAnswer VARCHAR NOT NULL,"
-                    + "Course VARCHAR NOT NULL"
+                    + "correctAnswer VARCHAR NOT NULL"
+                    // + ", course VARCHAR NOT NULL"
                     + ")";
             statement.execute(query);
         } catch (Exception e) {
@@ -128,7 +128,7 @@ public class SqlQuizDAO implements IQuizDAO{
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
 
-                String course = resultSet.getString("course");
+                //String course = resultSet.getString("course");
                 String question = resultSet.getString("QuizQuestion");
                 String answer1 = resultSet.getString("Answer1");
                 String answer2 = resultSet.getString("Answer2");
@@ -136,7 +136,7 @@ public class SqlQuizDAO implements IQuizDAO{
                 String answer4 = resultSet.getString("Answer4");
                 String correctAnswer = resultSet.getString("correctAnswer");
 
-                Quiz quizs = new Quiz(question, answer1,answer2,answer3, answer4, correctAnswer, course);
+                Quiz quizs = new Quiz(question, answer1,answer2,answer3, answer4, correctAnswer);
                 quizs.setQuizID(id);
                 return quizs;
             }
@@ -158,14 +158,14 @@ public class SqlQuizDAO implements IQuizDAO{
             while (resultSet.next()) {
 
                 int id = resultSet.getInt("QuizID");
-                String course = resultSet.getString("course");
+                //String course = resultSet.getString("course");
                 String question = resultSet.getString("QuizQuestion");
                 String answer1 = resultSet.getString("Answer1");
                 String answer2 = resultSet.getString("Answer2");
                 String answer3 = resultSet.getString("Answer3");
                 String answer4 = resultSet.getString("Answer4");
                 String correctAnswer = resultSet.getString("correctAnswer");
-                Quiz quiz = new Quiz(question, answer1,answer2,answer3, answer4, correctAnswer, course);
+                Quiz quiz = new Quiz(question, answer1,answer2,answer3, answer4, correctAnswer);
                 quiz.setQuizID(id);
                 quizs.add(quiz);
             }

@@ -26,12 +26,14 @@
 
     <!-- Answer Field -->
     <Label text="Correct Answer:"/>
+    <Label fx:id="errorQuizLabel" textFill="red"/>
     <TextField fx:id="answerField" promptText="Enter correct option (e.g., A, B, C, D)" maxWidth="600"/>
-
+    <!-- Course Field -->
+    <Label text = "Course for Quiz"/>
+    <TextField fx:id="courseField" promptText="Course name" maxWidth="600"/>
     <!-- Submit Button -->
     <HBox alignment="CENTER_RIGHT">
         <Button fx:id="submitButton" text="Save Quiz" onAction="#submitQuiz" styleClass="create-button"/>
-        <Label fx:id="errorQuizLabel" textFill="red"/>
     </HBox>
 
 </VBox>

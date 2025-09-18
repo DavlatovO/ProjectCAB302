@@ -24,6 +24,8 @@ import java.util.regex.Pattern;
 
 public class CreateQuizController {
     @FXML
+    public TextField courseField;
+    @FXML
     private TextField questionField;
     @FXML
     private TextField optionAField;
@@ -42,10 +44,6 @@ public class CreateQuizController {
     private IQuizDAO quizDAO;
 
     @FXML
-    private void initialize() {
-    }
-
-    @FXML
     protected void submitQuiz(ActionEvent actionEvent) {
         quizDAO = new SqlQuizDAO();
         quizDAO.clearData();
@@ -56,13 +54,13 @@ public class CreateQuizController {
         String optionC = optionCField.getText();
         String optionD = optionDField.getText();
         String answer = answerField.getText();
-        String course = "CAB302";
+        String course = courseField.getText();
 
         if (question.isEmpty() || optionA.isEmpty() || optionB.isEmpty() || optionC.isEmpty() || optionD.isEmpty() || answer.isEmpty()) {
             errorQuizLabel.setText("Please fill in all fields.");
             return;
         }
-        Quiz quizs = new Quiz(question, optionA, optionB, optionC, optionD, answer, course);
+        Quiz quizs = new Quiz(question, optionA, optionB, optionC, optionD, answer);
         quizDAO.addQuiz(quizs);
 
     }

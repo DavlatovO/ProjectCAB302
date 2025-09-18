@@ -41,7 +41,7 @@ public class CoursesController {
             btn.setOnAction(e -> {
                 try {
                     course = courses.get(idx);
-                    System.out.println(courses.get(idx).getTitle());
+
                     Course.setTransferredTitle(courses.get(idx).getTitle());
                     onCourse();
                 } catch (IOException ex) {

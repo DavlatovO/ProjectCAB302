@@ -35,8 +35,8 @@
 
                 <Region VBox.vgrow="ALWAYS"/>
 
-                <Button fx:id="pvp" text="PvP" onAction="#onPvP"/>
-                <Button fx:id="preview" text="Preview" onAction="#initialize"/>
+                <Button fx:id="pvp" text="PvP mode" onAction="#onPvP"/>
+                <Button fx:id="preview" text="Preview mode" onAction="#initialize"/>
                 <Button fx:id="modifyButton" text="Modify flashcard" onAction="#onModifyFlashcard"/>
             </children>
         </VBox>

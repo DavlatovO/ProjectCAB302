@@ -201,32 +201,42 @@ public class FlashcardController {
 
     @FXML
     public void onPvpSubmit() {
+
+
         if (fill != null && fill.getStatus() == Animation.Status.RUNNING) {
             fill.stop();                 // onFinished WILL NOT fire
         }
         String response = Answer.getText();
         if (response.isEmpty()) {
-            aiResponse.setText("Score 0/10, no answer given" );
+            aiResponse.setText("Score 0/5, no answer given" );
             flipCard();
+            switchTurns();
         } else{
             onSubmit();
         }
 
-        if (cardCount == (flashcards.size() - 1) && p2Turn){
-            if (p1Score > p2Score){
-                countdown.setText("player 1 won");
-            } else{
-                countdown.setText("player 2 won");
-            }
-            return;
 
-        }
         ready.setDisable(false);
         pvpSubmitButton.setDisable(true);
 
 
         Answer.setText("");
 
+    }
+
+    public boolean checkWinner() {
+        if (cardCount == (flashcards.size() - 1) && p2Turn) {
+            if (p1Score > p2Score) {
+                countdown.setText("player 1 won");
+            } else {
+                countdown.setText("player 2 won");
+            }
+            ready.setDisable(true);
+            pvpSubmitButton.setDisable(true);
+
+            return true;
+        }
+        return false;
     }
 
     public void switchTurns() {
@@ -251,6 +261,7 @@ public class FlashcardController {
         flipCard();
         if (p1Turn){
             cardCount++;
+            cardNum.setText((cardCount + 1) + "/" + flashcards.size());
         }
         startRound();
 
@@ -368,13 +379,13 @@ public class FlashcardController {
                 conn.setDoOutput(true);
 
                 String prompt =
-                        "Return only valid JSON exactly of the form {\"score\": N} where N is an integer 1-10. " +
+                        "Return only valid JSON exactly of the form {\"score\": N} where N is an integer 1-5. " +
                                 "No extra text, no code fences.\n\n" +
                                 "Score Answer B relative to Answer A using this rubric:\n" +
-                                "10: B strictly superior in accuracy AND completeness.\n" +
-                                "8-9: B better on ≥1 criterion and not worse on the other.\n" +
-                                "5: roughly equal.\n" +
-                                "2-4: worse.\n" +
+                                "5: Equal in topics and has either an equal or more word count.\n" +
+                                "4: Close to Answer A, but lacks in either word count or topics\n" +
+                                "3: Lacks in word count and topics, in comparison to answer A\n" +
+                                "2: Only include one topic similar to answer A\n" +
                                 "1: clearly inferior or incorrect.\n\n" +
                                 "Question:" + question + "\n" +
                                 "Answer A:" + answer + "\n" +
@@ -394,7 +405,7 @@ public class FlashcardController {
                             "top_p": 1,
                             "seed": 1234,
                             "num_predict": 8,
-                            "num_thread": 4,
+                            "num_thread": 8,
                             "num_batch": 256,
                             "num_gpu": 999
                           }
@@ -430,21 +441,25 @@ public class FlashcardController {
                             player2.setText("player 2: " + p2Score);
 
                         }
-                        switchTurns();
+                        if (!checkWinner()){
+                            switchTurns();
+                        }
+
+
 
 
                     }
                     if (score == 1) {
                         grade = " Not close to answer at all";
                     } else if (score >= 2 && score <= 4) { // note: include 2
-                        grade = " Somewhat close to answer";
-                    } else if (score >= 5 && score <= 10) { // cap upper bound
+                        grade = "Shares similar topics to answer A";
+                    } else if (score == 5 ) { // cap upper bound
                         grade = " Comparable to answer, good job!";
                     } else {
                         grade = " (score out of range)";
                     }
 
-                    Platform.runLater(() -> aiResponse.setText("Score " + String.valueOf(score) + "/10" + grade));
+                    Platform.runLater(() -> aiResponse.setText("Score " + String.valueOf(score) + "/5" + grade));
                 } else {
                     Platform.runLater(() -> aiResponse.setText("Error: " + resp));
                 }

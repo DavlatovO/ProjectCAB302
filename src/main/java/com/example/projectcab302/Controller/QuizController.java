@@ -12,7 +12,7 @@ public class QuizController {
 
     @FXML
     protected void onBack() {
-        SceneManager.switchTo("teacher-view.fxml");
+        SceneManager.switchTo("quizzes-view.fxml");
     }
 
     @FXML

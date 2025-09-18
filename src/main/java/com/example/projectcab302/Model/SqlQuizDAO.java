@@ -29,9 +29,9 @@ public class SqlQuizDAO implements IQuizDAO{
                     + "('Is this loss', '|','||','||','|_','|_'),"
                     + "('What is a valid type of signal modulation? ', 'Bell', 'Gate', 'Digitisation', 'Phase', 'Phase'),"
                     + "( 'Fourier transform of a Gate function? ', 'Sin', 'Cos', 'Sinc', 'Cot', 'Sinc'),"
-                    + "( 'What Filter is used in FM signal reception', '', 'Matched', 'Bandpass', 'Lowpass', 'IDK','Matched'),"
+                    + "( 'What Filter is used in FM signal reception', 'Matched', 'Bandpass', 'Lowpass', 'IDK','Matched'),"
                     + "('What are diodes made of?', 'Doped silicon', 'Doped lemon', 'Spicy rocks?', 'Copper', 'Doped silicon'),"
-                    + "('What isn't a Diode?', 'LED', 'Zener', 'Fast Switch', 'BJT', 'BJT'),"
+                    + "('What isn''t a Diode?', 'LED', 'Zener', 'Fast Switch', 'BJT', 'BJT'),"
                     + "('Which is a lowpass active filter?', 'Weber', 'Butterworth', 'XMT', 'Winebago', 'Butterworth')";
             insertStatement.execute(insertQuery);
         } catch (Exception e) {

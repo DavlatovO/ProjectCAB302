@@ -37,6 +37,7 @@ public class DatabaseController {
             pstmt.setString(3, user.getRole());
             pstmt.setString(4, user.getHashedPassword());
 
+
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,19 +60,19 @@ public class DatabaseController {
     }
 
     public static User login(String username, String plainPassword) {
-        String sql = "SELECT password, role, email FROM users WHERE username = ?";
+        String sql = "SELECT role, email, password FROM users WHERE username = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                String storedHash = rs.getString("password");
-                System.out.println(storedHash);
                 String role = rs.getString("role");
                 System.out.println(role);
                 String email = rs.getString("email");
                 System.out.println(email);
+                String storedHash = rs.getString("password");
+                System.out.println(storedHash);
                 String inputHash = Hashing.hashPassword(plainPassword);
 
 

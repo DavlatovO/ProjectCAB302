@@ -28,7 +28,7 @@ public class RegisterController {
     }
 
     @FXML
-    protected void handleRegister() {
+    protected void register() {
         String username = usernameField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();

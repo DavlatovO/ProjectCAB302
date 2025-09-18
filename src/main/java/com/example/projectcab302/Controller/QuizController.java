@@ -1,6 +1,7 @@
 package com.example.projectcab302.Controller;
 
 import com.example.projectcab302.SceneManager;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 
@@ -27,4 +28,9 @@ public class QuizController {
     }
 
 
+    public void editQuiz(ActionEvent actionEvent) {
+    }
+
+    public void deleteQuiz(ActionEvent actionEvent) {
+    }
 }

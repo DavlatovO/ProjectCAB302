@@ -35,9 +35,15 @@ public class CreateFlashcardController {
     private Course course;
     public void setCourse(Course Course) {
         this.course = Course;
-        System.out.println(this.course.getTitle());
+
         titleLabel.setText(course.getTitle());
         List<Flashcard> flashcards = course.getFlashcards();
+
+        //Mainly for testing
+        if (flashcards.isEmpty()){
+            flashcardDAO.insertSampleData();
+            flashcards = course.getFlashcards();
+        }
 
         for (Flashcard card : flashcards){
             cardEntry.appendText(card.getQuestion() + "--{" + card.getAnswer() + "}" + "\n");
@@ -60,7 +66,9 @@ public class CreateFlashcardController {
             String answer   = matcher.group(2).trim();
 
             Flashcard card = new Flashcard(course.getTitle(), question, answer);
-
+            System.out.println(this.course.getTitle());
+            System.out.println(question);
+            System.out.println(answer);
             flashcardDAO.addFlashcard(card);
         }
 

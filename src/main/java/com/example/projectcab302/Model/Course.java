@@ -25,10 +25,9 @@ public class Course {
 
         List<Flashcard> courseCards = new ArrayList<>();
         for (Flashcard card: flashcards){
-            System.out.println(this.title);
-            System.out.println(card.getCourse());
+
             if (Objects.equals(card.getCourse(), this.title)){
-                System.out.println("yes");
+
                 courseCards.add(card);
             }
         }

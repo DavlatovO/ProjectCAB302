@@ -49,7 +49,7 @@
                 </ComboBox>
             </HBox>
 
-            <Button text="Register" onAction="#handleRegister" prefWidth="150"/>
+            <Button text="Register" onAction="#register" prefWidth="150"/>
             <Label fx:id="errorLabel" textFill="red"/>
 
         </VBox>

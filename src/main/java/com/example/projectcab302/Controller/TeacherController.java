@@ -38,11 +38,17 @@ public class TeacherController {
 
     @FXML
     protected void openUserProfile() {
+        ViewManager.getInstance().switchToProfileView(
+                "Teacher Name",
+                "teacher@example.com",
+                "Teacher"
+        );
 
     }
 
     @FXML
     protected void openSettings() {
+        ViewManager.getInstance().switchToSettingsView();
 
     }
     @FXML

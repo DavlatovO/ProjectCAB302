@@ -14,7 +14,7 @@ class FlashcardTest {
         card = new Flashcard("CAB302", "What is Java?", "A language");
     }
 
-    // ---- Constructor: happy path & trimming ----
+    // Constructor: happy path & trimming
 
     @Test
     void constructor_trimsAllFields() {
@@ -24,7 +24,7 @@ class FlashcardTest {
         assertEquals("A1", c.getAnswer());
     }
 
-    // ---- Constructor: nulls throw ----
+    // Constructor: nulls throw
 
     @Test
     void constructor_nullCourse_throws() {
@@ -41,7 +41,7 @@ class FlashcardTest {
         assertThrows(IllegalArgumentException.class, () -> new Flashcard("CAB302", "Q", null));
     }
 
-    // ---- Constructor: blanks throw ----
+    // Constructor: blanks throw
 
     @Test
     void constructor_blankCourse_throws() {
@@ -58,7 +58,7 @@ class FlashcardTest {
         assertThrows(IllegalArgumentException.class, () -> new Flashcard("CAB302", "Q", "   "));
     }
 
-    // ---- Setters: trimming ----
+    // Setters: trimming
 
     @Test
     void setCourse_trims() {
@@ -78,7 +78,7 @@ class FlashcardTest {
         assertEquals("42", card.getAnswer());
     }
 
-    // ---- Setters: null/blank throw ----
+    // Setters: null/blank throw
 
     @Test
     void setCourse_nullOrBlank_throws() {

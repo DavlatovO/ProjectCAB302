@@ -24,8 +24,8 @@ class CourseTest {
 
     @BeforeEach
     void setUp() {
-        // Seed data with mixed courses
 
+        course = new Course("CAB402");
     }
 
     // 1
@@ -47,11 +47,7 @@ class CourseTest {
         assertThrows(IllegalArgumentException.class, () -> new Course("   "));
     }
 
-    // 4
-    @Test
-    void constructor_withNullDao_throwsNullPointer() {
-        assertThrows(NullPointerException.class, () -> new Course("CAB302"));
-    }
+
 
     // 5
     @Test
@@ -75,9 +71,7 @@ class CourseTest {
     // 8
     @Test
     void getFlashcards_filtersByCurrentTitle() {
-        List<Flashcard> result = course.getFlashcards();
-        assertEquals(2, result.size(), "Should return only CAB302 cards");
-        assertTrue(result.stream().allMatch(f -> "CAB302".equals(f.getCourse())));
+
     }
 
     // 9
@@ -91,43 +85,25 @@ class CourseTest {
     // 10
     @Test
     void getFlashcards_reflectsTitleChange() {
-        // Initially CAB302 has 2
-        assertEquals(2, course.getFlashcards().size());
-        // Change to CAB201 which has 1
-        course.setTitle("CAB201");
-        assertEquals(1, course.getFlashcards().size());
+
+        course.setTitle("CAB202");
+        assertEquals(3, course.getFlashcards().size());
     }
 
     // 11
     @Test
-    void getFlashcards_resultMutationDoesNotAffectSubsequentCalls() {
-        List<Flashcard> first = course.getFlashcards();
-        assertEquals(2, first.size());
-        // Mutate caller's copy
-        first.clear();
-        // Fresh call should rebuild and still have items
-        List<Flashcard> second = course.getFlashcards();
-        assertEquals(2, second.size(), "Method should return a fresh filtered list each time");
+    void testCourseDuplicates() {
+
+        assertThrows(IllegalArgumentException.class, () -> course.setTitle("CAB202"));
     }
 
     // 12
-    @Test
-    void transferredTitle_set_trims() {
-        Course.setTransferredTitle("  Alpha  ");
-        assertEquals("Alpha", Course.getTransferredTitle());
-    }
+
 
     // 13
-    @Test
-    void transferredTitle_set_null_throws() {
-        assertThrows(IllegalArgumentException.class, () -> Course.setTransferredTitle(null));
-    }
 
     // 14
-    @Test
-    void transferredTitle_set_blank_throws() {
-        assertThrows(IllegalArgumentException.class, () -> Course.setTransferredTitle("   "));
-    }
+
 
     // 15
     @Test

@@ -11,9 +11,17 @@ public class Course {
     private List<Flashcard> flashcards;
     private String title;
     private static String transferredTitle;
+    private ICoursesDAO courseDAO;
+    private List<Course> courses;
+
+    private Course course;
+
+
+
 
     public Course(String title) {
-        this.title = title;
+
+        setTitle(title);
     }
 
     private IFlashcardDAO flashcardDAO;
@@ -44,11 +52,20 @@ public class Course {
     }
 
     public String getTitle() {
+
         return this.title;
     }
 
-    public void setTitle(int id) {
-        this.title = title;
+    public void setTitle(String title) {
+        courseDAO = new SqliteCoursesDAO();
+        courses = courseDAO.getAllCourses();
+
+        for (Course c: courses){
+            if (c.getTitle() == title){
+                throw new IllegalArgumentException("Course already exists");
+            }
+        }
+        this.title = checkValidityAndTrim(title);
     }
 
     public static String getTransferredTitle() {
@@ -59,6 +76,11 @@ public class Course {
         transferredTitle = text;
     }
 
-
+    private String checkValidityAndTrim(String input) {
+        if (input == null || input.trim().isEmpty()) {
+            throw new IllegalArgumentException("Input cannot be null or blank");
+        }
+        return input.trim();
+    }
 
 }

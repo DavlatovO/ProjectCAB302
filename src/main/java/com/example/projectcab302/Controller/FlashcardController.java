@@ -395,8 +395,8 @@ public class FlashcardController {
                             "seed": 1234,
                             "num_predict": 8,
                             "num_thread": 8,
-                            "num_batch": 256,
-                            "num_gpu": 999
+                            "num_batch": 256
+                            
                           }
                         }
                         """.formatted(JSONObject.quote(prompt), Runtime.getRuntime().availableProcessors());

@@ -23,16 +23,37 @@
                 </HBox>
 
                 <Region VBox.vgrow="ALWAYS"/>
-                <Button fx:id="createCourse" alignment="bottom_left" text="+  Create Course" onAction="#onCreateCourse"
-                        style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
             </children>
         </VBox>
     </left>
 
     <center>
-        <HBox fx:id="courseBox" alignment="CENTER" spacing="10"
-              style="-fx-border-color: black; -fx-border-width: 1; -fx-padding: 10;">
-        </HBox>
+        <VBox fx:id="allCourses" spacing="12" alignment="TOP_CENTER" style="-fx-padding: 12;">
+            <!-- Row with input + button side by side -->
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <!-- If you really want multiple lines, keep TextArea; otherwise use TextField -->
+                <TextField fx:id="courseField"
+                           promptText="Add your course here"
+                           HBox.hgrow="ALWAYS"/>
+                <Button fx:id="createCourse"
+                        text="+  Create Course"
+                        onAction="#onCreateCourse"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+            </HBox>
+
+            <GridPane fx:id="courseGrid"  hgap="8" vgap="8" alignment="TOP_CENTER" style="-fx-padding: 8;">
+            <!-- Three equal-width columns -->
+            <columnConstraints>
+                <ColumnConstraints percentWidth="33.3333" hgrow="ALWAYS" halignment="CENTER"/>
+                <ColumnConstraints percentWidth="33.3333" hgrow="ALWAYS" halignment="CENTER"/>
+                <ColumnConstraints percentWidth="33.3333" hgrow="ALWAYS" halignment="CENTER"/>
+            </columnConstraints>
+            </GridPane>
+
+
+            <!-- Your course container -->
+
+        </VBox>
     </center>
 
 </BorderPane>

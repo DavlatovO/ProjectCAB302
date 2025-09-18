@@ -17,7 +17,7 @@ public class SqliteFlashcardDAO implements IFlashcardDAO{
         //insertSampleData();
     }
 
-
+    @Override
     public void insertSampleData() {
         try {
             // Clear before inserting

@@ -4,13 +4,18 @@ import com.example.projectcab302.HelloApplication;
 import com.example.projectcab302.Model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import org.checkerframework.checker.units.qual.C;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,6 +25,9 @@ public class CoursesController {
     @FXML
     private HBox courseBox;
 
+    @FXML
+    private TextField courseField;
+
     private IFlashcardDAO flashcardDAO;
 
     private ICoursesDAO courseDAO;
@@ -28,32 +36,61 @@ public class CoursesController {
     private Course course;
 
     @FXML
+    private VBox allCourses;
+
+    @FXML
+    private GridPane courseGrid;
+
+    @FXML
     private void initialize() {
         flashcardDAO = new SqliteFlashcardDAO();
         courseDAO = new SqliteCoursesDAO();
         courses = courseDAO.getAllCourses();
+        if (courses.isEmpty()) {
+            courseDAO.insertSampleData();
+            courses = courseDAO.getAllCourses();
+        }
 
+        // tighter spacing & padding on the VBox
+        allCourses.setSpacing(6);                  // was 12 in FXML
+        allCourses.setPadding(new Insets(6));      // override "-fx-padding: 12" if needed
 
-        for (int i = 0; i < Math.min(courses.size(), 3); i++) {
-            final int idx = i;                           // <- final copy
+        HBox row = new HBox();
+        row.setAlignment(Pos.CENTER_LEFT);
+        row.setSpacing(8);
+        row.setMaxWidth(Double.MAX_VALUE);         // let row stretch with the VBox
+        // VBox.setVgrow(row, Priority.NEVER);     // default; don't expand rows vertically
+
+        for (int i = 0; i < courses.size(); i++) {
+            final int idx = i;
             Button btn = new Button(courses.get(idx).getTitle());
 
             btn.setOnAction(e -> {
                 try {
                     course = courses.get(idx);
-
-                    Course.setTransferredTitle(courses.get(idx).getTitle());
+                    Course.setTransferredTitle(course.getTitle());
                     onCourse();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
             });
 
-            btn.setPrefWidth(200);
-            courseBox.getChildren().add(btn);
-        }
+            btn.setMinWidth(0);
+            btn.setMaxWidth(Double.MAX_VALUE);
+            GridPane.setFillWidth(btn, true);
+            GridPane.setHgrow(btn, Priority.ALWAYS);
 
+            int col = i % 3;
+            int rowss = i / 3;
+            GridPane.setColumnIndex(btn, col);
+            GridPane.setRowIndex(btn, rowss);
+
+            courseGrid.getChildren().add(btn);
+
+        }
     }
+
+
 
     private void onCourse() throws IOException {
         Stage stage = (Stage) back.getScene().getWindow();
@@ -66,15 +103,20 @@ public class CoursesController {
         stage.setScene(scene);
     }
 
+    @FXML
+    protected void onCreateCourse() throws IOException {
+        String courseInput = courseField.getText();
+        if (courseInput.trim().isEmpty()){
+            return;
+        }
+        Course newCourse = new Course(courseInput);
+        courseDAO.addCourse(newCourse);
+        initialize();
+    }
+
     @FXML Button createCourse;
 
-    @FXML
-    private void onCreateCourse() throws IOException {
-        Stage stage = (Stage) createCourse.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("teacher-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
-    }
+
 
     @FXML Button back;
     @FXML

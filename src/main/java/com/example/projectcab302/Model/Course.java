@@ -13,7 +13,7 @@ public class Course {
     private static String transferredTitle;
 
     public Course(String title) {
-    this.title = title;
+        this.title = title;
     }
 
     private IFlashcardDAO flashcardDAO;

@@ -10,7 +10,7 @@ public class Quiz {
     private String correctAnswer;
     private String course;
 
-    public Quiz(int quizID, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer, String course) {
+    public Quiz(int quizID, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer) {
         this.quizID = quizID;
         this.QuizQuestion = QuizQuestion;
         this.Answer1 = Answer1;
@@ -18,7 +18,7 @@ public class Quiz {
         this.Answer3 = Answer3;
         this.Answer4 = Answer4;
         this.correctAnswer = correctAnswer;
-        this.course = course;
+        //this.course = course;
     }
 
     public Quiz(String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer) {
@@ -58,24 +58,35 @@ public class Quiz {
     }
 
     public void setQuizID(Integer quizID) {
+        if (quizID == null) throw new IllegalArgumentException("quizID cannot be null");
         this.quizID = quizID;
     }
     public void setQuizQuestion(String QuizQuestion) {
-         this.QuizQuestion = QuizQuestion;
+        if (QuizQuestion == null) throw new IllegalArgumentException("QuizQuestion cannot be null");
+        this.QuizQuestion = QuizQuestion;
     }
     public void setAnswer1(String Answer1) {
-         this.Answer1 = Answer1;
+        if (Answer1 == null) throw new IllegalArgumentException("Answer1 cannot be null");
+        this.Answer1 = Answer1;
     }
+
     public void setAnswer2(String Answer2) {
-         this.Answer2 = Answer2;
+        if (Answer2 == null) throw new IllegalArgumentException("Answer2 cannot be null");
+        this.Answer2 = Answer2;
     }
+
     public void setAnswer3(String Answer3) {
-         this.Answer3 = Answer3;
+        if (Answer3 == null) throw new IllegalArgumentException("Answer3 cannot be null");
+        this.Answer3 = Answer3;
     }
+
     public void setAnswer4(String Answer4) {
-         this.Answer4 = Answer4;
+        if (Answer4 == null) throw new IllegalArgumentException("Answer4 cannot be null");
+        this.Answer4 = Answer4;
     }
+
     public void setCorrectAnswer(String correctAnswer) {
+        if (correctAnswer == null) throw new IllegalArgumentException("CorrectAnswer cannot be null");
         this.correctAnswer = correctAnswer;
     }
     public void setCourse(String course) {

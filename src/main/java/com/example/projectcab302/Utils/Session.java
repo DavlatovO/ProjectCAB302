@@ -1,4 +1,6 @@
-package com.example.projectcab302.Model;
+package com.example.projectcab302.Utils;
+
+import com.example.projectcab302.Model.User;
 
 public class Session {
     private static User currentUser;

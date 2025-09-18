@@ -1,13 +1,12 @@
 package com.example.projectcab302;
 
+import com.example.projectcab302.z_Misc.AppSettings;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.Objects;
-import javafx.collections.ObservableList;
 
 public class ViewManager {
     private static ViewManager instance;

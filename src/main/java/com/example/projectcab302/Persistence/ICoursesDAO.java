@@ -1,4 +1,6 @@
-package com.example.projectcab302.Model;
+package com.example.projectcab302.Persistence;
+
+import com.example.projectcab302.Model.Course;
 
 import java.util.List;
 

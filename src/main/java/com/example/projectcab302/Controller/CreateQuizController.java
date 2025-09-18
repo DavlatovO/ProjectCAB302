@@ -1,25 +1,16 @@
 package com.example.projectcab302.Controller;
 
-import com.example.projectcab302.HelloApplication;
 import com.example.projectcab302.Model.*;
+import com.example.projectcab302.Persistence.IQuizDAO;
+import com.example.projectcab302.Persistence.SqlQuizDAO;
 import com.example.projectcab302.SceneManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 import java.lang.String;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 public class CreateQuizController {

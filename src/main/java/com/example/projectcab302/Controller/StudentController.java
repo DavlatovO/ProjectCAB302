@@ -1,6 +1,6 @@
 package com.example.projectcab302.Controller;
 
-import com.example.projectcab302.Model.Session;
+import com.example.projectcab302.Utils.Session;
 import com.example.projectcab302.SceneManager;
 import com.example.projectcab302.ViewManager;
 import javafx.fxml.FXML;

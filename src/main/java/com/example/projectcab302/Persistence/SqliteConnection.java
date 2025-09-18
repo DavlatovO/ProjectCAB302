@@ -1,4 +1,4 @@
-package com.example.projectcab302.Model;
+package com.example.projectcab302.Persistence;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

@@ -21,4 +21,8 @@ module com.example.projectcab302 {
     exports com.example.projectcab302.Controller;
     exports com.example.projectcab302;
     opens com.example.projectcab302.Controller to javafx.fxml;
+    exports com.example.projectcab302.Persistence;
+    opens com.example.projectcab302.Persistence to javafx.fxml;
+    exports com.example.projectcab302.z_Misc;
+    opens com.example.projectcab302.z_Misc to javafx.fxml;
 }

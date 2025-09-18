@@ -1,25 +1,17 @@
 package com.example.projectcab302.Controller;
 
 
-import com.example.projectcab302.Model.Session;
-import com.example.projectcab302.Model.SqliteFlashcardDAO;
+import com.example.projectcab302.Persistence.DatabaseController;
+import com.example.projectcab302.Utils.Session;
 import com.example.projectcab302.Model.User;
-import com.example.projectcab302.Model.UserData;
 import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.transform.Rotate;
-import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 
 public class LoginController {
     @FXML private TextField usernameField;

@@ -2,20 +2,20 @@ package com.example.projectcab302.Controller;
 
 import com.example.projectcab302.HelloApplication;
 import com.example.projectcab302.Model.*;
+import com.example.projectcab302.Persistence.ICoursesDAO;
+import com.example.projectcab302.Persistence.IFlashcardDAO;
+import com.example.projectcab302.Persistence.SqliteCoursesDAO;
+import com.example.projectcab302.Persistence.SqliteFlashcardDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import org.checkerframework.checker.units.qual.C;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,6 +1,5 @@
-package com.example.projectcab302;
+package com.example.projectcab302.z_Misc;
 
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import java.util.prefs.Preferences;

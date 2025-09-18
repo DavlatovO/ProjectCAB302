@@ -1,6 +1,6 @@
 package com.example.projectcab302.Controller;
 
-import com.example.projectcab302.Controller.DatabaseController;
+import com.example.projectcab302.Persistence.DatabaseController;
 import com.example.projectcab302.Model.Student;
 import com.example.projectcab302.Model.Teacher;
 import com.example.projectcab302.Model.User;

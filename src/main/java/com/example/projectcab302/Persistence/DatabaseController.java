@@ -1,4 +1,4 @@
-package com.example.projectcab302.Controller;
+package com.example.projectcab302.Persistence;
 
 import com.example.projectcab302.Model.Student;
 import com.example.projectcab302.Model.Teacher;

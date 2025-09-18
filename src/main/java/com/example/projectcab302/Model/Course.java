@@ -1,6 +1,7 @@
 package com.example.projectcab302.Model;
 
-import javafx.fxml.FXML;
+import com.example.projectcab302.Persistence.IFlashcardDAO;
+import com.example.projectcab302.Persistence.SqliteFlashcardDAO;
 
 import java.util.ArrayList;
 import java.util.List;

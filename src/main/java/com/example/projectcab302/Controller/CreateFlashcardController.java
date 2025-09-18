@@ -1,6 +1,9 @@
 package com.example.projectcab302.Controller;
 
 import com.example.projectcab302.Model.*;
+import com.example.projectcab302.Persistence.ICoursesDAO;
+import com.example.projectcab302.Persistence.IFlashcardDAO;
+import com.example.projectcab302.Persistence.SqliteFlashcardDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

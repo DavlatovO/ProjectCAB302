@@ -365,8 +365,10 @@ public class FlashcardController {
         String question = flashcards.get(cardCount).getQuestion();
         String answer = flashcards.get(cardCount).getAnswer();
 
+        // Async makes it so rest of the program can still run, while data is being procced through llama
         CompletableFuture.runAsync(() -> {
             try {
+                // build HTTP request
                 URL url = new URL("http://localhost:11434/api/generate");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
@@ -374,6 +376,7 @@ public class FlashcardController {
                 conn.setRequestProperty("Accept", "application/json");
                 conn.setDoOutput(true);
 
+                // Construct the prompt, that says to return llama response in JSON format
                 String prompt =
                         "Return only valid JSON exactly of the form {\"score\": N} where N is an integer 1-5. " +
                                 "No extra text, no code fences.\n\n" +
@@ -387,6 +390,7 @@ public class FlashcardController {
                                 "Answer A:" + answer + "\n" +
                                 "Answer B:" + response + "\n" +
                                 "Output:";
+                //Build the JSON body for Ollama
                 // change num_thread to how many cores your cpu has.
                 String body = """
                         {
@@ -408,10 +412,12 @@ public class FlashcardController {
                         }
                         """.formatted(JSONObject.quote(prompt), Runtime.getRuntime().availableProcessors());
 
+                //Writes the body to llama
                 try (OutputStream os = conn.getOutputStream()) {
                     os.write(body.getBytes(StandardCharsets.UTF_8));
                 }
 
+                // Read the HTTP response
                 int code = conn.getResponseCode();
                 InputStream is = (code >= 200 && code < 300) ? conn.getInputStream() : conn.getErrorStream();
 

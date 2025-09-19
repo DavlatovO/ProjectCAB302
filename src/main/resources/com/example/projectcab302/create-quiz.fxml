@@ -14,6 +14,8 @@
     </HBox>
 
     <!-- Question Field -->
+    <Label text="Select course to put Question into" />
+    <ListView fx:id="courseListView" minHeight="50" />
     <Label text="Question:"/>
     <TextField fx:id="questionField" promptText="Enter your question here" maxWidth="600"/>
 

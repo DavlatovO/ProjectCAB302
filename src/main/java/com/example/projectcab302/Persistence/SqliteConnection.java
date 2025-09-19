@@ -1,4 +1,4 @@
-package com.example.projectcab302.Model;
+package com.example.projectcab302.Persistence;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -7,7 +7,7 @@ public class SqliteConnection {
     private static Connection instance = null;
 
     private SqliteConnection() {
-        String url = "jdbc:sqlite:flashcards.db";
+        String url = "jdbc:sqlite:database.db";
         try {
             instance = DriverManager.getConnection(url);
         } catch (SQLException sqlEx) {

@@ -4,7 +4,7 @@ import com.example.projectcab302.ViewManager;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import com.example.projectcab302.AppSettings;  // <— import from the base package
+import com.example.projectcab302.z_Misc.AppSettings;  // <— import from the base package
 
 
 public class SettingsController {

@@ -9,7 +9,7 @@ public class StudentController {
 
     @FXML
     protected void openUserProfile() {
-        ViewManager.getInstance().switchToProfileView(
+        SceneManager.switchToProfileView(
                 "Student Name",
                 "student@example.com",
                 "Student"
@@ -18,7 +18,7 @@ public class StudentController {
 
     @FXML
     protected void openSettings() {
-        ViewManager.getInstance().switchToSettingsView();
+        SceneManager.switchTo("settings-view.fxml");
     }
 
     @FXML

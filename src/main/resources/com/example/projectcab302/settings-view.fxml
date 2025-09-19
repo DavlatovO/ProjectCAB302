@@ -9,7 +9,9 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.projectcab302.Controller.SettingsController">
+            fx:controller="com.example.projectcab302.Controller.SettingsController"
+            stylesheets="@dashboards.css"
+            styleClass="app-root">
 
     <!-- TOP BAR -->
     <top>

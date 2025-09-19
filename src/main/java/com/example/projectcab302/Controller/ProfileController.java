@@ -1,5 +1,6 @@
 package com.example.projectcab302.Controller;
 
+import com.example.projectcab302.SceneManager;
 import com.example.projectcab302.ViewManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -49,12 +50,12 @@ public class ProfileController {
 
     @FXML
     protected void back() {
-        ViewManager.getInstance().goBack();
+        SceneManager.goBack();
     }
 
     @FXML
     protected void logout() {
-        ViewManager.getInstance().goBack();
+        SceneManager.goBack();
     }
 
     @FXML

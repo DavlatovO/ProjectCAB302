@@ -1,4 +1,4 @@
-package org.example.flashcard.Model;
+package com.example.projectcab302;
 
 import com.example.projectcab302.Model.Flashcard;
 import org.junit.jupiter.api.DisplayName;
@@ -13,89 +13,72 @@ import static org.junit.jupiter.api.Assertions.*;
 class FlashcardTest {
 
     @Test
-    @DisplayName("Constructor should set question and answer; id defaults to 0")
-    void constructor_setsFields_andIdDefaultsToZero() {
-        // Arrange & Act
-        Flashcard card = new Flashcard("What is OOP?", "Object-Oriented Programming", answer);
+    @DisplayName("Constructor sets course/question/answer; id defaults to 0")
+    void constructor_setsAllFields_andIdDefaultsToZero() {
+        Flashcard card = new Flashcard("CAB302", "What is OOP?", "Object-Oriented Programming");
 
-        // Assert
-        // Verifies constructor correctly assigns question/answer
+        assertEquals("CAB302", card.getCourse());
         assertEquals("What is OOP?", card.getQuestion());
         assertEquals("Object-Oriented Programming", card.getAnswer());
-
-        // Verifies default int field 'id' is 0 (Java default for int)
-        assertEquals(0, card.getId());
+        assertEquals(0, card.getId()); // assuming int id default
     }
 
     @Test
-    @DisplayName("setId should update the id field")
+    @DisplayName("setId updates id")
     void setId_updatesId() {
-        Flashcard card = new Flashcard("Q", "A", answer);
-
-        // Act
+        Flashcard card = new Flashcard("CAB302", "Q", "A");
         card.setId(42);
-
-        // Assert
-        // Verifies setter stores the provided integer value
         assertEquals(42, card.getId());
     }
 
     @Test
-    @DisplayName("setQuestion should update the question field")
+    @DisplayName("setCourse updates course")
+    void setCourse_updatesCourse() {
+        Flashcard card = new Flashcard("CAB302", "Q", "A");
+        card.setCourse("EGB240");
+        assertEquals("EGB240", card.getCourse());
+    }
+
+    @Test
+    @DisplayName("setQuestion updates question")
     void setQuestion_updatesQuestion() {
-        Flashcard card = new Flashcard("Old question", "A", answer);
-
-        // Act
-        card.setQuestion("New question");
-
-        // Assert
-        // Verifies question mutability through setter
-        assertEquals("New question", card.getQuestion());
+        Flashcard card = new Flashcard("CAB302", "Old Q", "A");
+        card.setQuestion("New Q");
+        assertEquals("New Q", card.getQuestion());
     }
 
     @Test
-    @DisplayName("setAnswer should update the answer field")
+    @DisplayName("setAnswer updates answer")
     void setAnswer_updatesAnswer() {
-        Flashcard card = new Flashcard("Q", "Old answer", answer);
-
-        // Act
-        card.setAnswer("New answer");
-
-        // Assert
-        // Verifies answer mutability through setter
-        assertEquals("New answer", card.getAnswer());
+        Flashcard card = new Flashcard("CAB302", "Q", "Old A");
+        card.setAnswer("New A");
+        assertEquals("New A", card.getAnswer());
     }
 
     @Test
-    @DisplayName("Setters should allow nulls (if desired behavior) for question/answer")
+    @DisplayName("Setters allow nulls (if model intentionally permits)")
     void setters_allowNullValues() {
-        Flashcard card = new Flashcard("Q", "A", answer);
-
-        // Act
+        Flashcard card = new Flashcard("CAB302", "Q", "A");
+        card.setCourse(null);
         card.setQuestion(null);
         card.setAnswer(null);
-
-        // Assert
-        // Verifies that the class accepts null (no validation in the model)
+        assertNull(card.getCourse());
         assertNull(card.getQuestion());
         assertNull(card.getAnswer());
     }
 
     @Test
-    @DisplayName("Supports empty strings for question/answer")
+    @DisplayName("Supports empty strings for course/question/answer")
     void supportsEmptyStrings() {
-        Flashcard card = new Flashcard("", "", answer);
-
-        // Assert
-        // Verifies empty strings are stored as-is
+        Flashcard card = new Flashcard("", "", "");
+        assertEquals("", card.getCourse());
         assertEquals("", card.getQuestion());
         assertEquals("", card.getAnswer());
 
-        // Act
+        card.setCourse("");
         card.setQuestion("");
         card.setAnswer("");
-
-        // Assert again after setters
+        assertEquals("", card.getCourse());
         assertEquals("", card.getQuestion());
         assertEquals("", card.getAnswer());
     }

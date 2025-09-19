@@ -1,0 +1,88 @@
+/* ===== Dark mode overrides (activate by adding "dark" to the root node's styleClass) ===== */
+
+.root {
+    -fx-background-color: linear-gradient(to bottom, #17191c, #14161a);
+}
+
+/* Top bar */
+.root .top-bar {
+    -fx-background-color: #1e2126;           /* subtle dark surface */
+}
+.root .top-bar Label {
+    -fx-text-fill: #e8e8e8;
+}
+.root .top-bar Button {
+    -fx-background-color: #2a2f36;
+    -fx-text-fill: #e8e8e8;
+}
+.root .top-bar Button:hover {
+    -fx-background-color: #323845;
+}
+
+/* Hero section */
+.root .hero-section {
+    -fx-background-color: transparent;       /* keep layout but let dark bg show */
+}
+.root .hero-section Label:first-child {
+    -fx-text-fill: #f3f4f6;                   /* title in light text */
+}
+.root .hero-section Label:last-child {
+    -fx-text-fill: #b9c0cb;                   /* subtitle/subtext */
+}
+.root .hero-section Button {
+    -fx-background-color: #2e6fdd;           /* accessible blue CTA */
+    -fx-text-fill: white;
+}
+.root .hero-section Button:hover {
+    -fx-background-color: #255ed1;
+}
+
+/* Footer */
+.root .footer Label {
+    -fx-text-fill: #9aa3af;
+}
+
+/* Inputs */
+.root .input-field,
+.root .input-area {
+    -fx-background-color: #1e232a;
+    -fx-text-fill: #e8e8e8;
+    -fx-border-color: #2a2f36;
+    -fx-prompt-text-fill: #9aa3af;
+}
+
+/* Page header text */
+.root .page-header {
+    -fx-text-fill: #f3f4f6;
+}
+
+/* Generic buttons you already use in the header/content */
+.root .top-button {
+    -fx-background-color: #2a2f36;
+    -fx-text-fill: #e8e8e8;
+}
+.root .top-button:hover {
+    -fx-background-color: #323845;
+}
+
+.root .create-button {
+    -fx-background-color: #22c55e;           /* green works well on dark */
+    -fx-text-fill: #0b1410;
+}
+
+/* Create button hover (dark parity) */
+.root .create-button:hover {
+    -fx-background-color: #16a34a; /* slightly darker green */
+}
+
+/* Tiles/cards */
+.root .tileButton {
+    -fx-background-color: #1e232a;
+    -fx-border-color: #2a2f36;
+    -fx-text-fill: #e8e8e8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 16, 0.2, 0, 6);
+}
+.root .tileButton:hover {
+    -fx-background-color: #242a33;
+    -fx-border-color: #36404a;
+}

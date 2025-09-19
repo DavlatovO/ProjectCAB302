@@ -15,7 +15,7 @@ import java.lang.String;
 
 public class CreateQuizController {
     @FXML
-    public TextField courseField;
+    private TextField courseField;
     @FXML
     private TextField questionField;
     @FXML
@@ -37,7 +37,8 @@ public class CreateQuizController {
     @FXML
     protected void submitQuiz(ActionEvent actionEvent) {
         quizDAO = new SqlQuizDAO();
-        quizDAO.clearData();
+
+        //quizDAO.clearData();
 
         String question = questionField.getText();
         String optionA = optionAField.getText();
@@ -51,8 +52,8 @@ public class CreateQuizController {
             errorQuizLabel.setText("Please fill in all fields.");
             return;
         }
-        Quiz quizs = new Quiz(question, optionA, optionB, optionC, optionD, answer);
-        quizDAO.addQuiz(quizs);
+        Quiz quest = new Quiz(question, optionA, optionB, optionC, optionD, answer);
+        quizDAO.addQuiz(quest);
 
     }
 

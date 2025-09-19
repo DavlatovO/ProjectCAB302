@@ -15,8 +15,7 @@ public class SqlQuizDAO implements IQuizDAO{
     public SqlQuizDAO() {
         connection = SqliteConnection.getInstance();
         createTable();
-        // Used for testing, to be removed later
-        insertSampleData();
+        // insertSampleData();
     }
     public void insertSampleData() {
         try {
@@ -77,7 +76,8 @@ public class SqlQuizDAO implements IQuizDAO{
     @Override
     public void addQuiz(Quiz quizs) {
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO quizs (QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES (?, ?, ?, ?, ?, ?)");
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO quizs (QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES (?, ?, ?, ?, ?, ?)");
             statement.setString(1, quizs.getQuizQuestion());
             statement.setString(2, quizs.getAnswer1());
             statement.setString(3, quizs.getAnswer2());

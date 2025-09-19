@@ -17,8 +17,6 @@ import java.util.List;
 
 public class CreateQuizController {
     @FXML
-    private TextField courseField;
-    @FXML
     private TextField questionField;
     @FXML
     private TextField optionAField;
@@ -32,15 +30,14 @@ public class CreateQuizController {
     private TextField answerField;
     @FXML
     private Label errorQuizLabel;
-
     @FXML
     private IQuizDAO quizDAO;
     @FXML
     private ICoursesDAO coursesDAO;
-
-
     @FXML
     private ListView<Course> courseListView;
+    @FXML
+    private String courseName;
 
     public CreateQuizController() {
 
@@ -53,7 +50,7 @@ public class CreateQuizController {
      */
     private void selectCourse(Course course) {
         courseListView.getSelectionModel().select(course);
-        String courseName = course.getTitle();
+        courseName = course.getTitle();
         System.out.println(courseName);
     }
 
@@ -136,13 +133,12 @@ public class CreateQuizController {
         String optionC = optionCField.getText();
         String optionD = optionDField.getText();
         String answer = answerField.getText();
-        String course = courseField.getText();
 
         if (question.isEmpty() || optionA.isEmpty() || optionB.isEmpty() || optionC.isEmpty() || optionD.isEmpty() || answer.isEmpty()) {
             errorQuizLabel.setText("Please fill in all fields.");
             return;
         }
-        Quiz quest = new Quiz(question, optionA, optionB, optionC, optionD, answer);
+        Quiz quest = new Quiz(courseName, question, optionA, optionB, optionC, optionD, answer);
         quizDAO.addQuiz(quest);
 
     }

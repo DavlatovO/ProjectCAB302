@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit tests for the Quiz model.
  * Covers constructors, getters/setters, toString, and edge cases.
+ * //Updated Quizs to have course String in table, will modify to meet prototype requirements, Fynn.
  */
 class QuizTest {
 

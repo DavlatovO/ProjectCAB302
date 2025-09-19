@@ -64,7 +64,7 @@ public class SqlQuizDAO implements IQuizDAO{
                     + "Answer3 VARCHAR NOT NULL,"
                     + "Answer4 VARCHAR NOT NULL,"
                     + "correctAnswer VARCHAR NOT NULL"
-                    // + ", course VARCHAR NOT NULL"
+                    + ", Course VARCHAR NOT NULL"
                     + ")";
             statement.execute(query);
         } catch (Exception e) {
@@ -77,13 +77,14 @@ public class SqlQuizDAO implements IQuizDAO{
     public void addQuiz(Quiz quizs) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO quizs (QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES (?, ?, ?, ?, ?, ?)");
-            statement.setString(1, quizs.getQuizQuestion());
-            statement.setString(2, quizs.getAnswer1());
-            statement.setString(3, quizs.getAnswer2());
-            statement.setString(4, quizs.getAnswer3());
-            statement.setString(5, quizs.getAnswer4());
-            statement.setString(6, quizs.getCorrectAnswer());
+                    "INSERT INTO quizs (Course, QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            statement.setString(1, quizs.getCourse());
+            statement.setString(2, quizs.getQuizQuestion());
+            statement.setString(3, quizs.getAnswer1());
+            statement.setString(4, quizs.getAnswer2());
+            statement.setString(5, quizs.getAnswer3());
+            statement.setString(6, quizs.getAnswer4());
+            statement.setString(7, quizs.getCorrectAnswer());
             statement.executeUpdate();
             // Set the id of the new contact
             ResultSet generatedKeys = statement.getGeneratedKeys();
@@ -130,7 +131,7 @@ public class SqlQuizDAO implements IQuizDAO{
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
 
-                //String course = resultSet.getString("course");
+                String course = resultSet.getString("course");
                 String question = resultSet.getString("QuizQuestion");
                 String answer1 = resultSet.getString("Answer1");
                 String answer2 = resultSet.getString("Answer2");
@@ -138,7 +139,7 @@ public class SqlQuizDAO implements IQuizDAO{
                 String answer4 = resultSet.getString("Answer4");
                 String correctAnswer = resultSet.getString("correctAnswer");
 
-                Quiz quizs = new Quiz(question, answer1,answer2,answer3, answer4, correctAnswer);
+                Quiz quizs = new Quiz(course, question, answer1,answer2,answer3, answer4, correctAnswer);
                 quizs.setQuizID(id);
                 return quizs;
             }
@@ -160,14 +161,14 @@ public class SqlQuizDAO implements IQuizDAO{
             while (resultSet.next()) {
 
                 int id = resultSet.getInt("QuizID");
-                //String course = resultSet.getString("course");
+                String course = resultSet.getString("course");
                 String question = resultSet.getString("QuizQuestion");
                 String answer1 = resultSet.getString("Answer1");
                 String answer2 = resultSet.getString("Answer2");
                 String answer3 = resultSet.getString("Answer3");
                 String answer4 = resultSet.getString("Answer4");
                 String correctAnswer = resultSet.getString("correctAnswer");
-                Quiz quiz = new Quiz(question, answer1,answer2,answer3, answer4, correctAnswer);
+                Quiz quiz = new Quiz(course, question, answer1,answer2,answer3, answer4, correctAnswer);
                 quiz.setQuizID(id);
                 quizs.add(quiz);
             }

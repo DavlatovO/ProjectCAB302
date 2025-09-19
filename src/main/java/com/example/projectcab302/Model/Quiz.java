@@ -10,7 +10,7 @@ public class Quiz {
     private String correctAnswer;
     private String course;
 
-    public Quiz(int quizID, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer) {
+    public Quiz(int quizID,String course, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer) {
         this.quizID = quizID;
         this.QuizQuestion = QuizQuestion;
         this.Answer1 = Answer1;
@@ -18,17 +18,17 @@ public class Quiz {
         this.Answer3 = Answer3;
         this.Answer4 = Answer4;
         this.correctAnswer = correctAnswer;
-        //this.course = course;
+        this.course = course;
     }
 
-    public Quiz(String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer) {
+    public Quiz(String course, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer) {
         this.QuizQuestion = QuizQuestion;
         this.Answer1 = Answer1;
         this.Answer2 = Answer2;
         this.Answer3 = Answer3;
         this.Answer4 = Answer4;
         this.correctAnswer = correctAnswer;
-        //this.course = course;
+        this.course = course;
     }
 
     public int getQuizID() {

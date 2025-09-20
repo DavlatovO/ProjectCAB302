@@ -28,6 +28,9 @@ public class CreateFlashcardController {
     private Label titleLabel;
 
 
+    @FXML
+    Button backButton;
+
     private IFlashcardDAO flashcardDAO;
     private ICoursesDAO coursesDAO;
 
@@ -36,6 +39,7 @@ public class CreateFlashcardController {
     }
 
     private Course course;
+
     public void setCourse(Course Course) {
         this.course = Course;
 
@@ -55,13 +59,12 @@ public class CreateFlashcardController {
     }
 
     @FXML
-    protected void onSave() throws IOException {
+    private void onSave() throws IOException {
         flashcardDAO = new SqliteFlashcardDAO();
         flashcardDAO.clearData();
         String text = cardEntry.getText();
 
-        // Regex: (.*?) = question, --{(.*?)} = answer
-        // DOTALL makes '.' match across newlines
+
         Pattern pattern = Pattern.compile("(.*?)--\\{(.*?)\\}", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(text);
 
@@ -81,9 +84,7 @@ public class CreateFlashcardController {
 
 
     @FXML
-    Button backButton;
-    @FXML
-    protected void onPreview() throws IOException {
+    private void onPreview() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("flashcard-view.fxml"));
@@ -97,7 +98,7 @@ public class CreateFlashcardController {
     }
 
     @FXML
-    protected void onBack() throws IOException {
+    private void onBack() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("courses-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);

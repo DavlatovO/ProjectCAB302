@@ -97,7 +97,7 @@ public class SqliteFlashcardDAO implements IFlashcardDAO{
     @Override
     public void updateFlashcard(Flashcard flashcard) {
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE flashcards SET question = ?, answer = ?, WHERE id = ?");
+            PreparedStatement statement = connection.prepareStatement("UPDATE flashcards SET question = ?, answer = ? WHERE id = ?");
             statement.setString(1, flashcard.getQuestion());
             statement.setString(2, flashcard.getAnswer());
             statement.setInt(3, flashcard.getId());

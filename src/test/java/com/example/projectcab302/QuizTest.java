@@ -11,8 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * Covers constructors, getters/setters, toString, and edge cases.
  * //Updated Quizs to have course String in table, will modify to meet prototype requirements, Fynn.
  */
+
 class QuizTest {
-    /*
+/*
     @Test
     @DisplayName("Constructor with quizID should set all fields correctly")
     void constructor_withId_setsAllFields() {
@@ -157,4 +158,6 @@ class QuizTest {
     }
 
 
+
+ */
 }

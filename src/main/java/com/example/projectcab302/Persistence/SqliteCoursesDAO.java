@@ -1,6 +1,7 @@
 package com.example.projectcab302.Persistence;
 
 import com.example.projectcab302.Model.Course;
+import com.example.projectcab302.Model.Flashcard;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -54,6 +55,7 @@ public class SqliteCoursesDAO implements ICoursesDAO{
     @Override
     public Boolean checkTitleExists(String title) {
         try {
+
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM courses WHERE title = ?");
             statement.setString(1, title);
             ResultSet resultSet = statement.executeQuery();
@@ -86,6 +88,9 @@ public class SqliteCoursesDAO implements ICoursesDAO{
 
     @Override
     public void addCourse(Course course) {
+        if (this.checkTitleExists(course.getTitle())){
+            throw new IllegalArgumentException("Course with this name already exists");
+        }
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO courses (title) VALUES (?)");
             statement.setString(1, course.getTitle());
@@ -103,16 +108,43 @@ public class SqliteCoursesDAO implements ICoursesDAO{
 
     @Override
     public void updateCourse(Course course) {
-
+        try {
+            PreparedStatement statement = connection.prepareStatement("UPDATE courses SET title = ? WHERE id = ?");
+            statement.setString(1, course.getTitle());
+            statement.setInt(2, course.getId());
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteCourse(Course course) {
-
+        try {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM courses WHERE id = ?");
+            statement.setInt(1, course.getId());
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public Course getCourse(int id) {
+
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM courses WHERE id = ?");
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String title = resultSet.getString("title");
+                Course course = new Course(title);
+                course.setId(id);
+                return course;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

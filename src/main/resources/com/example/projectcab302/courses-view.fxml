@@ -28,7 +28,7 @@
     </left>
 
     <center>
-        <VBox fx:id="allCourses" spacing="12" alignment="TOP_CENTER" style="-fx-padding: 12;">
+        <VBox fx:id="allCourses" spacing="6" alignment="TOP_CENTER" style="-fx-padding: 6;">
             <!-- Row with input + button side by side -->
             <HBox spacing="8" alignment="CENTER_LEFT">
                 <!-- If you really want multiple lines, keep TextArea; otherwise use TextField -->

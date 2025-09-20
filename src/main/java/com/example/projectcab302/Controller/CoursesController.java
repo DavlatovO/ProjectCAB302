@@ -12,37 +12,34 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
 
 public class CoursesController {
-
-
-    // Texts
-    @FXML
-    private TextField courseField;
-
-
-    // Data Access Objects
-    private ICoursesDAO courseDAO;
-    private List<Course> courses;
-
-
-    private Course course;
-
-    // Layouts
+    // ───────────── Layouts ─────────────
     @FXML private VBox allCourses;
     @FXML private GridPane courseGrid;
     @FXML private HBox courseBox;
 
-    // Buttons
+    // ───────────── Buttons ─────────────
     @FXML Button createCourse;
     @FXML Button back;
+
+    // ───────────── Texts ─────────────
+    @FXML private TextField courseField;
+
+    // ─────── Controller state (non-UI, no @FXML) ───────
+    private ICoursesDAO courseDAO;
+    private List<Course> courses;
+    private Course course;
 
     @FXML
     private void initialize() {
@@ -54,15 +51,15 @@ public class CoursesController {
             courses = courseDAO.getAllCourses();
         }
 
-        // tighter spacing & padding on the VBox
-        allCourses.setSpacing(6);                  // was 12 in FXML
-        allCourses.setPadding(new Insets(6));      // override "-fx-padding: 12" if needed
+        createCoursesGrid();
+    }
 
+    private void createCoursesGrid() {
         HBox row = new HBox();
         row.setAlignment(Pos.CENTER_LEFT);
         row.setSpacing(8);
         row.setMaxWidth(Double.MAX_VALUE);         // let row stretch with the VBox
-        // VBox.setVgrow(row, Priority.NEVER);     // default; don't expand rows vertically
+
 
         for (int i = 0; i < courses.size(); i++) {
             final int idx = i;
@@ -71,7 +68,7 @@ public class CoursesController {
             btn.setOnAction(e -> {
                 try {
                     course = courses.get(idx);
-                    Course.setTransferredTitle(course.getTitle());
+
                     onCourse();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
@@ -107,7 +104,7 @@ public class CoursesController {
     }
 
     @FXML
-    protected void onCreateCourse() throws IOException {
+    private void onCreateCourse() throws IOException {
         String courseInput = courseField.getText();
         if (courseInput.trim().isEmpty()){
             return;

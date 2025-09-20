@@ -32,50 +32,50 @@ import java.util.concurrent.CompletableFuture;
 
 
 public class FlashcardController {
-    @FXML
-    public HBox previewOptions;
-    @FXML
-    public HBox pvpOptions;
-    @FXML
-    public Button next;
-    @FXML
-    public Button prev;
+    // ───────────── Layouts ─────────────
+    @FXML private HBox previewOptions;
+    @FXML private HBox pvpOptions;
+    @FXML private StackPane cubeGroup;
+    @FXML private ProgressBar bar;
 
-    @FXML
+    // ───────────── Buttons ─────────────
+    @FXML private Button next;
+    @FXML private Button prev;
+    @FXML private Button pvpSubmitButton;
+    @FXML private Button ready;
+    @FXML private Button flipButton;
+    @FXML private Button submitButton;
 
+    // ───────────── Texts ─────────────
+    @FXML private Text question;
+    @FXML private Text test;
+    @FXML private Text cardNum;
+    @FXML private Text player1;
+    @FXML private Text player2;
+    @FXML private Text countdown;
+    @FXML private Text aiResponse;
+    @FXML private TextArea answer;
+
+    // ─────── Controller state (non-UI, no @FXML) ───────
     private IFlashcardDAO flashcardDAO;
-
-
-    @FXML
-    private StackPane cubeGroup;
-    @FXML
-    private Text question;
-
     private List<Flashcard> flashcards;
+    private Course course;
 
-    @FXML
-    private Text test;
-    @FXML
-    private Text cardNum;
-
-
-    // keeps track of card if flipped or not, if clicks is even, then answer is not showing
+    // keeps track of card if flipped or not; if even clicks, answer not showing
     private boolean cardShowsAnswer = false;
 
-
-    // keeps track of which flashcard is currently showing
+    // which flashcard is currently showing
     private int cardCount = 0;
 
-    @FXML
-    private Button pvpSubmitButton;
+    // keeps track of progress bar
+    private Timeline fill;
 
-    @FXML
-    private Button ready;
-    @FXML
-    private Text player1;
-
-    @FXML
-    private Text player2;
+    // PvP state
+    private boolean pvpActive = false;
+    private boolean p1Turn = true;
+    private boolean p2Turn = false;
+    private int p1Score = 0;
+    private int p2Score = 0;
 
 
     @FXML
@@ -94,7 +94,7 @@ public class FlashcardController {
         flipButton.setDisable(false);
     }
 
-    private Course course;
+
     public void setCourse(Course Course) {
         cubeGroup.setRotationAxis(Rotate.Y_AXIS);
         cubeGroup.setRotate(180); // rotate 45° before showing
@@ -108,22 +108,11 @@ public class FlashcardController {
 
     }
 
-    @FXML private ProgressBar bar;
-    private Timeline fill; // keep a strong reference
 
-    @FXML private Button flipButton;
-    @FXML private Text countdown;
-    @FXML private Boolean pvpActive;
-
-    @FXML private Boolean p1Turn;
-    @FXML private Boolean p2Turn;
-
-    @FXML private int p1Score;
-    @FXML private int p2Score;
 
 
     @FXML
-    public void onPvP() {
+    private void onPvP() {
         bar.setVisible(true);
         ready.setVisible(true);
         cardCount = 0;
@@ -141,32 +130,12 @@ public class FlashcardController {
         p1Turn = true;
         flipButton.setVisible(false);
 
-
         startRound();
-
-        // once user submits save score and flip card
-
-
-        // give laptop to player 2
-
-
-        // Enable ready button
-        // start 3 second count down and hide question
-        // start 10 second progress bar
-        // once user submits save score and flip card
-
-        // once all cards are down show who won
-
-
-
-
         System.out.println("onPvP clicked");
-
-
     }
 
     @FXML
-    public void startRound() {
+    private void startRound() {
         ready.setDisable(true);
         pvpSubmitButton.setDisable(true);
         // start 3 second count down and hide question
@@ -196,13 +165,13 @@ public class FlashcardController {
     }
 
     @FXML
-    public void onPvpSubmit() {
+    private void onPvpSubmit() {
 
 
         if (fill != null && fill.getStatus() == Animation.Status.RUNNING) {
             fill.stop();                 // onFinished WILL NOT fire
         }
-        String response = Answer.getText();
+        String response = answer.getText();
         if (response.isEmpty()) {
             aiResponse.setText("Score 0/5, no answer given" );
             flipCard();
@@ -216,11 +185,11 @@ public class FlashcardController {
         pvpSubmitButton.setDisable(true);
 
 
-        Answer.setText("");
+        answer.setText("");
 
     }
 
-    public boolean checkWinner() {
+    private boolean checkWinner() {
         if (cardCount == (flashcards.size() - 1) && p2Turn) {
             if (p1Score > p2Score) {
                 countdown.setText("player 1 won");
@@ -235,7 +204,7 @@ public class FlashcardController {
         return false;
     }
 
-    public void switchTurns() {
+    private void switchTurns() {
         if (p1Turn){
             countdown.setText("Give Laptop to player 2");
 
@@ -251,7 +220,7 @@ public class FlashcardController {
 
 
     @FXML
-    public void onReady() {
+    private void onReady() {
         aiResponse.setText("");
         countdown.setText("");
         flipCard();
@@ -277,7 +246,7 @@ public class FlashcardController {
         fill.setOnFinished(e -> {
 
             pvpSubmitButton.setDisable(true);
-            String response = Answer.getText();
+            String response = answer.getText();
             onPvpSubmit();
 
         });
@@ -286,7 +255,7 @@ public class FlashcardController {
     }
 
     @FXML
-    protected void prevCard() {
+    private void prevCard() {
         if (cardCount == 0) {
 
             cardCount = flashcards.size() - 1;
@@ -303,7 +272,7 @@ public class FlashcardController {
     }
 
     @FXML
-    protected void nextCard() {
+    private void nextCard() {
 
         if (cardCount == flashcards.size() - 1) {
             cardCount = 0;
@@ -346,24 +315,18 @@ public class FlashcardController {
 
     }
 
-    @FXML
-    TextArea Answer;
-    @FXML
-    Text aiResponse;
 
-    @FXML
-    Button submitButton;
 
     @FXML
     private void onSubmit() {
-        String response = Answer.getText();
+        String response = answer.getText();
         if (response.isEmpty()) {
             aiResponse.setText("Please enter valid answer");
             return;
         }
 
         String question = flashcards.get(cardCount).getQuestion();
-        String answer = flashcards.get(cardCount).getAnswer();
+        String answerInput = flashcards.get(cardCount).getAnswer();
 
         // Async makes it so rest of the program can still run, while data is being procced through llama
         CompletableFuture.runAsync(() -> {
@@ -378,18 +341,22 @@ public class FlashcardController {
 
                 // Construct the prompt, that says to return llama response in JSON format
                 String prompt =
-                        "Return only valid JSON exactly of the form {\"score\": N} where N is an integer 1-5. " +
-                                "No extra text, no code fences.\n\n" +
-                                "Score Answer B relative to Answer A using this rubric:\n" +
-                                "5: Equal in topics and has either an equal or more word count.\n" +
-                                "4: Close to Answer A, but lacks in either word count or topics\n" +
-                                "3: Lacks in word count and topics, in comparison to answer A\n" +
-                                "2: Only include one topic similar to answer A\n" +
-                                "1: clearly inferior or incorrect.\n\n" +
-                                "Question:" + question + "\n" +
-                                "Answer A:" + answer + "\n" +
-                                "Answer B:" + response + "\n" +
-                                "Output:";
+                        "You are scoring a student answer against a reference answer.\n" +
+                                "Return ONLY valid JSON of the exact form {\"score\": N} where N is an integer 1–5.\n" +
+                                "No prose, no code fences, no explanations.\n" +
+                                "\n" +
+                                "Scoring rubric (prioritize correctness and topical coverage; style/wording doesn’t matter):\n" +
+                                "5: B is correct and covers the key points of A (allow synonyms/rephrasings) and has similar word count. \n" +
+                                "4: Mostly correct with small omissions or minor inaccuracies.\n" +
+                                "3: Partially correct; covers some key points but misses several.\n" +
+                                "2: Barely related; only one minor point overlaps with A.\n" +
+                                "1: Incorrect, off-topic, empty, or just repeats the question / says 'I don't know'.\n" +
+                                "\n" +
+                                "<QUESTION>\n" + question + "\n</QUESTION>\n" +
+                                "<ANSWER_A>\n" + answerInput + "\n</ANSWER_A>\n" +
+                                "<ANSWER_B>\n" + response + "\n</ANSWER_B>\n" +
+                                "\n" +
+                                "Output only: {\"score\": N}";
                 //Build the JSON body for Ollama
                 // change num_thread to how many cores your cpu has.
                 String body = """
@@ -406,7 +373,8 @@ public class FlashcardController {
                             "seed": 1234,
                             "num_predict": 8,
                             "num_thread": 8,
-                            "num_batch": 256
+                            "num_batch": 256,
+                            "num_gpu": 999
                             
                           }
                         }
@@ -447,21 +415,20 @@ public class FlashcardController {
                             switchTurns();
                         }
 
-
-
-
                     }
                     if (score == 1) {
                         grade = " Not close to answer at all";
-                    } else if (score >= 2 && score <= 4) { // note: include 2
-                        grade = "Shares similar topics to answer A";
+                    } else if (score == 2 || score == 3) { // note: include 2
+                        grade = "Getting there!";
+                    } else if (score == 4) { // note: include 2
+                        grade = "Almost there!";
                     } else if (score == 5 ) { // cap upper bound
                         grade = " Comparable to answer, good job!";
                     } else {
                         grade = " (score out of range)";
                     }
 
-                    Platform.runLater(() -> aiResponse.setText("Score " + String.valueOf(score) + "/5" + grade));
+                    Platform.runLater(() -> aiResponse.setText("Score " + String.valueOf(score) + "/5 " + grade));
                 } else {
                     Platform.runLater(() -> aiResponse.setText("Error: " + resp));
                 }
@@ -484,7 +451,6 @@ public class FlashcardController {
         Parent root = fxmlLoader.load();                 // must load before getController()
         CreateFlashcardController b = fxmlLoader.getController();
         b.setCourse(course);
-        // pass whatever you need
         Scene scene = new Scene(root, HelloApplication.WIDTH, HelloApplication.HEIGHT);
         stage.setScene(scene);
     }

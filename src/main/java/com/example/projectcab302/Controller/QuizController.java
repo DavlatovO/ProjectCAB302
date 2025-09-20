@@ -59,7 +59,7 @@ public class QuizController {
             btn.setOnAction(e -> {
                 try {
                     course = courses.get(idx);
-                    Course.setTransferredTitle(course.getTitle());
+                    //Course.setTransferredTitle(course.getTitle());
                     onCourse();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);

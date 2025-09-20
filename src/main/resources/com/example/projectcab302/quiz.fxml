@@ -35,9 +35,17 @@
     </left>
 
     <center>
-        <HBox alignment="CENTER" spacing="10"
-              style="-fx-border-color: black; -fx-border-width: 1; -fx-padding: 10;">
-        </HBox>
-    </center>
 
+        <VBox fx:id="allCourses" spacing="12" alignment="TOP_CENTER" style="-fx-padding: 12;">
+
+            <GridPane fx:id="courseQuizGrid"  hgap="8" vgap="8" alignment="TOP_CENTER" style="-fx-padding: 8;">
+                <!-- Three equal-width columns -->
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="33.3333" hgrow="ALWAYS" halignment="CENTER"/>
+                    <ColumnConstraints percentWidth="33.3333" hgrow="ALWAYS" halignment="CENTER"/>
+                    <ColumnConstraints percentWidth="33.3333" hgrow="ALWAYS" halignment="CENTER"/>
+                </columnConstraints>
+            </GridPane>
+        </VBox>
+    </center>
 </BorderPane>

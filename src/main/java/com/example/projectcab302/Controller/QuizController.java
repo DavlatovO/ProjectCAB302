@@ -82,6 +82,7 @@ public class QuizController {
     }
 
     private void onCourse() throws IOException{
+        SceneManager.switchTo("edit-quiz.fxml");
     }
 
     @FXML

@@ -8,30 +8,38 @@ import java.util.Objects;
 
 public class Course {
     private int id;
-    private List<Flashcard> flashcards;
+
+
     private String title;
     private static String transferredTitle;
-    private ICoursesDAO courseDAO;
-    private List<Course> courses;
 
+    private ICoursesDAO courseDAO = new SqliteCoursesDAO();
+
+
+    /*
+    private IFlashcardDAO flashcardDAO = new SqliteFlashcardDAO();
+    private List<Flashcard> flashcards = flashcardDAO.getAllFlashcard();
+
+
+     */
     private Course course;
+
+
 
 
 
 
     public Course(String title) {
 
-        setTitle(title);
+        this.setTitle(title);
     }
 
-    private IFlashcardDAO flashcardDAO;
+
 
     public List<Flashcard> getFlashcards() {
 
-        flashcardDAO = new SqliteFlashcardDAO();
-        List<Flashcard> flashcards = flashcardDAO.getAllFlashcard();
-
         List<Flashcard> courseCards = new ArrayList<>();
+        /*
         for (Flashcard card: flashcards){
             System.out.println(this.title);
             System.out.println(card.getCourse());
@@ -40,7 +48,11 @@ public class Course {
                 courseCards.add(card);
             }
         }
+
+         */
         return courseCards;
+
+
     }
 
     public int getId() {
@@ -57,15 +69,20 @@ public class Course {
     }
 
     public void setTitle(String title) {
-        courseDAO = new SqliteCoursesDAO();
-        courses = courseDAO.getAllCourses();
+        if (courseDAO.checkTitleExists(this.getTitle())){
 
+            return;
+        }
+        this.title = checkValidityAndTrim(title);
+        /*
         for (Course c: courses){
             if (c.getTitle() == title){
                 throw new IllegalArgumentException("Course already exists");
             }
         }
         this.title = checkValidityAndTrim(title);
+        */
+
     }
 
     public static String getTransferredTitle() {

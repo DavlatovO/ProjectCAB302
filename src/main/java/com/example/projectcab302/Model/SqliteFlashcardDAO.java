@@ -125,7 +125,7 @@ public class SqliteFlashcardDAO implements IFlashcardDAO{
                 String course = resultSet.getString("course");
                 String question = resultSet.getString("question");
                 String answer = resultSet.getString("answer");
-                Flashcard flashcard = new Flashcard(question, answer, answer);
+                Flashcard flashcard = new Flashcard(course, question, answer);
                 flashcard.setId(id);
                 return flashcard;
             }

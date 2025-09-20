@@ -35,7 +35,7 @@ public class CoursesController {
 
 
         for (int i = 0; i < Math.min(courses.size(), 3); i++) {
-            final int idx = i;                           // <- final copy
+            final int idx = i;
             Button btn = new Button(courses.get(idx).getTitle());
 
             btn.setOnAction(e -> {

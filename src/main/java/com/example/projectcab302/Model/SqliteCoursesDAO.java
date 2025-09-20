@@ -1,6 +1,7 @@
 package com.example.projectcab302.Model;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -46,6 +47,23 @@ public class SqliteCoursesDAO implements ICoursesDAO{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Boolean checkTitleExists(String title) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM courses WHERE title = ?");
+            statement.setString(1, title);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return true;
+            }else{
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void createTable() {

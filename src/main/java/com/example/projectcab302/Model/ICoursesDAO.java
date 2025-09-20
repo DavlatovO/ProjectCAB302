@@ -39,5 +39,7 @@ public interface ICoursesDAO {
 
     public void clearData();
 
+   public Boolean checkTitleExists(String title);
+
     void insertSampleData();
 }

@@ -22,28 +22,31 @@ import java.util.List;
 
 public class CoursesController {
 
-    @FXML
-    private HBox courseBox;
 
+    // Texts
     @FXML
     private TextField courseField;
 
-    private IFlashcardDAO flashcardDAO;
 
+    // Data Access Objects
     private ICoursesDAO courseDAO;
     private List<Course> courses;
 
+
     private Course course;
 
-    @FXML
-    private VBox allCourses;
+    // Layouts
+    @FXML private VBox allCourses;
+    @FXML private GridPane courseGrid;
+    @FXML private HBox courseBox;
 
-    @FXML
-    private GridPane courseGrid;
+    // Buttons
+    @FXML Button createCourse;
+    @FXML Button back;
 
     @FXML
     private void initialize() {
-        flashcardDAO = new SqliteFlashcardDAO();
+
         courseDAO = new SqliteCoursesDAO();
         courses = courseDAO.getAllCourses();
         if (courses.isEmpty()) {
@@ -114,11 +117,7 @@ public class CoursesController {
         initialize();
     }
 
-    @FXML Button createCourse;
 
-
-
-    @FXML Button back;
     @FXML
     private void onBack() throws IOException {
         Stage stage = (Stage) back.getScene().getWindow();

@@ -4,6 +4,8 @@ import com.example.projectcab302.Persistence.ICoursesDAO;
 import com.example.projectcab302.Persistence.IFlashcardDAO;
 import com.example.projectcab302.Persistence.SqliteCoursesDAO;
 import com.example.projectcab302.Persistence.SqliteFlashcardDAO;
+import com.example.projectcab302.modelUtils;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +21,12 @@ public class Course {
     private ICoursesDAO courseDAO = new SqliteCoursesDAO();
 
 
-    /*
+
     private IFlashcardDAO flashcardDAO = new SqliteFlashcardDAO();
     private List<Flashcard> flashcards = flashcardDAO.getAllFlashcard();
 
 
-     */
+
     private Course course;
 
 
@@ -42,7 +44,7 @@ public class Course {
     public List<Flashcard> getFlashcards() {
 
         List<Flashcard> courseCards = new ArrayList<>();
-        /*
+
         for (Flashcard card: flashcards){
 
             if (Objects.equals(card.getCourse(), this.title)){
@@ -51,7 +53,7 @@ public class Course {
             }
         }
 
-         */
+
         return courseCards;
 
 
@@ -75,15 +77,9 @@ public class Course {
 
             return;
         }
-        this.title = checkValidityAndTrim(title);
-        /*
-        for (Course c: courses){
-            if (c.getTitle() == title){
-                throw new IllegalArgumentException("Course already exists");
-            }
-        }
-        this.title = checkValidityAndTrim(title);
-        */
+
+        this.title = modelUtils.checkValidityAndTrim(title, "Course Title");
+
 
     }
 
@@ -95,11 +91,6 @@ public class Course {
         transferredTitle = text;
     }
 
-    private String checkValidityAndTrim(String input) {
-        if (input == null || input.trim().isEmpty()) {
-            throw new IllegalArgumentException("Input cannot be null or blank");
-        }
-        return input.trim();
-    }
+
 
 }

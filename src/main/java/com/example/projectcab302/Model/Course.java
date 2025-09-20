@@ -1,34 +1,35 @@
 package com.example.projectcab302.Model;
 
+import com.example.projectcab302.Persistence.ICoursesDAO;
 import com.example.projectcab302.Persistence.IFlashcardDAO;
+import com.example.projectcab302.Persistence.SqliteCoursesDAO;
 import com.example.projectcab302.Persistence.SqliteFlashcardDAO;
+import com.example.projectcab302.modelUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Course {
+
     private int id;
-    private List<Flashcard> flashcards;
     private String title;
     private static String transferredTitle;
 
+    private ICoursesDAO courseDAO = new SqliteCoursesDAO();
+    private IFlashcardDAO flashcardDAO = new SqliteFlashcardDAO();
+    private List<Flashcard> flashcards = flashcardDAO.getAllFlashcard();
+
+    private Course course;
+
     public Course(String title) {
-    this.title = title;
+        this.setTitle(title);
     }
 
-    private IFlashcardDAO flashcardDAO;
-
     public List<Flashcard> getFlashcards() {
-
-        flashcardDAO = new SqliteFlashcardDAO();
-        List<Flashcard> flashcards = flashcardDAO.getAllFlashcard();
-
         List<Flashcard> courseCards = new ArrayList<>();
-        for (Flashcard card: flashcards){
-
-            if (Objects.equals(card.getCourse(), this.title)){
-
+        for (Flashcard card : flashcards) {
+            if (Objects.equals(card.getCourse(), this.title)) {
                 courseCards.add(card);
             }
         }
@@ -47,18 +48,11 @@ public class Course {
         return this.title;
     }
 
-    public void setTitle(int id) {
-        this.title = title;
-    }
+    public void setTitle(String title) {
 
-    public static String getTransferredTitle() {
-        return transferredTitle;
-    }
 
-    public static void setTransferredTitle(String text) {
-        transferredTitle = text;
+        this.title = modelUtils.checkValidityAndTrim(title, "Course Title");
     }
-
 
 
 }

@@ -1,102 +1,110 @@
-package org.example.flashcard.Model;
+package com.example.projectcab302.Model;
 
-import com.example.projectcab302.Model.Flashcard;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Unit tests for the Flashcard model.
- * Each test includes a brief comment explaining what it verifies.
- */
 class FlashcardTest {
 
+    private Flashcard card;
+
+    @BeforeEach
+    void setUp() {
+        card = new Flashcard("CAB302", "What is Java?", "A language");
+    }
+
+    // Constructor: happy path & trimming
+
     @Test
-    @DisplayName("Constructor should set question and answer; id defaults to 0")
-    void constructor_setsFields_andIdDefaultsToZero() {
-        // Arrange & Act
-        Flashcard card = new Flashcard("What is OOP?", "Object-Oriented Programming", answer);
+    void constructor_trimsAllFields() {
+        Flashcard c = new Flashcard("  CAB201  ", "  Q1 \n", "\t A1  ");
+        assertEquals("CAB201", c.getCourse());
+        assertEquals("Q1", c.getQuestion());
+        assertEquals("A1", c.getAnswer());
+    }
 
-        // Assert
-        // Verifies constructor correctly assigns question/answer
-        assertEquals("What is OOP?", card.getQuestion());
-        assertEquals("Object-Oriented Programming", card.getAnswer());
+    // Constructor: nulls throw
 
-        // Verifies default int field 'id' is 0 (Java default for int)
-        assertEquals(0, card.getId());
+    @Test
+    void constructor_nullCourse_throws() {
+        assertThrows(IllegalArgumentException.class, () -> new Flashcard(null, "Q", "A"));
     }
 
     @Test
-    @DisplayName("setId should update the id field")
-    void setId_updatesId() {
-        Flashcard card = new Flashcard("Q", "A", answer);
-
-        // Act
-        card.setId(42);
-
-        // Assert
-        // Verifies setter stores the provided integer value
-        assertEquals(42, card.getId());
+    void constructor_nullQuestion_throws() {
+        assertThrows(IllegalArgumentException.class, () -> new Flashcard("CAB302", null, "A"));
     }
 
     @Test
-    @DisplayName("setQuestion should update the question field")
-    void setQuestion_updatesQuestion() {
-        Flashcard card = new Flashcard("Old question", "A", answer);
+    void constructor_nullAnswer_throws() {
+        assertThrows(IllegalArgumentException.class, () -> new Flashcard("CAB302", "Q", null));
+    }
 
-        // Act
-        card.setQuestion("New question");
+    // Constructor: blanks throw
 
-        // Assert
-        // Verifies question mutability through setter
-        assertEquals("New question", card.getQuestion());
+    @Test
+    void constructor_blankCourse_throws() {
+        assertThrows(IllegalArgumentException.class, () -> new Flashcard("   ", "Q", "A"));
     }
 
     @Test
-    @DisplayName("setAnswer should update the answer field")
-    void setAnswer_updatesAnswer() {
-        Flashcard card = new Flashcard("Q", "Old answer", answer);
-
-        // Act
-        card.setAnswer("New answer");
-
-        // Assert
-        // Verifies answer mutability through setter
-        assertEquals("New answer", card.getAnswer());
+    void constructor_blankQuestion_throws() {
+        assertThrows(IllegalArgumentException.class, () -> new Flashcard("CAB302", "   ", "A"));
     }
 
     @Test
-    @DisplayName("Setters should allow nulls (if desired behavior) for question/answer")
-    void setters_allowNullValues() {
-        Flashcard card = new Flashcard("Q", "A", answer);
+    void constructor_blankAnswer_throws() {
+        assertThrows(IllegalArgumentException.class, () -> new Flashcard("CAB302", "Q", "   "));
+    }
 
-        // Act
-        card.setQuestion(null);
-        card.setAnswer(null);
+    // Setters: trimming
 
-        // Assert
-        // Verifies that the class accepts null (no validation in the model)
-        assertNull(card.getQuestion());
-        assertNull(card.getAnswer());
+    @Test
+    void setCourse_trims() {
+        card.setCourse("  CAB203  ");
+        assertEquals("CAB203", card.getCourse());
     }
 
     @Test
-    @DisplayName("Supports empty strings for question/answer")
-    void supportsEmptyStrings() {
-        Flashcard card = new Flashcard("", "", answer);
+    void setQuestion_trims() {
+        card.setQuestion(" \tWhat?\n ");
+        assertEquals("What?", card.getQuestion());
+    }
 
-        // Assert
-        // Verifies empty strings are stored as-is
-        assertEquals("", card.getQuestion());
-        assertEquals("", card.getAnswer());
+    @Test
+    void setAnswer_trims() {
+        card.setAnswer("  42  ");
+        assertEquals("42", card.getAnswer());
+    }
 
-        // Act
-        card.setQuestion("");
-        card.setAnswer("");
+    // Setters: null/blank throw
 
-        // Assert again after setters
-        assertEquals("", card.getQuestion());
-        assertEquals("", card.getAnswer());
+    @Test
+    void setCourse_nullOrBlank_throws() {
+        assertThrows(IllegalArgumentException.class, () -> card.setCourse(null));
+        assertThrows(IllegalArgumentException.class, () -> card.setCourse("   "));
+    }
+
+    @Test
+    void setQuestion_nullOrBlank_throws() {
+        assertThrows(IllegalArgumentException.class, () -> card.setQuestion(null));
+        assertThrows(IllegalArgumentException.class, () -> card.setQuestion("   "));
+    }
+
+    @Test
+    void setAnswer_nullOrBlank_throws() {
+        assertThrows(IllegalArgumentException.class, () -> card.setAnswer(null));
+        assertThrows(IllegalArgumentException.class, () -> card.setAnswer("   "));
+    }
+
+    // ---- id behavior ----
+
+    @Test
+    void id_defaultsToZero_andCanBeSet() {
+        Flashcard c = new Flashcard("CAB230", "Q", "A");
+        assertEquals(0, c.getId());
+        c.setId(123);
+        assertEquals(123, c.getId());
     }
 }

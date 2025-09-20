@@ -71,7 +71,7 @@
                 -->
                 <Text fx:id="test" x="-50" y="0" fill="Black"/>
             </StackPane>
-            <TextArea fx:id="Answer"
+            <TextArea fx:id="answer"
                       promptText="Type your answer..."
                       wrapText="true"
                       editable="true"

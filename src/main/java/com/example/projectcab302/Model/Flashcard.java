@@ -38,9 +38,9 @@ public class Flashcard {
      * @param course
      */
     public Flashcard(String course, String question, String answer) {
-        this.question = question;
-        this.answer = answer;
-        this.course = course;
+        setQuestion(question);
+        setAnswer(answer);
+        setCourse(course);
     }
 
     /**
@@ -77,7 +77,8 @@ public class Flashcard {
      * @param question the new question text
      */
     public void setQuestion(String question) {
-        this.question = question;
+
+        this.question = checkValidityAndTrim(question);
     }
 
     /**
@@ -95,7 +96,8 @@ public class Flashcard {
      * @param answer the new answer text
      */
     public void setAnswer(String answer) {
-        this.answer = answer;
+
+        this.answer = checkValidityAndTrim(answer);
     }
 
     public String getCourse() {
@@ -104,8 +106,17 @@ public class Flashcard {
 
 
     public void setCourse(String Course) {
-        this.course = Course;
+
+        this.course = checkValidityAndTrim(Course);
     }
+
+    private String checkValidityAndTrim(String input) {
+        if (input == null || input.trim().isEmpty()) {
+            throw new IllegalArgumentException("Input cannot be null or blank");
+        }
+        return input.trim();
+    }
+
 
     // @Override public String toString() { ... }      // helpful for logging/debugging
     // @Override public boolean equals(Object o) { ... } and @Override public int hashCode() { ... }

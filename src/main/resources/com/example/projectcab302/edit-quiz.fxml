@@ -8,7 +8,7 @@
 <BorderPane xmlns="http://javafx.com/javafx/21"
             stylesheets="@dashboards.css"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.projectcab302.Controller.CreateQuizController"
+            fx:controller="com.example.projectcab302.Controller.EditQuizController"
             prefWidth="900" prefHeight="650">
 
 <left>

@@ -75,6 +75,7 @@ public class SqlQuizDAO implements IQuizDAO{
 
     @Override
     public void addQuiz(Quiz quizs) {
+
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO quizs (Course, QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -98,14 +99,16 @@ public class SqlQuizDAO implements IQuizDAO{
 
 
     public void updateQuiz(Quiz quizs) {
+
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE flashcards SET QuizQuestion = ?, Answer1 = ?, Answer2 = ?, Answer3 = ?, Answer4 = ?, correctAnswer = ?, WHERE QuizID = ?");
+            PreparedStatement statement = connection.prepareStatement("UPDATE quizs SET QuizQuestion = ?, Answer1 = ?, Answer2 = ?, Answer3 = ?, Answer4 = ?, correctAnswer = ? WHERE QuizID = ?");
             statement.setString(1, quizs.getQuizQuestion());
             statement.setString(2, quizs.getAnswer1());
             statement.setString(3, quizs.getAnswer2());
             statement.setString(4, quizs.getAnswer3());
             statement.setString(5, quizs.getAnswer4());
             statement.setString(6, quizs.getCorrectAnswer());
+            statement.setInt(7, quizs.getQuizID());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

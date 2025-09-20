@@ -23,6 +23,8 @@
             <Region VBox.vgrow="ALWAYS"/>
             <Label text="Create Question in Quiz" styleClass="sidebar-title"/>
             <ListView fx:id="courseListView" minHeight="50" maxWidth="100" />
+            <Label fx:id="QuizSelect" text="Select a quiz to do"/>
+            <Button text="Do quiz" fx:id="startQuiz" onAction="StartQuiz" styleClass="create-button"/>
 
             <Region HBox.hgrow="ALWAYS"/>
 
@@ -42,21 +44,20 @@
     </VBox>
 
     <VBox alignment="TOP_CENTER" spacing="12">
-        <Label text="Question:"/>
-        <TextField fx:id="questionField" promptText="Enter your question here" maxWidth="600"/>
+        <Label text="Question:" fx:id="Question"/>
 
         <!-- Option Fields -->
         <Label text="Options:"/>
-        <TextField fx:id="optionAField" promptText="Option A" maxWidth="600"/>
-        <TextField fx:id="optionBField" promptText="Option B" maxWidth="600"/>
-        <TextField fx:id="optionCField" promptText="Option C" maxWidth="600"/>
-        <TextField fx:id="optionDField" promptText="Option D" maxWidth="600"/>
+        <Label fx:id="optionAtext"/>
+        <RadioButton fx:id="optionAField"  maxWidth="600"/>
+        <Label fx:id="optionBtext"/>
+        <RadioButton fx:id="optionBField"  maxWidth="600"/>
+        <Label fx:id="optionCtext"/>
+        <RadioButton fx:id="optionCField"  maxWidth="600"/>
+        <Label fx:id="optionDtext"/>
+        <RadioButton fx:id="optionDField"  maxWidth="600"/>
 
-        <!-- Answer Field -->
-        <Label text="Correct Answer:"/>
-        <Label fx:id="errorQuizLabel" textFill="red"/>
-        <TextField fx:id="answerField" promptText="Enter correct option (e.g., A, B, C, D)" maxWidth="600"/>
-        <Button fx:id="submitButton" text="Save Quiz" onAction="#submitQuiz" styleClass="create-button"/>
+        <Button fx:id="submitButton" text="Save Quiz" onAction="#onSubmitAnswer" styleClass="create-button"/>
     </VBox>
 </center>
 

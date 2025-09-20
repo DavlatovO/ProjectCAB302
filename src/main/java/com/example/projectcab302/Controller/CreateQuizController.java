@@ -17,6 +17,18 @@ import java.util.List;
 
 public class CreateQuizController {
     @FXML
+    public Label optionAtext;
+    @FXML
+    public Label optionBtext;
+    @FXML
+    public Label optionCtext;
+    @FXML
+    public Label optionDtext;
+    @FXML
+    public Button submitButton;
+    @FXML
+    public Label Question;
+    @FXML
     private TextField questionField;
     @FXML
     private TextField optionAField;
@@ -150,4 +162,6 @@ public class CreateQuizController {
         SceneManager.switchTo("teacher-view.fxml");
     }
 
+    public void onSubmitAnswer(ActionEvent actionEvent) {
+    }
 }

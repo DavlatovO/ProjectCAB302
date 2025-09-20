@@ -16,11 +16,11 @@
                 <HBox alignment="CENTER_LEFT" spacing="10">
                     <Label text="Quizzes" styleClass="sidebar-title"/>
                     <Region HBox.hgrow="ALWAYS"/>
-                    <Button text="Back" onAction="#onBackbutt" styleClass="nav-button"/>
+                    <Button text="Back" onAction="#onBack" styleClass="nav-button"/>
                 </HBox>
 
                 <Region VBox.vgrow="ALWAYS"/>
-                <Label text="Create Question in Quiz" styleClass="sidebar-title"/>
+                <Label text="Modify Quiz" styleClass="sidebar-title"/>
                 <ListView fx:id="questionListView" minHeight="50" maxWidth="100" />
 
                 <Region HBox.hgrow="ALWAYS"/>
@@ -55,7 +55,14 @@
             <Label text="Correct Answer:"/>
             <Label fx:id="errorQuizLabel" textFill="red"/>
             <TextField fx:id="answerField" promptText="Enter correct option (e.g., A, B, C, D)" maxWidth="600"/>
-            <Button fx:id="submitButton" text="Save Quiz" onAction="#submitQuiz" styleClass="create-button"/>
+            <HBox alignment="CENTER" style="-fx-padding: 12;" spacing="12">
+                <Button alignment="bottom_left" text="+  Create Quiz" onAction="#createQuiz"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                <Button alignment = "bottom_left" text="+  Edit Quiz" onAction="#editQuiz"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                <Button alignment = "bottom_left" text="+  Delete Quiz" onAction="#deleteQuiz"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+            </HBox>
         </VBox>
     </center>
 

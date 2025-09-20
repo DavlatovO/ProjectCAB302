@@ -21,7 +21,7 @@ public class UserData {
             Statement insertStatement = connection.createStatement();
             String insertQuery = "INSERT INTO users(username, password, email, role) VALUES "
                     + "('John ', '123', 'john@123.com', 'teacher'),"
-                    + "('Pork ', '123', 'pork@123.com', 'student')";
+                    + "('Po', '123', 'pork@123.com', 'student')";
             insertStatement.execute(insertQuery);
         } catch (Exception e) {
             e.printStackTrace();

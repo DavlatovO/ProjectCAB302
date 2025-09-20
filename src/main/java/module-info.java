@@ -17,6 +17,7 @@ module com.example.projectcab302 {
     requires javafx.graphics;
     requires org.checkerframework.checker.qual;
 
+
     opens com.example.projectcab302 to javafx.fxml;
     exports com.example.projectcab302.Controller;
     exports com.example.projectcab302;

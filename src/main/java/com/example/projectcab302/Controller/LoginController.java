@@ -1,7 +1,8 @@
 package com.example.projectcab302.Controller;
 
 
-import com.example.projectcab302.Persistence.DatabaseController;
+import com.example.projectcab302.Persistence.IUserDAO;
+import com.example.projectcab302.Persistence.SqliteUserDAO;
 import com.example.projectcab302.Utils.Session;
 import com.example.projectcab302.Model.User;
 import com.example.projectcab302.SceneManager;
@@ -23,15 +24,15 @@ public class LoginController {
         String username = usernameField.getText().trim();
         String password = passwordField.getText().trim();
 
-        User user = DatabaseController.login(username, password);
+        IUserDAO userDAO = new SqliteUserDAO();
+
+        User user = userDAO.login(username, password);
         if (user != null) {
             Session.setUser(user);
             switch (user.getRoles()) {
                 case Student -> SceneManager.switchTo("student-view.fxml");
                 case Teacher -> SceneManager.switchTo("teacher-view.fxml");
             }
-
-
         } else {
             errorLabel.setText("Login failed. Try again.");
         }

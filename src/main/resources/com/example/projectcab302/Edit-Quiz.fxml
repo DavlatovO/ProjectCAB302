@@ -16,12 +16,12 @@
                 <HBox alignment="CENTER_LEFT" spacing="10">
                     <Label text="Quizzes" styleClass="sidebar-title"/>
                     <Region HBox.hgrow="ALWAYS"/>
-                    <Button text="Back" onAction="#onBack" styleClass="nav-button"/>
+                    <Button text="Back" onAction="#onBackbutt" styleClass="nav-button"/>
                 </HBox>
 
                 <Region VBox.vgrow="ALWAYS"/>
                 <Label text="Create Question in Quiz" styleClass="sidebar-title"/>
-                <ListView fx:id="courseListView" minHeight="50" maxWidth="100" />
+                <ListView fx:id="questionListView" minHeight="50" maxWidth="100" />
 
                 <Region HBox.hgrow="ALWAYS"/>
 

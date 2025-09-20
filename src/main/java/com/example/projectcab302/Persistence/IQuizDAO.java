@@ -24,4 +24,6 @@ public interface IQuizDAO {
     public void clearData();
 
     void insertSampleData();
+
+    List<Quiz> getAllQuestionsfromCourse(String course);
 }

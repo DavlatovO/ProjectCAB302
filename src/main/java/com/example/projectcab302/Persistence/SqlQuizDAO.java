@@ -177,4 +177,35 @@ public class SqlQuizDAO implements IQuizDAO{
         }
         return quizs;
     }
+
+
+
+    @Override
+    public List<Quiz> getAllQuestionsfromCourse(String course) {
+        List<Quiz> quizs = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement( "SELECT * FROM quizs WHERE Course = ?");
+            statement.setString(1,course);
+            ResultSet resultSet = statement.executeQuery();
+            System.out.println("at query");
+            while (resultSet.next()) {
+
+                int id = resultSet.getInt("QuizID");
+                //String course = resultSet.getString("course");
+                String question = resultSet.getString("QuizQuestion");
+                String answer1 = resultSet.getString("Answer1");
+                String answer2 = resultSet.getString("Answer2");
+                String answer3 = resultSet.getString("Answer3");
+                String answer4 = resultSet.getString("Answer4");
+                String correctAnswer = resultSet.getString("correctAnswer");
+                Quiz quiz = new Quiz(question, answer1,answer2,answer3, answer4, correctAnswer);
+                quiz.setQuizID(id);
+                quizs.add(quiz);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(quizs);
+        return quizs;
+    }
 }

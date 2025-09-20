@@ -1,39 +1,68 @@
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.geometry.Insets?>
 
-<VBox xmlns:fx="http://javafx.com/javafx"
-      fx:controller="com.example.projectcab302.Controller.CreateQuizController"
-      spacing="20" style="-fx-padding: 30;" prefWidth="800">
+        <?import java.lang.*?>
+        <?import java.util.*?>
+        <?import javafx.scene.*?>
+        <?import javafx.scene.control.*?>
+        <?import javafx.scene.layout.*?>
 
-    <!-- Header -->
-    <HBox alignment="CENTER_LEFT" spacing="10">
-        <Label text="Create Quiz" styleClass="page-header"/>
-        <Region HBox.hgrow="ALWAYS"/>
-        <Button fx:id="backButton" text="Back" onAction="#onBack" styleClass="top-button"/>
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            stylesheets="@dashboards.css"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.projectcab302.Controller.CreateQuizController"
+            prefWidth="900" prefHeight="650">
+
+
+<left>
+    <VBox spacing="10" styleClass="sidebar-dark">
+        <children>
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="Quizzes" styleClass="sidebar-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Back" onAction="#onBack" styleClass="nav-button"/>
+                <Label text="Select course to put Question into" />
+                <ListView fx:id="courseListView" minHeight="50" />
+            </HBox>
+
+<!--            <Region VBox.vgrow="ALWAYS"/>-->
+<!--            <Button alignment="bottom_left" text="+  Create Quiz" onAction="#createQuiz"-->
+<!--                    style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>-->
+<!--            <Button alignment = "bottom_left" text="+  Edit Quiz" onAction="#editQuiz"-->
+<!--                    style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>-->
+<!--            <Button alignment = "bottom_left" text="+  Delete Quiz" onAction="#deleteQuiz"-->
+<!--                    style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>-->
+
+        </children>
+    </VBox>
+</left>
+
+<center>
+    <HBox alignment="CENTER" spacing="10"
+          style="-fx-border-color: black; -fx-border-width: 1; -fx-padding: 10;">
+
+        <!-- Question Field -->
+
+        <Label text="Question:"/>
+        <TextField fx:id="questionField" promptText="Enter your question here" maxWidth="600"/>
+
+        <!-- Option Fields -->
+        <Label text="Options:"/>
+        <TextField fx:id="optionAField" promptText="Option A" maxWidth="600"/>
+        <TextField fx:id="optionBField" promptText="Option B" maxWidth="600"/>
+        <TextField fx:id="optionCField" promptText="Option C" maxWidth="600"/>
+        <TextField fx:id="optionDField" promptText="Option D" maxWidth="600"/>
+
+        <!-- Answer Field -->
+        <Label text="Correct Answer:"/>
+        <Label fx:id="errorQuizLabel" textFill="red"/>
+        <TextField fx:id="answerField" promptText="Enter correct option (e.g., A, B, C, D)" maxWidth="600"/>
+
+        <!-- Submit Button -->
+        <HBox alignment="CENTER_RIGHT">
+            <Button fx:id="submitButton" text="Save Quiz" onAction="#submitQuiz" styleClass="create-button"/>
+        </HBox>
+
+
     </HBox>
+</center>
 
-    <!-- Question Field -->
-    <Label text="Select course to put Question into" />
-    <ListView fx:id="courseListView" minHeight="50" />
-    <Label text="Question:"/>
-    <TextField fx:id="questionField" promptText="Enter your question here" maxWidth="600"/>
-
-    <!-- Option Fields -->
-    <Label text="Options:"/>
-    <TextField fx:id="optionAField" promptText="Option A" maxWidth="600"/>
-    <TextField fx:id="optionBField" promptText="Option B" maxWidth="600"/>
-    <TextField fx:id="optionCField" promptText="Option C" maxWidth="600"/>
-    <TextField fx:id="optionDField" promptText="Option D" maxWidth="600"/>
-
-    <!-- Answer Field -->
-    <Label text="Correct Answer:"/>
-    <Label fx:id="errorQuizLabel" textFill="red"/>
-    <TextField fx:id="answerField" promptText="Enter correct option (e.g., A, B, C, D)" maxWidth="600"/>
-
-    <!-- Submit Button -->
-    <HBox alignment="CENTER_RIGHT">
-        <Button fx:id="submitButton" text="Save Quiz" onAction="#submitQuiz" styleClass="create-button"/>
-    </HBox>
-
-</VBox>
+</BorderPane>

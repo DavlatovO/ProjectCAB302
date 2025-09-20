@@ -1,6 +1,8 @@
 package com.example.projectcab302.Model;
 
+import com.example.projectcab302.Persistence.ICoursesDAO;
 import com.example.projectcab302.Persistence.IFlashcardDAO;
+import com.example.projectcab302.Persistence.SqliteCoursesDAO;
 import com.example.projectcab302.Persistence.SqliteFlashcardDAO;
 
 import java.util.ArrayList;

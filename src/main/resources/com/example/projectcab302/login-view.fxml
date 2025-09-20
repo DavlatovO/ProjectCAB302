@@ -32,7 +32,7 @@
             <TextField fx:id="usernameField" promptText="Username" style="-fx-font-size: 14px;" prefWidth="300"/>
             <PasswordField fx:id="passwordField" promptText="Password" style="-fx-font-size: 14px;" prefWidth="300"/>
 
-            <Button text="Login" onAction="#handleLogin"
+            <Button text="Login" onAction="#login"
                     style="-fx-font-size: 14px; -fx-background-color: #3498DB; -fx-text-fill: white;" prefWidth="150"/>
             <Button text="Register" onAction="#switchToRegister"
                     style="-fx-font-size: 14px; -fx-background-color: #2ECC71; -fx-text-fill: white;" prefWidth="150"/>

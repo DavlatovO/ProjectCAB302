@@ -25,6 +25,11 @@
                 <Region VBox.vgrow="ALWAYS"/>
                 <Button alignment="bottom_left" text="+  Create Quiz" onAction="#createQuiz"
                         style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                <Button alignment = "bottom_left" text="+  Edit Quiz" onAction="#editQuiz"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                <Button alignment = "bottom_left" text="+  Delete Quiz" onAction="#deleteQuiz"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+
             </children>
         </VBox>
     </left>

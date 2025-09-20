@@ -1,4 +1,6 @@
-package com.example.projectcab302.Model;
+package com.example.projectcab302.Persistence;
+
+import com.example.projectcab302.Model.Flashcard;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,10 +16,10 @@ public class SqliteFlashcardDAO implements IFlashcardDAO{
         connection = SqliteConnection.getInstance();
         createTable();
         // Used for testing, to be removed later
-        insertSampleData();
+        //insertSampleData();
     }
 
-
+    @Override
     public void insertSampleData() {
         try {
             // Clear before inserting
@@ -75,9 +77,10 @@ public class SqliteFlashcardDAO implements IFlashcardDAO{
     @Override
     public void addFlashcard(Flashcard flashcard) {
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO flashcards (question, answer) VALUES (?, ?)");
-            statement.setString(1, flashcard.getQuestion());
-            statement.setString(2, flashcard.getAnswer());
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO flashcards (course, question, answer) VALUES (?, ?, ?)");
+            statement.setString(1, flashcard.getCourse());
+            statement.setString(2, flashcard.getQuestion());
+            statement.setString(3, flashcard.getAnswer());
 
             statement.executeUpdate();
             // Set the id of the new contact

@@ -1,18 +1,15 @@
 package com.example.projectcab302.Controller;
 
 
-import com.example.projectcab302.Model.SqliteFlashcardDAO;
-import com.example.projectcab302.Model.UserData;
+import com.example.projectcab302.Persistence.DatabaseController;
+import com.example.projectcab302.Utils.Session;
+import com.example.projectcab302.Model.User;
 import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.transform.Rotate;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -22,44 +19,23 @@ public class LoginController {
     @FXML private Label errorLabel;
 
     @FXML
-    private void initialize() {
-
-        UserData user = new UserData();
-
-    }
-
-    @FXML
-    protected void handleLogin() {
+    protected void login() {
         String username = usernameField.getText().trim();
         String password = passwordField.getText().trim();
 
-        String role = UserData.validateLoginAndGetRole(username, password);
-
-        if (role != null) {
-            errorLabel.setText("Login successful as " + role + "!");
-            // TODO: Navigate to different dashboard if role = "Teacher"
-            try {
-                Stage stage = (Stage) usernameField.getScene().getWindow();
-                FXMLLoader fxmlLoader;
-
-                if (role.equalsIgnoreCase("Teacher")) {
-                    fxmlLoader = new FXMLLoader(getClass().getResource("teacher-dashboard.fxml"));
-                } else {
-                    fxmlLoader = new FXMLLoader(getClass().getResource("student-dashboard.fxml"));
-                }
-                Scene scene = new Scene(fxmlLoader.load());
-                stage.setScene(scene);
-                stage.show();
+        User user = DatabaseController.login(username, password);
+        if (user != null) {
+            Session.setUser(user);
+            switch (user.getRoles()) {
+                case Student -> SceneManager.switchTo("student-view.fxml");
+                case Teacher -> SceneManager.switchTo("teacher-view.fxml");
             }
 
-            catch (IOException e) {
-                e.printStackTrace();
-                errorLabel.setText("Failed to load dashboard for " + role + ".");
-            }
 
         } else {
-            errorLabel.setText("Invalid username or password.");
+            errorLabel.setText("Login failed. Try again.");
         }
+
     }
 
     //Switching to the Register window from login window

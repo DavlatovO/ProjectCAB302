@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 
 <VBox xmlns:fx="http://javafx.com/javafx"
-      fx:controller="com.example.projectcab302.Controller.QuizController"
+      fx:controller="com.example.projectcab302.Controller.CreateQuizController"
       spacing="20" style="-fx-padding: 30;" prefWidth="800">
 
     <!-- Header -->
@@ -14,6 +14,8 @@
     </HBox>
 
     <!-- Question Field -->
+    <Label text="Select course to put Question into" />
+    <ListView fx:id="courseListView" minHeight="50" />
     <Label text="Question:"/>
     <TextField fx:id="questionField" promptText="Enter your question here" maxWidth="600"/>
 
@@ -26,6 +28,7 @@
 
     <!-- Answer Field -->
     <Label text="Correct Answer:"/>
+    <Label fx:id="errorQuizLabel" textFill="red"/>
     <TextField fx:id="answerField" promptText="Enter correct option (e.g., A, B, C, D)" maxWidth="600"/>
 
     <!-- Submit Button -->

@@ -1,4 +1,6 @@
-package com.example.projectcab302.Model;
+package com.example.projectcab302.Persistence;
+
+import com.example.projectcab302.Model.Course;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +16,7 @@ public class SqliteCoursesDAO implements ICoursesDAO{
         connection = SqliteConnection.getInstance();
         createTable();
         // Used for testing, to be removed later
-        insertSampleData();
+
     }
 
     @Override
@@ -84,7 +86,19 @@ public class SqliteCoursesDAO implements ICoursesDAO{
 
     @Override
     public void addCourse(Course course) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO courses (title) VALUES (?)");
+            statement.setString(1, course.getTitle());
 
+            statement.executeUpdate();
+            // Set the id of the new contact
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                course.setId(generatedKeys.getInt(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

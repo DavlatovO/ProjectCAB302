@@ -1,6 +1,7 @@
 package com.example.projectcab302.Model;
 
-import javafx.fxml.FXML;
+import com.example.projectcab302.Persistence.IFlashcardDAO;
+import com.example.projectcab302.Persistence.SqliteFlashcardDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +42,9 @@ public class Course {
         List<Flashcard> courseCards = new ArrayList<>();
         /*
         for (Flashcard card: flashcards){
-            System.out.println(this.title);
-            System.out.println(card.getCourse());
+
             if (Objects.equals(card.getCourse(), this.title)){
-                System.out.println("yes");
+
                 courseCards.add(card);
             }
         }

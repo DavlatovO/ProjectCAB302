@@ -38,7 +38,7 @@
 
         <VBox fx:id="allCourses" spacing="12" alignment="TOP_CENTER" style="-fx-padding: 12;">
 
-            <GridPane fx:id="courseQuizGrid"  hgap="8" vgap="8" alignment="TOP_CENTER" style="-fx-padding: 8;">
+            <GridPane fx:id="courseQuizGrid"  hgap="8" vgap="8" alignment="TOP_CENTER" style="-fx-padding: 8;" minHeight="500">
                 <!-- Three equal-width columns -->
                 <columnConstraints>
                     <ColumnConstraints percentWidth="33.3333" hgrow="ALWAYS" halignment="CENTER"/>

@@ -31,6 +31,15 @@ public class Quiz {
         this.course = course;
     }
 
+    public Quiz(String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer) {
+        this.QuizQuestion = QuizQuestion;
+        this.Answer1 = Answer1;
+        this.Answer2 = Answer2;
+        this.Answer3 = Answer3;
+        this.Answer4 = Answer4;
+        this.correctAnswer = correctAnswer;
+    }
+
     public int getQuizID() {
         return quizID;
     }

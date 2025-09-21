@@ -8,40 +8,44 @@ public class Quiz {
     private String Answer3;
     private String Answer4;
     private String correctAnswer;
-    private String course;
+    private String Course;
 
     public Quiz(int quizID,String course, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer) {
         this.quizID = quizID;
+        this.Course = course;
         this.QuizQuestion = QuizQuestion;
         this.Answer1 = Answer1;
         this.Answer2 = Answer2;
         this.Answer3 = Answer3;
         this.Answer4 = Answer4;
         this.correctAnswer = correctAnswer;
-        this.course = course;
     }
 
-    public Quiz(String course, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer) {
+    public Quiz(String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer, String course) {
+        this.Course = course;
         this.QuizQuestion = QuizQuestion;
         this.Answer1 = Answer1;
         this.Answer2 = Answer2;
         this.Answer3 = Answer3;
         this.Answer4 = Answer4;
         this.correctAnswer = correctAnswer;
-        this.course = course;
     }
 
-    public Quiz(String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer) {
-        this.QuizQuestion = QuizQuestion;
-        this.Answer1 = Answer1;
-        this.Answer2 = Answer2;
-        this.Answer3 = Answer3;
-        this.Answer4 = Answer4;
-        this.correctAnswer = correctAnswer;
-    }
+//    public Quiz(String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer) {
+//        this.QuizQuestion = QuizQuestion;
+//        this.Answer1 = Answer1;
+//        this.Answer2 = Answer2;
+//        this.Answer3 = Answer3;
+//        this.Answer4 = Answer4;
+//        this.correctAnswer = correctAnswer;
+//    }
 
     public int getQuizID() {
         return quizID;
+    }
+    public String getCourse()
+    {
+        return Course;
     }
     public String getQuizQuestion() {
         return QuizQuestion;
@@ -61,10 +65,7 @@ public class Quiz {
     public String getCorrectAnswer() {
         return correctAnswer;
     }
-    public String getCourse()
-    {
-        return course;
-    }
+
 
     public void setQuizID(Integer quizID) {
         if (quizID == null) throw new IllegalArgumentException("quizID cannot be null");
@@ -99,7 +100,7 @@ public class Quiz {
         this.correctAnswer = correctAnswer;
     }
     public void setCourse(String course) {
-        this.course = course;
+        this.Course = course;
     }
 
 

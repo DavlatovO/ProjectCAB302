@@ -56,11 +56,11 @@
             <Label fx:id="errorQuizLabel" textFill="red"/>
             <TextField fx:id="answerField" promptText="Enter correct option (e.g., A, B, C, D)" maxWidth="600"/>
             <HBox alignment="CENTER" style="-fx-padding: 12;" spacing="12">
-                <Button alignment="bottom_left" text="+  Create Quiz" onAction="#createQuiz"
+                <Button alignment="bottom_left" text="+  Create Quiz" onAction="#onCreateQuiz"
                         style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
-                <Button alignment = "bottom_left" text="+  Edit Quiz" onAction="#editQuiz"
+                <Button alignment = "bottom_left" text="+  Edit Quiz" onAction="#onEditQuiz"
                         style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
-                <Button alignment = "bottom_left" text="+  Delete Quiz" onAction="#deleteQuiz"
+                <Button alignment = "bottom_left" text="+  Delete Quiz" onAction="#onDeleteQuiz"
                         style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
             </HBox>
         </VBox>

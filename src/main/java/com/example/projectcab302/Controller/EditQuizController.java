@@ -18,21 +18,21 @@ import java.util.List;
 public class EditQuizController {
 
     @FXML
-    public Label errorQuizLabel;
+    private Label errorQuizLabel;
     @FXML
-    public TextField answerField;
+    private TextField answerField;
     @FXML
-    public TextField optionDField;
+    private TextField optionDField;
     @FXML
-    public TextField optionCField;
+    private TextField optionCField;
     @FXML
-    public TextField optionBField;
+    private TextField optionBField;
     @FXML
-    public TextField optionAField;
+    private TextField optionAField;
     @FXML
-    public TextField questionField;
+    private TextField questionField;
     @FXML
-    public ListView<Quiz> questionListView;
+    private ListView<Quiz> questionListView;
 
     @FXML
     private ICoursesDAO courseDAO;
@@ -40,7 +40,12 @@ public class EditQuizController {
     private Course course;
     @FXML
     private IQuizDAO quizDAO;
+    @FXML
     private Quiz newquestion;
+
+    public EditQuizController() {
+        quizDAO = new SqlQuizDAO();
+    }
 
 
 
@@ -97,13 +102,16 @@ public class EditQuizController {
     /**
      * Synchronizes the contacts list view with the contacts in the database.
      */
+
     private void syncCourse() {
-        quizDAO = new SqlQuizDAO();
-        System.out.println(QuizController.getPassedcourse());
+        //System.out.println(QuizController.getPassedcourse());
         questionListView.getItems().clear();
         List<Quiz> questions = quizDAO.getAllQuestionsfromCourse(QuizController.getPassedcourse());
         //boolean hasCourse = !courses.isEmpty();
-        //System.out.println(questions);
+        System.out.println("\n\n");
+        System.out.println(quizDAO.getAllQuestionsfromCourse(QuizController.getPassedcourse()));
+        System.out.println(questions);
+        System.out.println(" @ SYNC list of questions \n\n");
         questionListView.getItems().addAll(questions);
 
     }
@@ -118,6 +126,9 @@ public class EditQuizController {
         if (quiz != null) {
             SelectedQuiz(quiz);
         }
+        System.out.println(quiz);
+
+        System.out.println("Quiz at init \n\n");
     }
 
     public void onBack(ActionEvent actionEvent) {
@@ -125,7 +136,7 @@ public class EditQuizController {
     }
 
     @FXML
-    public void createQuiz(ActionEvent actionEvent) {
+    private void onCreateQuiz() {
         //Quiz newquestion = new Quiz(questionField.getText(), optionAField.getText(),optionBField.getText(), optionCField.getText(), optionDField.getText(), answerField.getText(), QuizController.getPassedcourse());
         final String DEF_QUES = "Enter Quiz Question";
         final String DEF_A1 = "Option A";
@@ -133,27 +144,33 @@ public class EditQuizController {
         final String DEF_A3 = "...";
         final String DEF_A4 = "...";
         final String DEF_A5 = "Answer A, B, C or D";
-        Quiz newquestion = new Quiz( QuizController.getPassedcourse(), questionField.getText(), optionAField.getText(),optionBField.getText(), optionCField.getText(), optionDField.getText(), answerField.getText());
+        Quiz newquestion = new Quiz(QuizController.getPassedcourse(), DEF_QUES, DEF_A1, DEF_A2, DEF_A3, DEF_A4, DEF_A5);
 
         System.out.println(newquestion);
+        System.out.println("@ create quiz \n\n");
+
         quizDAO.addQuiz(newquestion);
         syncCourse();
         SelectedQuiz(newquestion);
-        questionField.requestFocus();
+        //questionField.requestFocus();
     }
     @FXML
-    public void editQuiz(ActionEvent actionEvent) {
+    private void onEditQuiz() {
         Quiz newquestion = questionListView.getSelectionModel().getSelectedItem();
-        System.out.println("test edit\n");
+        System.out.println("test edit");
         System.out.println(newquestion);
+        System.out.println(QuizController.getPassedcourse());
+
+        System.out.println("\n\n");
+
         if (newquestion != null) {
+            newquestion.setCourse(QuizController.getPassedcourse());
             newquestion.setQuizQuestion(questionField.getText());
             newquestion.setAnswer1(optionAField.getText());
             newquestion.setAnswer2(optionBField.getText());
             newquestion.setAnswer3(optionCField.getText());
             newquestion.setAnswer4(optionDField.getText());
             newquestion.setCorrectAnswer(answerField.getText());
-            newquestion.setCourse(QuizController.getPassedcourse());
 
             quizDAO.updateQuiz(newquestion);
             syncCourse();
@@ -162,8 +179,11 @@ public class EditQuizController {
 
     }
     @FXML
-    public void deleteQuiz(ActionEvent actionEvent) {
+    private void onDeleteQuiz() {
         Quiz deletedQuiz = questionListView.getSelectionModel().getSelectedItem();
+        System.out.println(deletedQuiz);
+        System.out.println("@ del \n\n");
+
         if (deletedQuiz != null) {
             quizDAO.deleteQuiz(deletedQuiz);
             syncCourse();

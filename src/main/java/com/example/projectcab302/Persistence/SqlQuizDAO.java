@@ -21,14 +21,14 @@ public class SqlQuizDAO implements IQuizDAO{
         try {
             // Clear before inserting
             Statement clearStatement = connection.createStatement();
-            String clearQuery = "DELETE FROM quizs";
+            String clearQuery = "DELETE FROM quiz";
             clearStatement.execute(clearQuery);
             Statement insertStatement = connection.createStatement();
-            String insertQuery = "INSERT INTO quizs(QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer, Course) VALUES "
-                    + "(' put the matching input in', 'c', 'a', 'b', 'd', 'd','CAB302'),"
-                    + "('put the non matching input in', 'a','b','c','b','b','CAB302'),"
-                    + "('Is this loss', '|','||','||','|_','|_','CAB302'),"
-                    + "('What is a valid type of signal modulation? ', 'Bell', 'Gate', 'Digitisation', 'Phase', 'Phase','CAB302')";
+            String insertQuery = "INSERT INTO quiz(QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer, Course) VALUES "
+                    + "('CAB302',' put the matching input in', 'c', 'a', 'b', 'd', 'd'),"
+                    + "('CAB302','put the non matching input in', 'a','b','c','b','b'),"
+                    + "('CAB302','Is this loss', '|','||','||','|_','|_'),"
+                    + "('CAB302','What is a valid type of signal modulation? ', 'Bell', 'Gate', 'Digitisation', 'Phase', 'Phase')";
 //                    + "( 'Fourier transform of a Gate function? ', 'Sin', 'Cos', 'Sinc', 'Cot', 'Sinc','CAB302'),"
 //                    + "( 'What Filter is used in FM signal reception', 'Matched', 'Bandpass', 'Lowpass', 'IDK','Matched','CAB302'),"
 //                    + "('What are diodes made of?', 'Doped silicon', 'Doped lemon', 'Spicy rocks?', 'Copper', 'Doped silicon','CAB302'),"
@@ -44,7 +44,7 @@ public class SqlQuizDAO implements IQuizDAO{
         try {
             // Clear before inserting
             Statement clearStatement = connection.createStatement();
-            String clearQuery = "DELETE FROM quizs";
+            String clearQuery = "DELETE FROM quiz";
             clearStatement.execute(clearQuery);
 
         } catch (Exception e) {
@@ -56,15 +56,15 @@ public class SqlQuizDAO implements IQuizDAO{
         // Create table if not exists
         try {
             Statement statement = connection.createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS quizs ("
+            String query = "CREATE TABLE IF NOT EXISTS quiz("
                     + "quizID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "Course VARCHAR NOT NULL,"
                     + "QuizQuestion VARCHAR NOT NULL,"
                     + "Answer1 VARCHAR NOT NULL,"
                     + "Answer2 VARCHAR NOT NULL,"
                     + "Answer3 VARCHAR NOT NULL,"
                     + "Answer4 VARCHAR NOT NULL,"
                     + "correctAnswer VARCHAR NOT NULL"
-                    + ", Course VARCHAR NOT NULL"
                     + ")";
             statement.execute(query);
         } catch (Exception e) {
@@ -77,8 +77,7 @@ public class SqlQuizDAO implements IQuizDAO{
     public void addQuiz(Quiz quizs) {
 
         try {
-            PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO quizs (Course, QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO quiz (Course, QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES (?, ?, ?, ?, ?, ?, ?)");
             statement.setString(1, quizs.getCourse());
             statement.setString(2, quizs.getQuizQuestion());
             statement.setString(3, quizs.getAnswer1());
@@ -101,14 +100,15 @@ public class SqlQuizDAO implements IQuizDAO{
     public void updateQuiz(Quiz quizs) {
 
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE quizs SET QuizQuestion = ?, Answer1 = ?, Answer2 = ?, Answer3 = ?, Answer4 = ?, correctAnswer = ? WHERE QuizID = ?");
-            statement.setString(1, quizs.getQuizQuestion());
-            statement.setString(2, quizs.getAnswer1());
-            statement.setString(3, quizs.getAnswer2());
-            statement.setString(4, quizs.getAnswer3());
-            statement.setString(5, quizs.getAnswer4());
-            statement.setString(6, quizs.getCorrectAnswer());
-            statement.setInt(7, quizs.getQuizID());
+            PreparedStatement statement = connection.prepareStatement("UPDATE quiz SET Course = ?, QuizQuestion = ?, Answer1 = ?, Answer2 = ?, Answer3 = ?, Answer4 = ?, correctAnswer = ? WHERE QuizID = ?");
+            statement.setString(1, quizs.getCourse());
+            statement.setString(2, quizs.getQuizQuestion());
+            statement.setString(3, quizs.getAnswer1());
+            statement.setString(4, quizs.getAnswer2());
+            statement.setString(5, quizs.getAnswer3());
+            statement.setString(6, quizs.getAnswer4());
+            statement.setString(7, quizs.getCorrectAnswer());
+            statement.setInt(8, quizs.getQuizID());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,7 +118,7 @@ public class SqlQuizDAO implements IQuizDAO{
     @Override
     public void deleteQuiz(Quiz quizs) {
         try {
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM quizs WHERE QuizID = ?");
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM quiz WHERE QuizID = ?");
             statement.setInt(1, quizs.getQuizID());
             statement.executeUpdate();
         } catch (Exception e) {
@@ -129,12 +129,12 @@ public class SqlQuizDAO implements IQuizDAO{
     @Override
     public Quiz getQuiz(int id) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM quizs WHERE QuizID = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM quiz WHERE QuizID = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
 
-                String course = resultSet.getString("course");
+                String course = resultSet.getString("Course");
                 String question = resultSet.getString("QuizQuestion");
                 String answer1 = resultSet.getString("Answer1");
                 String answer2 = resultSet.getString("Answer2");
@@ -142,7 +142,7 @@ public class SqlQuizDAO implements IQuizDAO{
                 String answer4 = resultSet.getString("Answer4");
                 String correctAnswer = resultSet.getString("correctAnswer");
 
-                Quiz quizs = new Quiz(course, question, answer1,answer2,answer3, answer4, correctAnswer);
+                Quiz quizs = new Quiz(course,question, answer1,answer2,answer3, answer4, correctAnswer);
                 quizs.setQuizID(id);
                 return quizs;
             }
@@ -159,12 +159,12 @@ public class SqlQuizDAO implements IQuizDAO{
         List<Quiz> quizs = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            String query = "SELECT * FROM quizs";
+            String query = "SELECT * FROM quiz";
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
 
                 int id = resultSet.getInt("QuizID");
-                String course = resultSet.getString("course");
+                String course = resultSet.getString("Course");
                 String question = resultSet.getString("QuizQuestion");
                 String answer1 = resultSet.getString("Answer1");
                 String answer2 = resultSet.getString("Answer2");
@@ -187,7 +187,7 @@ public class SqlQuizDAO implements IQuizDAO{
     public List<Quiz> getAllQuestionsfromCourse(String course) {
         List<Quiz> quizs = new ArrayList<>();
         try {
-            PreparedStatement statement = connection.prepareStatement( "SELECT * FROM quizs WHERE Course = ?");
+            PreparedStatement statement = connection.prepareStatement( "SELECT * FROM quiz WHERE Course = ?");
             statement.setString(1,course);
             ResultSet resultSet = statement.executeQuery();
             System.out.println("at query");
@@ -201,7 +201,7 @@ public class SqlQuizDAO implements IQuizDAO{
                 String answer3 = resultSet.getString("Answer3");
                 String answer4 = resultSet.getString("Answer4");
                 String correctAnswer = resultSet.getString("correctAnswer");
-                Quiz quiz = new Quiz(question, answer1,answer2,answer3, answer4, correctAnswer);
+                Quiz quiz = new Quiz(course,question, answer1,answer2,answer3, answer4, correctAnswer);
                 quiz.setQuizID(id);
                 quizs.add(quiz);
             }

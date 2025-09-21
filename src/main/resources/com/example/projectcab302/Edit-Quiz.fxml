@@ -1,0 +1,69 @@
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            stylesheets="@dashboards.css"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.projectcab302.Controller.EditQuizController"
+            prefWidth="900" prefHeight="650">
+
+    <left>
+        <VBox spacing="10" styleClass="sidebar-dark">
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Quizzes" styleClass="sidebar-title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="Back" onAction="#onBack" styleClass="nav-button"/>
+                </HBox>
+
+                <Region VBox.vgrow="ALWAYS"/>
+                <Label text="Modify Quiz" styleClass="sidebar-title"/>
+                <ListView fx:id="questionListView" minHeight="50" maxWidth="100" />
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+            </children>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="12" alignment="TOP_CENTER" style="-fx-padding: 12;">
+            <HBox alignment="CENTER" spacing="10"
+                  style="-fx-border-color: black; -fx-border-width: 1; -fx-padding: 10;">
+            </HBox>
+            <Region VBox.vgrow="ALWAYS"/>
+            <!-- Question Field -->
+
+
+        </VBox>
+
+        <VBox alignment="TOP_CENTER" spacing="12">
+            <Label text="Question:"/>
+            <TextField fx:id="questionField" promptText="Enter your question here" maxWidth="600"/>
+
+            <!-- Option Fields -->
+            <Label text="Options:"/>
+            <TextField fx:id="optionAField" promptText="Option A" maxWidth="600"/>
+            <TextField fx:id="optionBField" promptText="Option B" maxWidth="600"/>
+            <TextField fx:id="optionCField" promptText="Option C" maxWidth="600"/>
+            <TextField fx:id="optionDField" promptText="Option D" maxWidth="600"/>
+
+            <!-- Answer Field -->
+            <Label text="Correct Answer:"/>
+            <Label fx:id="errorQuizLabel" textFill="red"/>
+            <TextField fx:id="answerField" promptText="Enter correct option (e.g., A, B, C, D)" maxWidth="600"/>
+            <HBox alignment="CENTER" style="-fx-padding: 12;" spacing="12">
+                <Button alignment="bottom_left" text="+  Create Quiz" onAction="#onCreateQuiz"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                <Button alignment = "bottom_left" text="+  Edit Quiz" onAction="#onEditQuiz"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                <Button alignment = "bottom_left" text="+  Delete Quiz" onAction="#onDeleteQuiz"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

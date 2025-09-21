@@ -7,37 +7,35 @@ import com.example.projectcab302.Persistence.SqlQuizDAO;
 import com.example.projectcab302.Persistence.SqliteCoursesDAO;
 import com.example.projectcab302.SceneManager;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
+import javax.swing.*;
 import java.lang.String;
 import java.util.List;
 
 
+
 public class CreateQuizController {
-    @FXML
-    public Label optionAtext;
-    @FXML
-    public Label optionBtext;
-    @FXML
-    public Label optionCtext;
-    @FXML
-    public Label optionDtext;
+
     @FXML
     public Button submitButton;
     @FXML
     public Label Question;
     @FXML
-    private TextField questionField;
+    public Label QuizSelect;
+    public Button startQuiz;
+
     @FXML
-    private TextField optionAField;
+    private RadioButton optionAField;
     @FXML
-    private TextField optionBField;
+    private RadioButton optionBField;
     @FXML
-    private TextField optionCField;
+    private RadioButton optionCField;
     @FXML
-    private TextField optionDField;
+    private RadioButton optionDField;
     @FXML
     private TextField answerField;
     @FXML
@@ -63,7 +61,8 @@ public class CreateQuizController {
     private void selectCourse(Course course) {
         courseListView.getSelectionModel().select(course);
         courseName = course.getTitle();
-        System.out.println(courseName);
+        //System.out.println(courseName);
+        QuizSelect.setText(courseName);
     }
 
     /**
@@ -122,6 +121,8 @@ public class CreateQuizController {
 
     @FXML
     public void initialize() {
+
+
         courseListView.setCellFactory(this::renderCell);
         syncCourse();
         // Select the first contact and display its information
@@ -135,24 +136,6 @@ public class CreateQuizController {
 
     @FXML
     protected void submitQuiz(ActionEvent actionEvent) {
-        quizDAO = new SqlQuizDAO();
-
-        //quizDAO.clearData();
-
-        String question = questionField.getText();
-        String optionA = optionAField.getText();
-        String optionB = optionBField.getText();
-        String optionC = optionCField.getText();
-        String optionD = optionDField.getText();
-        String answer = answerField.getText();
-
-        if (question.isEmpty() || optionA.isEmpty() || optionB.isEmpty() || optionC.isEmpty() || optionD.isEmpty() || answer.isEmpty()) {
-            errorQuizLabel.setText("Please fill in all fields.");
-            return;
-        }
-        Quiz quest = new Quiz(courseName, question, optionA, optionB, optionC, optionD, answer);
-        quizDAO.addQuiz(quest);
-
     }
 
     @FXML
@@ -162,6 +145,77 @@ public class CreateQuizController {
         SceneManager.switchTo("teacher-view.fxml");
     }
 
+    public static int score = 0;
+
+    @FXML
+    public void onStartQuiz(ActionEvent actionEvent) {
+        Course chosenCourse = courseListView.getSelectionModel().getSelectedItem();
+
+        startQuiz.setVisible(false);
+        quizDAO = new SqlQuizDAO();
+        courseListView.setVisible(false);
+        List<Quiz> questions = quizDAO.getAllQuestionsfromCourse(chosenCourse.getTitle());
+        System.out.println(questions);
+        ToggleGroup group = new ToggleGroup();
+        optionAField.setToggleGroup(group);
+        optionBField.setToggleGroup(group);
+        optionCField.setToggleGroup(group);
+        optionDField.setToggleGroup(group);
+
+
+        for (Quiz question : questions) {
+            optionAField.setText(question.getAnswer1());
+            optionBField.setText(question.getAnswer2());
+            optionCField.setText(question.getAnswer3());
+            optionDField.setText(question.getAnswer4());
+            Question.setText(question.getQuizQuestion());
+            RadioButton selected_radial = (RadioButton) group.getSelectedToggle();
+            String toggledValue = selected_radial.getText();
+
+            System.out.println(question);
+//            submitButton.setOnAction(e -> {
+//                 if (toggledValue.equals(question.getCorrectAnswer())) {
+//                     score = score + 1;
+//
+//                     errorQuizLabel.setText("Well done");
+//                 }
+//                 if (toggledValue != question.getCorrectAnswer()) {
+//                     errorQuizLabel.setText("Unlucky");
+//                 }
+//                 System.out.println(score);
+//
+//            });
+        }
+    }
+
+
     public void onSubmitAnswer(ActionEvent actionEvent) {
+        int i = 1;
+        i = i+1;
+        Course chosenCourse = courseListView.getSelectionModel().getSelectedItem();
+        quizDAO = new SqlQuizDAO();
+        courseListView.setVisible(false);
+        List<Quiz> questions = quizDAO.getAllQuestionsfromCourse(chosenCourse.getTitle());
+        Quiz question = questions.get(i);
+
+        System.out.println(questions);
+        ToggleGroup group = new ToggleGroup();
+        optionAField.setToggleGroup(group);
+        optionBField.setToggleGroup(group);
+        optionCField.setToggleGroup(group);
+        optionDField.setToggleGroup(group);
+        RadioButton selected_radial = (RadioButton) group.getSelectedToggle();
+        String toggledValue = selected_radial.getText();
+
+        if (toggledValue.equals(question.getCorrectAnswer())) {
+            score = score + 1;
+
+            errorQuizLabel.setText("Well done");
+        }
+        if (toggledValue != question.getCorrectAnswer()) {
+            errorQuizLabel.setText("Unlucky");
+        }
+        System.out.println(score);
+
     }
 }

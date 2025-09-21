@@ -22,15 +22,7 @@ import java.util.List;
 
 public class QuizController {
     public static String passedcourse;
-    public Button submitButton;
-    public Label errorQuizLabel;
-    public TextField answerField;
-    public TextField optionDField;
-    public TextField optionCField;
-    public TextField optionBField;
-    public TextField optionAField;
-    public TextField questionField;
-    public ListView<Quiz> questionListView;
+
     @FXML
     private VBox SelectedEdit;
     @FXML
@@ -120,9 +112,8 @@ public class QuizController {
         SceneManager.switchTo("teacher-view.fxml"); //Need to edit later to make functional with student view
     }
 
-    @FXML
-    protected void createQuiz() {
+
+    public void onDoQuiz(ActionEvent actionEvent) {
         SceneManager.switchTo("create-quiz.fxml");
     }
-
 }

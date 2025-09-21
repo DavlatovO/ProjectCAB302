@@ -21,10 +21,10 @@
             </HBox>
 
             <Region VBox.vgrow="ALWAYS"/>
-            <Label text="Create Question in Quiz" styleClass="sidebar-title"/>
+            <Label text="Do Questions in Quiz" styleClass="sidebar-title"/>
             <ListView fx:id="courseListView" minHeight="50" maxWidth="100" />
             <Label fx:id="QuizSelect" text="Select a quiz to do"/>
-            <Button text="Do quiz" fx:id="startQuiz" onAction="StartQuiz" styleClass="create-button"/>
+            <Button text="Do quiz" fx:id="startQuiz" onAction="#onStartQuiz" styleClass="create-button"/>
 
             <Region HBox.hgrow="ALWAYS"/>
 
@@ -43,21 +43,20 @@
 
     </VBox>
 
-    <VBox alignment="TOP_CENTER" spacing="12">
+    <VBox alignment="CENTER" spacing="12">
+        <Label fx:id="errorQuizLabel"/>
         <Label text="Question:" fx:id="Question"/>
 
         <!-- Option Fields -->
         <Label text="Options:"/>
-        <Label fx:id="optionAtext"/>
-        <RadioButton fx:id="optionAField"  maxWidth="600"/>
-        <Label fx:id="optionBtext"/>
-        <RadioButton fx:id="optionBField"  maxWidth="600"/>
-        <Label fx:id="optionCtext"/>
-        <RadioButton fx:id="optionCField"  maxWidth="600"/>
-        <Label fx:id="optionDtext"/>
-        <RadioButton fx:id="optionDField"  maxWidth="600"/>
 
-        <Button fx:id="submitButton" text="Save Quiz" onAction="#onSubmitAnswer" styleClass="create-button"/>
+        <RadioButton fx:id="optionAField"  text="Option A"/>
+
+        <RadioButton fx:id="optionBField"  text="Option B"/>
+        <RadioButton fx:id="optionCField"  text="Option C"/>
+        <RadioButton fx:id="optionDField"  text="Option D"/>
+
+        <Button fx:id="submitButton" text="Submit Answer" onAction="#onSubmitAnswer" styleClass="create-button"/>
     </VBox>
 </center>
 

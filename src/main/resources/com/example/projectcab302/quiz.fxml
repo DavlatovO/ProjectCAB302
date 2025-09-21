@@ -21,6 +21,7 @@
                     <Region HBox.hgrow="ALWAYS"/>
                     <Button text="Back" onAction="#onBack" styleClass="nav-button"/>
                 </HBox>
+                <Button fx:id="GotoQuiz" text="Do a Quiz" onAction="#onDoQuiz" styleClass="nav-button"/>
 
                 <Region VBox.vgrow="ALWAYS"/>
 

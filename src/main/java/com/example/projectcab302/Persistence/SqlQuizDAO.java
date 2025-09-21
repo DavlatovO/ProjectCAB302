@@ -15,7 +15,7 @@ public class SqlQuizDAO implements IQuizDAO{
     public SqlQuizDAO() {
         connection = SqliteConnection.getInstance();
         createTable();
-        // insertSampleData();
+        insertSampleData();
     }
     public void insertSampleData() {
         try {
@@ -24,16 +24,16 @@ public class SqlQuizDAO implements IQuizDAO{
             String clearQuery = "DELETE FROM quizs";
             clearStatement.execute(clearQuery);
             Statement insertStatement = connection.createStatement();
-            String insertQuery = "INSERT INTO quizs(QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES "
-                    + "(' put the matching input in', 'c', 'a', 'b', 'd', 'd'),"
-                    + "('put the non matching input in', 'a','b','c','b','b'),"
-                    + "('Is this loss', '|','||','||','|_','|_'),"
-                    + "('What is a valid type of signal modulation? ', 'Bell', 'Gate', 'Digitisation', 'Phase', 'Phase'),"
-                    + "( 'Fourier transform of a Gate function? ', 'Sin', 'Cos', 'Sinc', 'Cot', 'Sinc'),"
-                    + "( 'What Filter is used in FM signal reception', 'Matched', 'Bandpass', 'Lowpass', 'IDK','Matched'),"
-                    + "('What are diodes made of?', 'Doped silicon', 'Doped lemon', 'Spicy rocks?', 'Copper', 'Doped silicon'),"
-                    + "('What isn''t a Diode?', 'LED', 'Zener', 'Fast Switch', 'BJT', 'BJT'),"
-                    + "('Which is a lowpass active filter?', 'Weber', 'Butterworth', 'XMT', 'Winebago', 'Butterworth')";
+            String insertQuery = "INSERT INTO quizs(QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer, Course) VALUES "
+                    + "(' put the matching input in', 'c', 'a', 'b', 'd', 'd','CAB302'),"
+                    + "('put the non matching input in', 'a','b','c','b','b','CAB302'),"
+                    + "('Is this loss', '|','||','||','|_','|_','CAB302'),"
+                    + "('What is a valid type of signal modulation? ', 'Bell', 'Gate', 'Digitisation', 'Phase', 'Phase','CAB302')";
+//                    + "( 'Fourier transform of a Gate function? ', 'Sin', 'Cos', 'Sinc', 'Cot', 'Sinc','CAB302'),"
+//                    + "( 'What Filter is used in FM signal reception', 'Matched', 'Bandpass', 'Lowpass', 'IDK','Matched','CAB302'),"
+//                    + "('What are diodes made of?', 'Doped silicon', 'Doped lemon', 'Spicy rocks?', 'Copper', 'Doped silicon','CAB302'),"
+//                    + "('What isn't a Diode?', 'LED', 'Zener', 'Fast Switch', 'BJT', 'BJT','CAB302'),"
+//                    + "('Which is a lowpass active filter?', 'Weber', 'Butterworth', 'XMT', 'Winebago', 'Butterworth','CAB302')";
             insertStatement.execute(insertQuery);
         } catch (Exception e) {
             e.printStackTrace();

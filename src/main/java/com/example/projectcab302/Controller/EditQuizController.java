@@ -135,15 +135,6 @@ public class EditQuizController {
         final String DEF_A5 = "Answer A, B, C or D";
         Quiz newquestion = new Quiz( QuizController.getPassedcourse(), questionField.getText(), optionAField.getText(),optionBField.getText(), optionCField.getText(), optionDField.getText(), answerField.getText());
 
-//        newquestion.setCourse(QuizController.getPassedcourse());
-//        newquestion.setQuizQuestion(questionField.getText());
-//        newquestion.setAnswer1(optionAField.getText());
-//        newquestion.setAnswer2(optionBField.getText());
-//        newquestion.setAnswer3(optionCField.getText());
-//        newquestion.setAnswer4(optionDField.getText());
-//        newquestion.setCorrectAnswer(answerField.getText());
-//
-//
         System.out.println(newquestion);
         quizDAO.addQuiz(newquestion);
         syncCourse();

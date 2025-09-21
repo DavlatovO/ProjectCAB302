@@ -16,6 +16,7 @@ module com.example.projectcab302 {
     requires com.google.gson;
     requires javafx.graphics;
     requires org.checkerframework.checker.qual;
+    requires java.desktop;
 
     opens com.example.projectcab302 to javafx.fxml;
     exports com.example.projectcab302.Controller;

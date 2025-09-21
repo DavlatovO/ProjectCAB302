@@ -29,7 +29,7 @@ public interface ICoursesDAO {
     public void deleteCourse(Course course);
     /**
      * Retrieves a contact from the database.
-     * @param title The id of the contact to retrieve.
+     * @param  id The id of the contact to retrieve.
      * @return The contact with the given id, or null if not found.
      */
     public Course getCourse(int id);

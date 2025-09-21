@@ -1,6 +1,7 @@
 package com.example.projectcab302.Controller;
 
-import com.example.projectcab302.Persistence.DatabaseController;
+import com.example.projectcab302.Persistence.IUserDAO;
+import com.example.projectcab302.Persistence.SqliteUserDAO;
 import com.example.projectcab302.Model.Student;
 import com.example.projectcab302.Model.Teacher;
 import com.example.projectcab302.Model.User;
@@ -49,18 +50,21 @@ public class RegisterController {
             errorLabel.setText("Invalid email format.");
             return;
         }
-        if (DatabaseController.emailExists(email)) {
+        IUserDAO userDAO = new SqliteUserDAO();
+
+        if (userDAO.emailExists(email)) {
             errorLabel.setText("Email already registered!");
         }
-        DatabaseController.initDB();
+
+        User newUser;
         if (role == User.Roles.Student) {
-            Student s1 = new Student(username, email, role, password);
-            DatabaseController.saveUser(s1);
+            newUser = new Student(username, email, role, password);
+            userDAO.createUser(newUser); //saving to the DB
             SceneManager.switchTo("student-view.fxml");
         }
         if (role == User.Roles.Teacher) {
-            Teacher t1 = new Teacher(username, email, role, password);
-            DatabaseController.saveUser(t1);
+            newUser = new Teacher(username, email, role, password);
+            userDAO.createUser(newUser); //saving to the DB
             SceneManager.switchTo("teacher-view.fxml");
         }
 

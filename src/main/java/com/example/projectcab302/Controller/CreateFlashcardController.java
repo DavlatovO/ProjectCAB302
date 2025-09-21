@@ -40,6 +40,7 @@ public class CreateFlashcardController {
 
     private Course course;
 
+    // Used for passing what course's flashcards should be seen here
     public void setCourse(Course Course) {
         this.course = Course;
 
@@ -58,6 +59,7 @@ public class CreateFlashcardController {
         }
     }
 
+    // When save is pressed, save changes made to flashcards
     @FXML
     private void onSave() throws IOException {
         flashcardDAO = new SqliteFlashcardDAO();
@@ -82,7 +84,7 @@ public class CreateFlashcardController {
     }
 
 
-
+    // When preview is pressed, go to preview page of those flashcards
     @FXML
     private void onPreview() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
@@ -97,6 +99,7 @@ public class CreateFlashcardController {
 
     }
 
+    // When back button is pressed, go back to main menu
     @FXML
     private void onBack() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();

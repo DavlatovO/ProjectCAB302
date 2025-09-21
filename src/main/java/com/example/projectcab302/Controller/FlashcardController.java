@@ -94,7 +94,7 @@ public class FlashcardController {
         flipButton.setDisable(false);
     }
 
-
+    // Used for passing what course's flashcards should be seen here
     public void setCourse(Course Course) {
         cubeGroup.setRotationAxis(Rotate.Y_AXIS);
         cubeGroup.setRotate(180); // rotate 45° before showing
@@ -110,7 +110,7 @@ public class FlashcardController {
 
 
 
-
+    // When pvp button is pressed, activate pvp mode
     @FXML
     private void onPvP() {
         bar.setVisible(true);
@@ -134,6 +134,7 @@ public class FlashcardController {
         System.out.println("onPvP clicked");
     }
 
+    // pvp mode method for initiating a player's round
     @FXML
     private void startRound() {
         ready.setDisable(true);
@@ -164,6 +165,7 @@ public class FlashcardController {
         tl.play();
     }
 
+    // when a user presses submit in pvp mode
     @FXML
     private void onPvpSubmit() {
 
@@ -204,6 +206,7 @@ public class FlashcardController {
         return false;
     }
 
+    // changes who's turn it is
     private void switchTurns() {
         if (p1Turn){
             countdown.setText("Give Laptop to player 2");
@@ -287,6 +290,7 @@ public class FlashcardController {
         cardNum.setText((cardCount + 1) + "/" + flashcards.size());
     }
 
+    // flips card
     @FXML
     private void flipCard() {
 
@@ -316,7 +320,7 @@ public class FlashcardController {
     }
 
 
-
+    // sends user response to llama to judge
     @FXML
     private void onSubmit() {
         String response = answer.getText();
@@ -444,6 +448,7 @@ public class FlashcardController {
     @FXML
     Button modifyButton;
 
+    // opens the edit window for the courses flashcards
     @FXML
     private void onModifyFlashcard() throws IOException {
         Stage stage = (Stage) modifyButton.getScene().getWindow();
@@ -455,6 +460,7 @@ public class FlashcardController {
         stage.setScene(scene);
     }
 
+    // When back button is pressed, go back to main menu
     @FXML
     private void onBack() throws IOException {
         Stage stage = (Stage) modifyButton.getScene().getWindow();

@@ -41,6 +41,7 @@ public class CoursesController {
     private List<Course> courses;
     private Course course;
 
+    // At the start of the program, get all courses
     @FXML
     private void initialize() {
 
@@ -54,6 +55,7 @@ public class CoursesController {
         createCoursesGrid();
     }
 
+    // Creates a grid of all courses in the db
     private void createCoursesGrid() {
         HBox row = new HBox();
         row.setAlignment(Pos.CENTER_LEFT);
@@ -91,7 +93,7 @@ public class CoursesController {
     }
 
 
-
+    // When a course is pressed, go into the flashcard edit window of that course
     private void onCourse() throws IOException {
         Stage stage = (Stage) back.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("createFlashcard-view.fxml"));
@@ -103,6 +105,7 @@ public class CoursesController {
         stage.setScene(scene);
     }
 
+    // When create course is pressed, add a course with name inputed in the text field
     @FXML
     private void onCreateCourse() throws IOException {
         String courseInput = courseField.getText();
@@ -114,7 +117,7 @@ public class CoursesController {
         initialize();
     }
 
-
+    // When back button is pressed, go back to main menu
     @FXML
     private void onBack() throws IOException {
         Stage stage = (Stage) back.getScene().getWindow();

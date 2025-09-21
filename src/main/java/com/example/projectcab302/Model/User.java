@@ -3,6 +3,7 @@ package com.example.projectcab302.Model;
 import com.example.projectcab302.Utils.Hashing;
 
 public abstract class User {
+    private int id;
     private String username;
     private String email;
     private Roles role;
@@ -21,7 +22,13 @@ public abstract class User {
         this.password = password;
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getEmail() {return email;}
     public Roles getRoles() {return role;}
     public String getHashedPassword() {

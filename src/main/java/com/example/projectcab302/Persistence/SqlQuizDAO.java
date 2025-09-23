@@ -24,7 +24,7 @@ public class SqlQuizDAO implements IQuizDAO{
             String clearQuery = "DELETE FROM quiz";
             clearStatement.execute(clearQuery);
             Statement insertStatement = connection.createStatement();
-            String insertQuery = "INSERT INTO quiz(QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer, Course) VALUES "
+            String insertQuery = "INSERT INTO quiz(Course, QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES "
                     + "('CAB302',' put the matching input in', 'c', 'a', 'b', 'd', 'd'),"
                     + "('CAB302','put the non matching input in', 'a','b','c','b','b'),"
                     + "('CAB302','Is this loss', '|','||','||','|_','|_'),"

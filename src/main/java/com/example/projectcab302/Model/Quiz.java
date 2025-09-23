@@ -21,8 +21,8 @@ public class Quiz {
         this.correctAnswer = correctAnswer;
     }
 
-    public Quiz(String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer, String course) {
-        this.Course = course;
+    public Quiz(String Course, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer) {
+        this.Course = Course;
         this.QuizQuestion = QuizQuestion;
         this.Answer1 = Answer1;
         this.Answer2 = Answer2;

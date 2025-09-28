@@ -4,6 +4,7 @@ import com.example.projectcab302.Model.*;
 import com.example.projectcab302.Persistence.ICoursesDAO;
 import com.example.projectcab302.Persistence.IFlashcardDAO;
 import com.example.projectcab302.Persistence.SqliteFlashcardDAO;
+import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CreateFlashcardController {
+public class CreateFlashcardController extends BaseCourseAndSession {
 
     @FXML
     private TextArea cardEntry;
@@ -36,14 +37,18 @@ public class CreateFlashcardController {
 
     @FXML
     private void initialize() {
+
     }
 
-    private Course course;
+
 
     // Used for passing what course's flashcards should be seen here
-    public void setCourse(Course Course) {
-        this.course = Course;
+    @Override
+    public void afterCourseisSet() {
+        fillTextArea();
+    }
 
+    private void fillTextArea() {
         titleLabel.setText(course.getTitle());
         List<Flashcard> flashcards = course.getFlashcards();
 
@@ -58,6 +63,7 @@ public class CreateFlashcardController {
             cardEntry.appendText(card.getQuestion() + "--{" + card.getAnswer() + "}" + "\n");
         }
     }
+
 
     // When save is pressed, save changes made to flashcards
     @FXML
@@ -87,24 +93,16 @@ public class CreateFlashcardController {
     // When preview is pressed, go to preview page of those flashcards
     @FXML
     private void onPreview() throws IOException {
-        Stage stage = (Stage) backButton.getScene().getWindow();
+        SceneManager.switchTo("flashcard-view.fxml", this.user, course);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("flashcard-view.fxml"));
-        Parent root = fxmlLoader.load();                 // must load before getController()
-        FlashcardController b = fxmlLoader.getController();
-        b.setCourse(course);
-        // pass whatever you need
-        Scene scene = new Scene(root, HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
 
     }
 
     // When back button is pressed, go back to main menu
     @FXML
     private void onBack() throws IOException {
-        Stage stage = (Stage) backButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("courses-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
+        SceneManager.switchTo("courses-view.fxml", this.user);
     }
+
+
 }

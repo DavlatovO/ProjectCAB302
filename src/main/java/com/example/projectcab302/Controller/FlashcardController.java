@@ -1,6 +1,7 @@
 package com.example.projectcab302.Controller;
 
 import com.example.projectcab302.Model.Course;
+import com.example.projectcab302.SceneManager;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -31,7 +32,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 
-public class FlashcardController {
+public class FlashcardController extends BaseCourseAndSession {
     // ───────────── Layouts ─────────────
     @FXML private HBox previewOptions;
     @FXML private HBox pvpOptions;
@@ -45,6 +46,7 @@ public class FlashcardController {
     @FXML private Button ready;
     @FXML private Button flipButton;
     @FXML private Button submitButton;
+    @FXML private Button modifyButton;
 
     // ───────────── Texts ─────────────
     @FXML private Text question;
@@ -59,10 +61,10 @@ public class FlashcardController {
     // ─────── Controller state (non-UI, no @FXML) ───────
     private IFlashcardDAO flashcardDAO;
     private List<Flashcard> flashcards;
-    private Course course;
+
 
     // keeps track of card if flipped or not; if even clicks, answer not showing
-    private boolean cardShowsAnswer = false;
+    private boolean cardShowsAnswer = true;
 
     // which flashcard is currently showing
     private int cardCount = 0;
@@ -94,19 +96,19 @@ public class FlashcardController {
         flipButton.setDisable(false);
     }
 
-    // Used for passing what course's flashcards should be seen here
-    public void setCourse(Course Course) {
-        cubeGroup.setRotationAxis(Rotate.Y_AXIS);
-        cubeGroup.setRotate(180); // rotate 45° before showing
+    @Override
+    public void afterCourseisSet() {
+        flipCard();
 
-        this.course = Course;
         flashcards = course.getFlashcards();
         question.setText(flashcards.get(cardCount).getQuestion());
 
         cardNum.setText((cardCount + 1) + "/" + flashcards.size());
-
-
     }
+
+
+
+
 
 
 
@@ -305,10 +307,10 @@ public class FlashcardController {
         System.out.println(cardCount);
         System.out.println(cardCount);
         PauseTransition halfway = new PauseTransition(Duration.seconds(duration / 4));
-        if (cardShowsAnswer) { //when odd, show back of card/ blank side
+        if (cardShowsAnswer) { //if front of card / answer side
             halfway.setOnFinished(e -> test.setText(""));
             cardShowsAnswer = false;
-        } else { //if front of card / answer side
+        } else { //backside of card is showing
             halfway.setOnFinished(e -> test.setText(flashcards.get(cardCount).getAnswer()));
             cardShowsAnswer = true;
         }
@@ -317,6 +319,18 @@ public class FlashcardController {
         new ParallelTransition(spin, halfway).play();
 
 
+    }
+
+    // opens the edit window for the courses flashcards
+    @FXML
+    private void onModifyFlashcard() throws IOException {
+        SceneManager.switchTo("createFlashcard-view.fxml", this.user, this.course);
+    }
+
+    // When back button is pressed, go back to main menu
+    @FXML
+    private void onBack() throws IOException {
+        SceneManager.switchTo("teacher-view.fxml", this.user);
     }
 
 
@@ -445,29 +459,9 @@ public class FlashcardController {
 
     }
 
-    @FXML
-    Button modifyButton;
 
-    // opens the edit window for the courses flashcards
-    @FXML
-    private void onModifyFlashcard() throws IOException {
-        Stage stage = (Stage) modifyButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("createFlashcard-view.fxml"));
-        Parent root = fxmlLoader.load();                 // must load before getController()
-        CreateFlashcardController b = fxmlLoader.getController();
-        b.setCourse(course);
-        Scene scene = new Scene(root, HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
-    }
 
-    // When back button is pressed, go back to main menu
-    @FXML
-    private void onBack() throws IOException {
-        Stage stage = (Stage) modifyButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("teacher-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
-    }
+
 
 
 }

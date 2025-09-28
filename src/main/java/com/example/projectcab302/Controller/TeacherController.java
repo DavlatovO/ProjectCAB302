@@ -1,6 +1,7 @@
 package com.example.projectcab302.Controller;
 
 
+import com.example.projectcab302.Model.User;
 import com.example.projectcab302.SceneManager;
 import com.example.projectcab302.ViewManager;
 import javafx.fxml.FXML;
@@ -11,7 +12,7 @@ import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
-public class TeacherController {
+public class TeacherController extends BaseSession{
     @FXML
     private Label pageHeader;
 
@@ -20,6 +21,8 @@ public class TeacherController {
     
     @FXML
     private GridPane quizzesGrid;
+
+
 
 //    @FXML
 //    protected void onTestingButtonClick() {
@@ -55,7 +58,8 @@ public class TeacherController {
 
     @FXML
     protected void onFlashcardsButtonClick() throws IOException {
-        SceneManager.switchTo("courses-view.fxml");
+
+        SceneManager.switchTo("courses-view.fxml", this.user);
     }
 
 
@@ -63,5 +67,7 @@ public class TeacherController {
     protected void logout() {
         SceneManager.switchTo("landingpage.fxml");
     }
+
+
 }
 

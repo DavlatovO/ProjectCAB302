@@ -6,6 +6,7 @@ import com.example.projectcab302.Persistence.ICoursesDAO;
 import com.example.projectcab302.Persistence.IFlashcardDAO;
 import com.example.projectcab302.Persistence.SqliteCoursesDAO;
 import com.example.projectcab302.Persistence.SqliteFlashcardDAO;
+import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -23,7 +24,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
-public class CoursesController {
+public class CoursesController extends BaseSession{
     // ───────────── Layouts ─────────────
     @FXML private VBox allCourses;
     @FXML private GridPane courseGrid;
@@ -40,6 +41,7 @@ public class CoursesController {
     private ICoursesDAO courseDAO;
     private List<Course> courses;
     private Course course;
+
 
     // At the start of the program, get all courses
     @FXML
@@ -68,13 +70,8 @@ public class CoursesController {
             Button btn = new Button(courses.get(idx).getTitle());
 
             btn.setOnAction(e -> {
-                try {
-                    course = courses.get(idx);
+                SceneManager.switchTo("createFlashcard-view.fxml", this.user, courses.get(idx));
 
-                    onCourse();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
             });
 
             btn.setMinWidth(0);
@@ -93,17 +90,6 @@ public class CoursesController {
     }
 
 
-    // When a course is pressed, go into the flashcard edit window of that course
-    private void onCourse() throws IOException {
-        Stage stage = (Stage) back.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("createFlashcard-view.fxml"));
-        Parent root = fxmlLoader.load();                 // must load before getController()
-        CreateFlashcardController b = fxmlLoader.getController();
-        b.setCourse(course);
-        // pass whatever you need
-        Scene scene = new Scene(root, HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
-    }
 
     // When create course is pressed, add a course with name inputed in the text field
     @FXML
@@ -125,5 +111,7 @@ public class CoursesController {
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
         stage.setScene(scene);
     }
+
+
 
 }

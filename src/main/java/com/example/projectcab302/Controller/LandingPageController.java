@@ -1,5 +1,7 @@
 package com.example.projectcab302.Controller;
 
+import com.example.projectcab302.Model.Teacher;
+import com.example.projectcab302.Model.User;
 import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
 
@@ -17,7 +19,9 @@ public class LandingPageController {
 
     @FXML
     protected void teacherDashboard() {
-        SceneManager.switchTo("teacher-view.fxml");
+        Teacher user = new Teacher("John", "john@123.com", User.Roles.Teacher, "123");
+
+        SceneManager.switchTo("teacher-view.fxml", user);
     }
 
     @FXML

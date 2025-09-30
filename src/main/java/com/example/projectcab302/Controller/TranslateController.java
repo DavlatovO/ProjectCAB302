@@ -1,7 +1,7 @@
 package com.example.projectcab302.Controller;
 
 
-
+/*
 import com.google.auth.oauth2.GoogleCredentials;
 
 
@@ -29,8 +29,11 @@ import java.util.concurrent.CompletableFuture;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+*/
 
 public class TranslateController {
+}
+/*
     @FXML
     public TextArea EnglishText;
 
@@ -190,3 +193,4 @@ public class TranslateController {
 
 
 }
+*/

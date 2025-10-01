@@ -15,7 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javax.swing.*;
 import java.lang.String;
 import java.util.List;
-
+import java.util.Objects;
 
 
 public class CreateQuizController {
@@ -50,6 +50,7 @@ public class CreateQuizController {
     private String courseName;
 
     public CreateQuizController() {
+
 
     }
 
@@ -119,19 +120,20 @@ public class CreateQuizController {
         //ontactContainer.setVisible(hasContact);
     }
 
-//    @FXML
-//    public void initialize() {
-//
-//
-//        courseListView.setCellFactory(this::renderCell);
-//        syncCourse();
-//        // Select the first contact and display its information
-//        courseListView.getSelectionModel().selectFirst();
-//        Course course = courseListView.getSelectionModel().getSelectedItem();
-//        if (course != null) {
-//            selectCourse(course);
-//        }
-//    }
+    @FXML
+    public void initialize() {
+
+
+        courseListView.setCellFactory(this::renderCell);
+        syncCourse();
+        // Select the first contact and display its information
+        courseListView.getSelectionModel().selectFirst();
+        Course course = courseListView.getSelectionModel().getSelectedItem();
+        if (course != null) {
+            selectCourse(course);
+        }
+
+    }
 
 
     @FXML
@@ -164,30 +166,31 @@ public class CreateQuizController {
 
 
         for (Quiz question : questions) {
-            optionAField.setText(question.getAnswer1());
-            optionBField.setText(question.getAnswer2());
-            optionCField.setText(question.getAnswer3());
-            optionDField.setText(question.getAnswer4());
-            Question.setText(question.getQuizQuestion());
+            syncRadials(question);
             RadioButton selected_radial = (RadioButton) group.getSelectedToggle();
             String toggledValue = selected_radial.getText();
 
             System.out.println(question);
-//            submitButton.setOnAction(e -> {
-//                 if (toggledValue.equals(question.getCorrectAnswer())) {
-//                     score = score + 1;
-//
-//                     errorQuizLabel.setText("Well done");
-//                 }
-//                 if (toggledValue != question.getCorrectAnswer()) {
-//                     errorQuizLabel.setText("Unlucky");
-//                 }
-//                 System.out.println(score);
-//
-//            });
+            //onSubmitAnswer(actionEvent, question, toggledValue);
         }
     }
 
+    public void onSubmitAnswer(ActionEvent actionEvent) {
+        if (Objects.equals(onStartQuiz().getCorrectAnswer(), selectedAnswer)) {
+            score = score + 1;
+            System.out.println("value was correctly observed");
+            System.out.println(score);
+        }
+        System.out.println("button was clicked");
+    }
+
+    private void syncRadials (Quiz question) {
+        optionAField.setText(question.getAnswer1());
+        optionBField.setText(question.getAnswer2());
+        optionCField.setText(question.getAnswer3());
+        optionDField.setText(question.getAnswer4());
+        Question.setText(question.getQuizQuestion());
+    }
 
 //    public void onSubmitAnswer(ActionEvent actionEvent) {
 //        int i = 1;

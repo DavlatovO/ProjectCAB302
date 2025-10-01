@@ -175,14 +175,14 @@ public class CreateQuizController {
         }
     }
 
-    public void onSubmitAnswer(ActionEvent actionEvent) {
-        if (Objects.equals(onStartQuiz().getCorrectAnswer(), selectedAnswer)) {
-            score = score + 1;
-            System.out.println("value was correctly observed");
-            System.out.println(score);
-        }
-        System.out.println("button was clicked");
-    }
+//    public void onSubmitAnswer(ActionEvent actionEvent) {
+//        if (Objects.equals(onStartQuiz().getCorrectAnswer(), selectedAnswer)) {
+//            score = score + 1;
+//            System.out.println("value was correctly observed");
+//            System.out.println(score);
+//        }
+//        System.out.println("button was clicked");
+//    }
 
     private void syncRadials (Quiz question) {
         optionAField.setText(question.getAnswer1());

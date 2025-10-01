@@ -74,28 +74,26 @@ public class SqlQuizDAO implements IQuizDAO{
 
 
     @Override
-    public void addQuiz(Quiz quizs) {
-
+    public void addQuiz(Quiz quiz) {
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO quiz (Course, QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            statement.setString(1, quizs.getCourse());
-            statement.setString(2, quizs.getQuizQuestion());
-            statement.setString(3, quizs.getAnswer1());
-            statement.setString(4, quizs.getAnswer2());
-            statement.setString(5, quizs.getAnswer3());
-            statement.setString(6, quizs.getAnswer4());
-            statement.setString(7, quizs.getCorrectAnswer());
+            statement.setString(1, quiz.getCourse());
+            statement.setString(2, quiz.getQuizQuestion());
+            statement.setString(3, quiz.getAnswer1());
+            statement.setString(4, quiz.getAnswer2());
+            statement.setString(5, quiz.getAnswer3());
+            statement.setString(6, quiz.getAnswer4());
+            statement.setString(7, quiz.getCorrectAnswer());
             statement.executeUpdate();
             // Set the id of the new contact
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
-                quizs.setQuizID(generatedKeys.getInt(1));
+                quiz.setQuizID(generatedKeys.getInt(1));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     public void updateQuiz(Quiz quizs) {
 
@@ -108,7 +106,6 @@ public class SqlQuizDAO implements IQuizDAO{
             statement.setString(5, quizs.getAnswer3());
             statement.setString(6, quizs.getAnswer4());
             statement.setString(7, quizs.getCorrectAnswer());
-            statement.setInt(8, quizs.getQuizID());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -171,7 +168,7 @@ public class SqlQuizDAO implements IQuizDAO{
                 String answer3 = resultSet.getString("Answer3");
                 String answer4 = resultSet.getString("Answer4");
                 String correctAnswer = resultSet.getString("correctAnswer");
-                Quiz quiz = new Quiz(course, question, answer1,answer2,answer3, answer4, correctAnswer);
+                Quiz quiz = new Quiz(course, question, answer1, answer2, answer3, answer4, correctAnswer);
                 quiz.setQuizID(id);
                 quizs.add(quiz);
             }
@@ -201,7 +198,7 @@ public class SqlQuizDAO implements IQuizDAO{
                 String answer3 = resultSet.getString("Answer3");
                 String answer4 = resultSet.getString("Answer4");
                 String correctAnswer = resultSet.getString("correctAnswer");
-                Quiz quiz = new Quiz(course,question, answer1,answer2,answer3, answer4, correctAnswer);
+                Quiz quiz = new Quiz(course, question, answer1,answer2,answer3, answer4, correctAnswer);
                 quiz.setQuizID(id);
                 quizs.add(quiz);
             }

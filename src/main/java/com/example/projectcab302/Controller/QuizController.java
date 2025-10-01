@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.List;
 
 
-public class QuizController {
+public class QuizController extends BaseSession {
     public static String passedcourse;
 
     @FXML
@@ -73,16 +73,7 @@ public class QuizController {
             final int idx = i;
             Button btn = new Button(courses.get(idx).getTitle());
     
-            btn.setOnAction(e -> {
-                try {
-                    course = courses.get(idx);
-                    //Course.setTransferredTitle(course.getTitle());
-                    setPassedcourse(course.getTitle());
-                    onCourse();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            });
+            btn.setOnAction(e -> SceneManager.switchTo("Edit-Quiz.fxml", this.user, courses.get(idx)));
     
             btn.setMinWidth(0);
             btn.setMaxWidth(Double.MAX_VALUE);
@@ -98,22 +89,13 @@ public class QuizController {
 
         }
     }
-    @FXML
-    private void onCourse() throws IOException{
-        //allCourses.setManaged(false);
-        //allCourses.setVisible(false);
-        SceneManager.switchTo("Edit-Quiz.fxml");
-
-    }
-
 
     @FXML
     protected void onBack() {
-        SceneManager.switchTo("teacher-view.fxml"); //Need to edit later to make functional with student view
+        SceneManager.switchTo("teacher-view.fxml", this.user); //Need to edit later to make functional with student view
     }
 
-
     public void onDoQuiz(ActionEvent actionEvent) {
-        SceneManager.switchTo("create-quiz.fxml");
+        SceneManager.switchTo("create-quiz.fxml", this.user);
     }
 }

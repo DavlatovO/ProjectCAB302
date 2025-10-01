@@ -6,9 +6,9 @@ public class Teacher extends User{
 
     }
 
-
+    //Should probably make this enum later
     @Override
     public String getRole() {
-        return "Student";
+        return "Teacher";
     }
 }

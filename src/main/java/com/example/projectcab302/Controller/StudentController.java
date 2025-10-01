@@ -5,7 +5,7 @@ import com.example.projectcab302.SceneManager;
 import com.example.projectcab302.ViewManager;
 import javafx.fxml.FXML;
 
-public class StudentController {
+public class StudentController extends BaseSession {
 
     @FXML
     protected void openUserProfile() {
@@ -29,7 +29,7 @@ public class StudentController {
 
     @FXML
     protected void quiz() {
-
+        SceneManager.switchTo("quiz.fxml", this.user);
     }
 
     @FXML

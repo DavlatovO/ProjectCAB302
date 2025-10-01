@@ -7,28 +7,30 @@ import com.example.projectcab302.Persistence.IQuizDAO;
 import com.example.projectcab302.Persistence.SqlQuizDAO;
 import com.example.projectcab302.Persistence.SqliteCoursesDAO;
 import com.example.projectcab302.SceneManager;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.stage.PopupWindow;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-
-public class QuizController extends BaseSession{
+public class StudentQuizController extends BaseCourseAndSession{
     // ───────────── Layouts ─────────────
-    @FXML private VBox allCourses;
+    @FXML
+    private VBox allCourses;
+    @FXML private VBox allQuestions;
     @FXML private GridPane courseGrid;
     @FXML private HBox courseBox;
 
     // ───────────── Buttons ─────────────
-    @FXML Button createCourse;
+    @FXML
+    Button createCourse;
     @FXML Button back;
 
     // ───────────── Texts ─────────────
@@ -37,7 +39,10 @@ public class QuizController extends BaseSession{
     // ─────── Controller state (non-UI, no @FXML) ───────
     private ICoursesDAO courseDAO;
     private List<Course> courses;
-    private Course course;
+
+    private IQuizDAO quizDAO;
+    private List<Quiz> quizzes;
+
 
 
     /**
@@ -50,14 +55,14 @@ public class QuizController extends BaseSession{
      */
     @FXML
     private void initialize() {
-        courseDAO = new SqliteCoursesDAO();
-        courses = courseDAO.getAllCourses();
 
-        // Insert sample data if no courses exist
-        if (courses.isEmpty()) {
-            courseDAO.insertSampleData();
-            courses = courseDAO.getAllCourses();
-        }
+    }
+
+    @Override
+    public void afterCourseisSet() {
+        quizDAO = new SqlQuizDAO();
+        quizzes = course.getQuiz();
+
 
         createCoursesGrid();
     }
@@ -71,39 +76,50 @@ public class QuizController extends BaseSession{
      */
     private void createCoursesGrid() {
         // Ensure the grid is empty before repopulating (optional improvement)
-        courseGrid.getChildren().clear();
+        allQuestions.getChildren().clear();
 
-        for (int i = 0; i < courses.size(); i++) {
+        for (int i = 0; i < quizzes.size(); i++) {
             final int idx = i;
 
             // Create a button for each course
-            Button btn = new Button(courses.get(idx).getTitle());
+            Text question = new Text(quizzes.get(idx).getQuizQuestion());
 
-            // When clicked, switch to the flashcard creation view for this course
-            btn.setOnAction(e -> {
-                if (Objects.equals(this.user.getRole(), "Teacher")) {
-                    SceneManager.switchTo("Edit-Quiz.fxml", this.user, courses.get(idx));
-                } else {
-                    SceneManager.switchTo("studentQuiz.fxml", this.user, courses.get(idx));
-                }
-            });
+            Button btn1 = new Button(quizzes.get(idx).getAnswer1());
+            Button btn2 = new Button(quizzes.get(idx).getAnswer2());
+            Button btn3 = new Button(quizzes.get(idx).getAnswer3());
+            Button btn4 = new Button(quizzes.get(idx).getAnswer4());
 
 
+            String correctAnswer = quizzes.get(idx).getCorrectAnswer();
+            btn1.setOnAction(e -> checkAnswer(quizzes.get(idx).getAnswer1(), correctAnswer, btn1));
+            btn2.setOnAction(e -> checkAnswer(quizzes.get(idx).getAnswer2(), correctAnswer, btn2));
+            btn3.setOnAction(e -> checkAnswer(quizzes.get(idx).getAnswer3(), correctAnswer, btn3));
+            btn4.setOnAction(e -> checkAnswer(quizzes.get(idx).getAnswer4(), correctAnswer, btn4));
 
             // Let button expand in its grid cell
-            btn.setMinWidth(0);
-            btn.setMaxWidth(Double.MAX_VALUE);
-            GridPane.setFillWidth(btn, true);
-            GridPane.setHgrow(btn, Priority.ALWAYS);
+            btn1.setMinWidth(0);
+            btn1.setMaxWidth(Double.MAX_VALUE);
+            btn2.setMinWidth(0);
+            btn2.setMaxWidth(Double.MAX_VALUE);
+            btn3.setMinWidth(0);
+            btn3.setMaxWidth(Double.MAX_VALUE);
+            btn4.setMinWidth(0);
+            btn4.setMaxWidth(Double.MAX_VALUE);
 
-            // Position button in a 3-column grid
-            int col = i % 3;
-            int row = i / 3;
-            GridPane.setColumnIndex(btn, col);
-            GridPane.setRowIndex(btn, row);
-
+            allQuestions.getChildren().add(question);
             // Add button to the grid
-            courseGrid.getChildren().add(btn);
+            allQuestions.getChildren().add(btn1);
+            allQuestions.getChildren().add(btn2);
+            allQuestions.getChildren().add(btn3);
+            allQuestions.getChildren().add(btn4);
+        }
+    }
+
+    public void checkAnswer(String answer, String correctAnswer, Button btn){
+        if (Objects.equals(answer, correctAnswer)){
+            btn.setStyle("-fx-background-color: green; -fx-text-fill: black;");
+        } else{
+            btn.setStyle("-fx-background-color: red; -fx-text-fill: black;");
         }
     }
 
@@ -144,43 +160,8 @@ public class QuizController extends BaseSession{
      */
     @FXML
     private void onBack() throws IOException {
-        if (Objects.equals(this.user.getRole(), "Teacher")) {
-            SceneManager.switchTo("teacher-view.fxml", this.user);
-        } else {
-            SceneManager.switchTo("student-view.fxml", this.user);
-        }
-
-    }
-
-    public static String passedcourse;
-
-
-
-
-
-    public static String getPassedcourse() {
-        return "cab202";
-    }
-
-    public static void setPassedcourse(String passedcourse) {
-        QuizController.passedcourse = passedcourse;
+        SceneManager.switchTo("student-view.fxml", this.user);
     }
 
 
-
-    @FXML
-    private void onCourse() throws IOException{
-        //allCourses.setManaged(false);
-        //allCourses.setVisible(false);
-        SceneManager.switchTo("Edit-Quiz.fxml");
-
-    }
-
-
-
-
-
-    public void onDoQuiz(ActionEvent actionEvent) {
-        SceneManager.switchTo("create-quiz.fxml");
-    }
 }

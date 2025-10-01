@@ -1,5 +1,6 @@
 package com.example.projectcab302.Controller;
 
+import com.example.projectcab302.Model.Student;
 import com.example.projectcab302.Model.Teacher;
 import com.example.projectcab302.Model.User;
 import com.example.projectcab302.SceneManager;
@@ -26,7 +27,8 @@ public class LandingPageController {
 
     @FXML
     protected void studentDashboard() {
-        SceneManager.switchTo("student-view.fxml");
+        Student user = new Student("Student", "john@123.com", User.Roles.Student, "123");
+        SceneManager.switchTo("student-view.fxml", user);
     }
 
 }

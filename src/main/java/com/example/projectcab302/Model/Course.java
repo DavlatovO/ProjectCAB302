@@ -1,9 +1,6 @@
 package com.example.projectcab302.Model;
 
-import com.example.projectcab302.Persistence.ICoursesDAO;
-import com.example.projectcab302.Persistence.IFlashcardDAO;
-import com.example.projectcab302.Persistence.SqliteCoursesDAO;
-import com.example.projectcab302.Persistence.SqliteFlashcardDAO;
+import com.example.projectcab302.Persistence.*;
 import com.example.projectcab302.modelUtils;
 
 import java.util.ArrayList;
@@ -31,6 +28,8 @@ public class Course {
      * Used to fetch flashcards from the database.
      */
     private IFlashcardDAO flashcardDAO = new SqliteFlashcardDAO();
+
+    private IQuizDAO quizDAO = new SqlQuizDAO();
 
     /**
      * Constructs a new Course instance with the specified title.
@@ -60,6 +59,22 @@ public class Course {
             }
         }
         return courseCards;
+    }
+
+    public List<Quiz> getQuiz() {
+        /**
+         * Cached list of all flashcards retrieved from the database.
+         */
+        List<Quiz> quizzes = quizDAO.getAllQuizs();
+        List<Quiz> courseQuizzes = new ArrayList<>();
+        System.out.println(quizzes);
+        for (Quiz quiz : quizzes) {
+            if (Objects.equals(quiz.getCourse(), this.title)) {
+                courseQuizzes.add(quiz);
+            }
+        }
+        System.out.println(courseQuizzes);
+        return courseQuizzes;
     }
 
     /**

@@ -6,7 +6,7 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:id="root"
-            fx:controller="com.example.projectcab302.Controller.TeacherController"
+            fx:controller="com.example.projectcab302.Controller.Dashboard"
             stylesheets="@dashboards.css"
             prefWidth="1000" prefHeight="700"
             styleClass="app-root">
@@ -14,7 +14,7 @@
     <top>
         <HBox spacing="12" styleClass="topbar" BorderPane.alignment="CENTER_LEFT">
             <children>
-                <Label text="Teacher Dashboard" styleClass="topbar-title"/>
+                <Label fx:id="DashboardLabel" text="Teacher Dashboard" styleClass="topbar-title"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Button fx:id="profileButton" text="Profile" onAction="#openUserProfile" styleClass="topbar-btn"/>
                 <Button fx:id="settingsTopButton" text="Settings" onAction="#openSettings" styleClass="topbar-btn"/>
@@ -32,7 +32,7 @@
                     <children>
                         <Button fx:id="quizzesButton" text="Quizzes" onAction="#onQuizButtonClick" styleClass="nav-button"/>
                         <Button fx:id="flashcardsButton" text="Flashcards" onAction="#onFlashcardsButtonClick" styleClass="nav-button"/>
-                        <Button fx:id="classroomsButton" text="Classrooms" styleClass="nav-button"/>
+<!--                        <Button fx:id="classroomsButton" text="Classrooms" styleClass="nav-button"/>-->
                         <Region VBox.vgrow="ALWAYS"/>
                     </children>
                 </VBox>

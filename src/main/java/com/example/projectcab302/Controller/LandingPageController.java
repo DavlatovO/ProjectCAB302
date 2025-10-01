@@ -28,7 +28,7 @@ public class LandingPageController {
     @FXML
     protected void studentDashboard() {
         Student user = new Student("Student", "john@123.com", User.Roles.Student, "123");
-        SceneManager.switchTo("student-view.fxml", user);
+        SceneManager.switchTo("teacher-view.fxml", user);
     }
 
 }

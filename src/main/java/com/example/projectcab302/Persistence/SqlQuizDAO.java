@@ -106,6 +106,7 @@ public class SqlQuizDAO implements IQuizDAO{
             statement.setString(5, quizs.getAnswer3());
             statement.setString(6, quizs.getAnswer4());
             statement.setString(7, quizs.getCorrectAnswer());
+            statement.setInt(8, quizs.getQuizID());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

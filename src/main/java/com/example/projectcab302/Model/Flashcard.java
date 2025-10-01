@@ -1,5 +1,7 @@
 package com.example.projectcab302.Model;
 
+import com.example.projectcab302.modelUtils;
+
 /**
  * Represents a single flashcard with an identifier, a question, and an answer.
  * <p>
@@ -31,11 +33,9 @@ public class Flashcard {
     /**
      * Constructs a new {@code Flashcard}.
      *
+     * @param course the course this flashcard belongs to
      * @param question the question text (e.g., "What is 2 + 2?")
      * @param answer   the answer text (e.g., "4")
-     *                 <p><b>Note:</b> This constructor does not validate or trim inputs.
-     *                 Consider validating upstream (non-null, non-blank) if required by your UI/DB.</p>
-     * @param course
      */
     public Flashcard(String course, String question, String answer) {
         setQuestion(question);
@@ -78,7 +78,7 @@ public class Flashcard {
      */
     public void setQuestion(String question) {
 
-        this.question = checkValidityAndTrim(question);
+        this.question = modelUtils.checkValidityAndTrim(question, "Flashcard question");
     }
 
     /**
@@ -97,28 +97,28 @@ public class Flashcard {
      */
     public void setAnswer(String answer) {
 
-        this.answer = checkValidityAndTrim(answer);
+        this.answer = modelUtils.checkValidityAndTrim(answer, "Flashcard answer");
     }
 
+    /**
+     * Returns the course the flashcard belongs to.
+     *
+     * @return the course
+     */
     public String getCourse() {
         return this.course;
     }
 
-
+    /**
+     * Updates the answer text.
+     *
+     * @param Course the new answer text
+     */
     public void setCourse(String Course) {
 
-        this.course = checkValidityAndTrim(Course);
-    }
-
-    private String checkValidityAndTrim(String input) {
-        if (input == null || input.trim().isEmpty()) {
-            throw new IllegalArgumentException("Input cannot be null or blank");
-        }
-        return input.trim();
+        this.course = modelUtils.checkValidityAndTrim(Course, "Course title");
     }
 
 
-    // @Override public String toString() { ... }      // helpful for logging/debugging
-    // @Override public boolean equals(Object o) { ... } and @Override public int hashCode() { ... }
-    // Consider making fields @NotNull and trimming inputs in setters .
+
 }

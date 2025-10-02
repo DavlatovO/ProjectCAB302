@@ -3,6 +3,7 @@ package com.example.projectcab302.Controller;
 import com.example.projectcab302.Model.Teacher;
 import com.example.projectcab302.Model.User;
 import com.example.projectcab302.SceneManager;
+import com.example.projectcab302.Utils.Session;
 import javafx.fxml.FXML;
 
 public class LandingPageController {
@@ -20,7 +21,7 @@ public class LandingPageController {
     @FXML
     protected void teacherDashboard() {
         Teacher user = new Teacher("John", "john@123.com", User.Roles.Teacher, "123");
-
+        Session.setUser(user);
         SceneManager.switchTo("teacher-view.fxml", user);
     }
 

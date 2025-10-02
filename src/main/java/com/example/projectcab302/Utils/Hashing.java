@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 public class Hashing {
     public static String hashPassword(String password) {
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            MessageDigest md = MessageDigest.getInstance("SHA-256"); //Hashes the password using Sha-256 algorithm
             byte[] hashed = md.digest(password.getBytes());
             StringBuilder sb = new StringBuilder();
             for (byte b : hashed) {

@@ -22,7 +22,7 @@ public class SceneManager {
 
     public static void switchTo(String fxmlFile) {
         try {
-            Parent root = FXMLLoader.load(SceneManager.class.getResource("/View/com/example/projectcab302/" + fxmlFile));
+            Parent root = FXMLLoader.load(SceneManager.class.getResource("/com/example/projectcab302/" + fxmlFile));
             stage.setScene(new Scene(root, 1000, 600));
             stage.show();
         } catch (IOException e) {
@@ -33,7 +33,7 @@ public class SceneManager {
     // For switching scene and injecting user into the next controller
     public static void switchTo(String fxmlFile, User user) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/View/com/example/projectcab302/" + fxmlFile));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/projectcab302/" + fxmlFile));
             Parent root = fxmlLoader.load();                 // must load before getController()
             BaseSession b = fxmlLoader.getController(); // Polymorphism
             b.setUser(user);
@@ -47,7 +47,7 @@ public class SceneManager {
     // For switching scene and injecting course and user into the nex controller
     public static void switchTo(String fxmlFile, User user, Course course) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/View/com/example/projectcab302/" + fxmlFile));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/projectcab302/" + fxmlFile));
             Parent root = fxmlLoader.load();                 // must load before getController()
             BaseCourseAndSession b = fxmlLoader.getController(); // Polymorphism
             b.setUser(user);

@@ -18,169 +18,84 @@ import javafx.stage.PopupWindow;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 
-public class QuizController extends BaseSession{
-    // ───────────── Layouts ─────────────
-    @FXML private VBox allCourses;
-    @FXML private GridPane courseGrid;
-    @FXML private HBox courseBox;
-
-    // ───────────── Buttons ─────────────
-    @FXML Button createCourse;
-    @FXML Button back;
-
-    // ───────────── Texts ─────────────
-    @FXML private TextField courseField;
-
-    // ─────── Controller state (non-UI, no @FXML) ───────
-    private ICoursesDAO courseDAO;
-    private List<Course> courses;
-    private Course course;
-
-
-    /**
-     * Initializes the controller.
-     * <p>
-     * This method is automatically called after the FXML view is loaded.
-     * It initializes the {@link ICoursesDAO}, retrieves courses from the database,
-     * inserts sample data if the database is empty, and populates the courses grid.
-     * </p>
-     */
-    @FXML
-    private void initialize() {
-        courseDAO = new SqliteCoursesDAO();
-        courses = courseDAO.getAllCourses();
-
-        // Insert sample data if no courses exist
-        if (courses.isEmpty()) {
-            courseDAO.insertSampleData();
-            courses = courseDAO.getAllCourses();
-        }
-
-        createCoursesGrid();
-    }
-
-    /**
-     * Populates the grid with buttons for all available courses.
-     * <p>
-     * Each course is displayed as a button. Clicking a button switches
-     * the scene to the flashcard creation view for that course.
-     * </p>
-     */
-    private void createCoursesGrid() {
-        // Ensure the grid is empty before repopulating (optional improvement)
-        courseGrid.getChildren().clear();
-
-        for (int i = 0; i < courses.size(); i++) {
-            final int idx = i;
-
-            // Create a button for each course
-            Button btn = new Button(courses.get(idx).getTitle());
-
-            // When clicked, switch to the flashcard creation view for this course
-            btn.setOnAction(e -> {
-                if (Objects.equals(this.user.getRole(), "Teacher")) {
-                    SceneManager.switchTo("Edit-Quiz.fxml", this.user, courses.get(idx));
-                } else {
-                    SceneManager.switchTo("studentQuiz.fxml", this.user, courses.get(idx));
-                }
-            });
-
-
-
-            // Let button expand in its grid cell
-            btn.setMinWidth(0);
-            btn.setMaxWidth(Double.MAX_VALUE);
-            GridPane.setFillWidth(btn, true);
-            GridPane.setHgrow(btn, Priority.ALWAYS);
-
-            // Position button in a 3-column grid
-            int col = i % 3;
-            int row = i / 3;
-            GridPane.setColumnIndex(btn, col);
-            GridPane.setRowIndex(btn, row);
-
-            // Add button to the grid
-            courseGrid.getChildren().add(btn);
-        }
-    }
-
-    /**
-     * Handles the action when the "Create Course" button is pressed.
-     * <p>
-     * Reads the course name from the {@link #courseField},
-     * validates that it is not empty, creates a new {@link Course},
-     * and adds it to the database. Finally, it refreshes the course grid.
-     * </p>
-     *
-     * @throws IOException if loading the view fails
-     */
-    @FXML
-    private void onCreateCourse() throws IOException {
-        String courseInput = courseField.getText();
-
-        // Validate input
-        if (courseInput.trim().isEmpty()) {
-            return;
-        }
-
-        // Create and add the new course
-        Course newCourse = new Course(courseInput);
-        courseDAO.addCourse(newCourse);
-
-        // Refresh the course grid
-        initialize();
-    }
-
-    /**
-     * Handles the action when the "Back" button is pressed.
-     * <p>
-     * Navigates the user back to the main teacher view.
-     * </p>
-     *
-     * @throws IOException if loading the view fails
-     */
-    @FXML
-    private void onBack() throws IOException {
-        if (Objects.equals(this.user.getRole(), "Teacher")) {
-            SceneManager.switchTo("teacher-view.fxml", this.user);
-        } else {
-            SceneManager.switchTo("student-view.fxml", this.user);
-        }
-
-    }
-
+public class QuizController extends BaseSession {
     public static String passedcourse;
 
+    @FXML
+    private VBox SelectedEdit;
+    @FXML
+    private GridPane courseQuizGrid;
+    @FXML
+    private VBox allCourses;
+    @FXML
+    private ICoursesDAO courseDAO;
+    @FXML
+    private List<Course> courses;
+    @FXML
+    private Course course;
+    private IQuizDAO quizDAO;
+    protected void saveQuiz() {
 
-
-
+    }
 
     public static String getPassedcourse() {
-        return "cab202";
+        return passedcourse;
     }
 
     public static void setPassedcourse(String passedcourse) {
         QuizController.passedcourse = passedcourse;
     }
 
-
-
     @FXML
-    private void onCourse() throws IOException{
-        //allCourses.setManaged(false);
-        //allCourses.setVisible(false);
-        SceneManager.switchTo("Edit-Quiz.fxml");
+    public void initialize(){
+        //SelectedEdit.managedProperty().bind(SelectedEdit.visibleProperty());
+        courseDAO = new SqliteCoursesDAO();
+        courses = courseDAO.getAllCourses();
+        VBox.setVgrow(allCourses, Priority.SOMETIMES);
+        if (courses.isEmpty()) {
+            courseDAO.insertSampleData();
+            courses = courseDAO.getAllCourses();
+        }
+    
+        // tighter spacing & padding on the VBox
+            allCourses.setSpacing(6);                  // was 12 in FXML
+            allCourses.setPadding(new Insets(6));      // override "-fx-padding: 12" if needed
+    
+        HBox row = new HBox();
+            row.setAlignment(Pos.CENTER_LEFT);
+            row.setSpacing(8);
+            row.setMaxWidth(Double.MAX_VALUE);         // let row stretch with the VBox
+            //VBox.setVgrow(row, Priority.NEVER);     // default; don't expand rows vertically
+    
+            for (int i = 0; i < courses.size(); i++) {
+            final int idx = i;
+            Button btn = new Button(courses.get(idx).getTitle());
+    
+            btn.setOnAction(e -> SceneManager.switchTo("Edit-Quiz.fxml", this.user, courses.get(idx)));
+    
+            btn.setMinWidth(0);
+            btn.setMaxWidth(Double.MAX_VALUE);
+            GridPane.setFillWidth(btn, true);
+            GridPane.setHgrow(btn, Priority.ALWAYS);
+    
+            int col = i % 3;
+            int rowss = i / 3;
+            GridPane.setColumnIndex(btn, col);
+            GridPane.setRowIndex(btn, rowss);
+    
+            courseQuizGrid.getChildren().add(btn);
 
+        }
     }
 
-
-
-
+    @FXML
+    protected void onBack() {
+        SceneManager.switchTo("teacher-view.fxml", this.user); //Need to edit later to make functional with student view
+    }
 
     public void onDoQuiz(ActionEvent actionEvent) {
-        SceneManager.switchTo("create-quiz.fxml");
+        SceneManager.switchTo("create-quiz.fxml", this.user);
     }
 }

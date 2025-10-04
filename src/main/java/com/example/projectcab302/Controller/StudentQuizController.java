@@ -61,7 +61,7 @@ public class StudentQuizController extends BaseCourseAndSession{
     @Override
     public void afterCourseisSet() {
         quizDAO = new SqlQuizDAO();
-        quizzes = course.getQuiz();
+        quizzes = course.getQuizzes();
 
 
         createCoursesGrid();

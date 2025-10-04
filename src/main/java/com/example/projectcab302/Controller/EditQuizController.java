@@ -6,6 +6,7 @@ import com.example.projectcab302.Persistence.ICoursesDAO;
 import com.example.projectcab302.Persistence.IQuizDAO;
 import com.example.projectcab302.Persistence.SqlQuizDAO;
 import com.example.projectcab302.SceneManager;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,8 +15,19 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.io.*;
 
 public class EditQuizController extends BaseCourseAndSession {
 
@@ -35,6 +47,9 @@ public class EditQuizController extends BaseCourseAndSession {
     private TextField questionField;
     @FXML
     private ListView<Quiz> questionListView;
+
+    @FXML
+    private Text aiResponse;
 
     private ICoursesDAO courseDAO;
 
@@ -164,5 +179,94 @@ public class EditQuizController extends BaseCourseAndSession {
             quizDAO.deleteQuiz(deletedQuiz);
             syncCourseQuestions();
         }
+
     }
+
+    /**
+     * Generates three false answers for a multiple choice question via local LLM (Ollama).
+     * <p>
+     * Performs an HTTP POST to {@code http://localhost:11434/api/generate} with a JSON prompt,
+     * parses the JSON response, updates {@code optionBField, optionCField, optionDField} with false answers that.
+     * generate based on the question and correct answer inputs.
+     * </p>
+     * <p>
+     * Network work is executed asynchronously via {@link CompletableFuture} and
+     * UI updates are marshaled back to the FX thread via {@link Platform#runLater(Runnable)}.
+     * </p>
+     */
+    @FXML
+    private void genFalseAnswers() {
+        CompletableFuture.runAsync(() -> {
+            try {
+                URL url = new URL("http://localhost:11434/api/generate");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setDoOutput(true);
+
+                String prompt =
+                        "Generate 3 false but believable answers for the multiple choice question: " + questionField.getText() + ".\n" +
+                                "The correct answer is: " + answerField.getText() + ".\n" +
+                                "Return ONLY valid JSON of the exact form: " +
+                                "{\"false1\": A, \"false2\": B, \"false3\": C} " +
+                                "where A, B, and C are different false but believable answers. " +
+                                "Do not include the correct answer or any explanation.";
+
+                String body = """
+                    {
+                      "model": "llama3.1:latest",
+                      "prompt": %s,
+                      "stream": false,
+                      "keep_alive": "30m",
+                      "format": "json",
+                      "options": {
+                        "temperature": 0.7,
+                        "top_k": 50,
+                        "top_p": 0.9
+                      }
+                    }
+                    """.formatted(JSONObject.quote(prompt));
+
+                try (OutputStream os = conn.getOutputStream()) {
+                    os.write(body.getBytes(StandardCharsets.UTF_8));
+                }
+
+                int code = conn.getResponseCode();
+                System.out.println("HTTP Status Code: " + code);
+                InputStream is = (code >= 200 && code < 300) ? conn.getInputStream() : conn.getErrorStream();
+
+                String resp = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))
+                        .lines().reduce("", (a, b) -> a + b);
+
+                conn.disconnect();
+
+                if (code >= 200 && code < 300) {
+                    JSONObject outer = new JSONObject(resp);
+                    String responseText = outer.getString("response");
+
+                    // Parse the false answers from the model's response
+                    JSONObject falseAnswers = new JSONObject(responseText);
+
+                    // Currently only checks if option fields B, C, D are empty.
+                    if (optionBField.getText().isBlank() && optionCField.getText().isBlank() && optionDField.getText().isBlank()) {
+                        Platform.runLater(() -> {
+                            optionBField.setText(falseAnswers.optString("false1", ""));
+                            optionCField.setText(falseAnswers.optString("false2", ""));
+                            optionDField.setText(falseAnswers.optString("false3", ""));
+                            aiResponse.setText("False answers generated successfully.");
+                        });
+                    } else {
+                        Platform.runLater(() -> aiResponse.setText("Options B, C, and D must be empty before generating false answers."));
+                    }
+                } else {
+                    Platform.runLater(() -> aiResponse.setText("Error: " + resp));
+                }
+
+            } catch (Exception e) {
+                Platform.runLater(() -> aiResponse.setText("Error: " + e.getMessage()));
+            }
+        });
+    }
+
 }

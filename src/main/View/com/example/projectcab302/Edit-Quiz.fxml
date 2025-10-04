@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.text.Text?>
 <BorderPane xmlns="http://javafx.com/javafx/21"
             stylesheets="@dashboards.css"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -59,10 +60,14 @@
                 <Button alignment="bottom_left" text="+  Create Quiz" onAction="#onCreateQuiz"
                         style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
                 <Button alignment = "bottom_left" text="+  Edit Quiz" onAction="#onEditQuiz"
-                        style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                        style="-fx-background-color: #f39c12; -fx-text-fill: white;"/>
                 <Button alignment = "bottom_left" text="+  Delete Quiz" onAction="#onDeleteQuiz"
-                        style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                        style="-fx-background-color: #c0392b; -fx-text-fill: white;"/>
+                <Button alignment = "bottom_left" text="+  Autofill Quiz" onAction="#genFalseAnswers"
+                        style="-fx-background-color: #2980b9; -fx-text-fill: white;"/>
             </HBox>
+
+            <Text fx:id="aiResponse"/>
         </VBox>
     </center>
 

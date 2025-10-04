@@ -37,11 +37,10 @@
                            HBox.hgrow="ALWAYS"/>
                 <Button fx:id="createCourse"
                         text="+  Create Course"
-                        onAction="#onCreateCourse"
                         style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
             </HBox>
 
-            <GridPane fx:id="courseGrid"  hgap="8" vgap="8" alignment="TOP_CENTER" style="-fx-padding: 8;">
+            <GridPane fx:id="courseQuizGrid"  hgap="8" vgap="8" alignment="TOP_CENTER" style="-fx-padding: 8;">
                 <!-- Three equal-width columns -->
                 <columnConstraints>
                     <ColumnConstraints percentWidth="33.3333" hgrow="ALWAYS" halignment="CENTER"/>

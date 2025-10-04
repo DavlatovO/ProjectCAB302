@@ -84,7 +84,7 @@ public class QuizController extends BaseSession {
             int rowss = i / 3;
             GridPane.setColumnIndex(btn, col);
             GridPane.setRowIndex(btn, rowss);
-    
+
             courseQuizGrid.getChildren().add(btn);
 
         }

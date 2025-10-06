@@ -8,17 +8,21 @@ import static org.junit.jupiter.api.Assertions.*;
 class FlashcardTest {
 
     private Flashcard card;
+    private Teacher testUser;
+    private Course tesCourse;
 
     @BeforeEach
     void setUp() {
-        card = new Flashcard("CAB302", "What is Java?", "A language");
+        testUser = new Teacher("asd", "asd@gmail.com", User.Roles.Teacher, "123");
+        tesCourse = new Course("Siuu", testUser);
+        card = new Flashcard(testUser, tesCourse, "What is Java?", "A programming language");
     }
 
     // Constructor: happy path & trimming
 
     @Test
     void constructor_trimsAllFields() {
-        Flashcard c = new Flashcard("  CAB201  ", "  Q1 \n", "\t A1  ");
+        Flashcard c = new Flashcard(testUser, testCourse, "\t A1  ");
         assertEquals("CAB201", c.getCourse());
         assertEquals("Q1", c.getQuestion());
         assertEquals("A1", c.getAnswer());

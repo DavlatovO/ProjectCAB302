@@ -1,6 +1,7 @@
 package com.example.projectcab302.Persistence;
 
 
+import com.example.projectcab302.Model.Course;
 import com.example.projectcab302.Model.Quiz;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public interface IQuizDAO {
 
     void insertSampleData();
 
-    List<Quiz> getAllQuestionsfromCourse(String course);
+    List<Quiz> getAllQuestionsfromCourse(Course course);
 
     void updateQuiz(Quiz newquestion);
 }

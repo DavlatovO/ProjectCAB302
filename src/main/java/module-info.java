@@ -18,6 +18,7 @@ module com.example.projectcab302 {
     // requires org.checkerframework.checker.qual;
     requires java.desktop;
 
+
     exports com.example.projectcab302;
     exports com.example.projectcab302.Controller;
     exports com.example.projectcab302.Model;

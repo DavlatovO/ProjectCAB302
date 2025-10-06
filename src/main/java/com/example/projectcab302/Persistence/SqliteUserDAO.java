@@ -70,7 +70,9 @@ public class SqliteUserDAO implements IUserDAO {
         //Save user details to the database
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO users (username, email, role, password) VALUES (?, ?, ?, ?)");
+                    "INSERT INTO users (username, email, role, password) VALUES (?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS // <-- telling JDBC to return the id
+            );
 
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getEmail());
@@ -144,6 +146,37 @@ public class SqliteUserDAO implements IUserDAO {
         }
         return null;
 
+    }
+
+    @Override
+    public User getUser(int user_id) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT FROM user WHERE id = ?");
+            statement.setInt(1, user_id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String username = resultSet.getString("username");
+                String email = resultSet.getString("email");
+                String role = resultSet.getString("role");
+                String password = resultSet.getString("password");
+
+                //getting user role as enum
+                User.Roles roleEnum = User.Roles.valueOf(role);
+
+                User user = switch (roleEnum) {
+                    case Student -> new Student(username, email, roleEnum, password);
+                    case Teacher -> new Teacher(username, email, roleEnum, password);
+                };
+                user.setId(user_id);
+                return user;
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

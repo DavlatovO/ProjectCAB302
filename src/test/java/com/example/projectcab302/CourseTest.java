@@ -11,32 +11,33 @@ import static org.junit.jupiter.api.Assertions.*;
 class CourseTest {
 
     private Course course;
-
+    private Teacher testUser;
 
     @BeforeEach
     void setUp() {
+        Teacher testUser = new Teacher("asd", "asd@gmail.com", User.Roles.Teacher, "123");
         // Fixture: constructs Course (current design hits SQLite via DAOs → integration-style tests)
-        course = new Course("CAB402");
+        course = new Course("CAB402", testUser);
     }
 
     // ───────────── Constructor & title validation ─────────────
     // Constructor & title validation — trims leading/trailing whitespace
     @Test
     void constructor_trimsTitle() {
-        Course c = new Course("   CAB203   ");
+        Course c = new Course("   CAB203   ", testUser);
         assertEquals("CAB203", c.getTitle());
     }
 
     // Constructor & title validation — throws on null title
     @Test
     void constructor_withNull_throws() {
-        assertThrows(IllegalArgumentException.class, () -> new Course(null));
+        assertThrows(IllegalArgumentException.class, () -> new Course(null, testUser));
     }
 
     // Constructor & title validation — throws on blank "   " title
     @Test
     void constructor_withBlank_throws() {
-        assertThrows(IllegalArgumentException.class, () -> new Course("   "));
+        assertThrows(IllegalArgumentException.class, () -> new Course("   ", testUser));
     }
 
     // ───────────── Title Setting ─────────────
@@ -78,6 +79,6 @@ class CourseTest {
         List<Flashcard> cards = course.getFlashcards();
 
         // depends on your sample data in SqliteFlashcardDAO
-        assertTrue(cards.stream().allMatch(c -> c.getCourse().equals("CAB202")));
+        assertTrue(cards.stream().allMatch(c -> c.getCourse().getTitle().equals("CAB202")));
     }
 }

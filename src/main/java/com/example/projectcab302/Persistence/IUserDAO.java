@@ -30,6 +30,14 @@ public interface IUserDAO {
     /**
      * Checks if a given email address is already registered in the database.
      *
+     * @param user_id The id to get the user
+     * @return {@code true} if the email exists, {@code false} otherwise.
+     */
+    User getUser(int user_id);
+
+    /**
+     * Checks if a given email address is already registered in the database.
+     *
      * @param email The email address to check.
      * @return {@code true} if the email exists, {@code false} otherwise.
      */

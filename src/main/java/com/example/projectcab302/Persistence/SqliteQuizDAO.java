@@ -26,7 +26,7 @@ public class SqliteQuizDAO implements IQuizDAO{
             String clearQuery = "DELETE FROM quiz";
             clearStatement.execute(clearQuery);
             Statement insertStatement = connection.createStatement();
-            String insertQuery = "INSERT INTO quiz(user_id, Course, QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES "
+            String insertQuery = "INSERT INTO quiz(user_id, course_id, QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES "
                     + "('1', 'CAB302',' put the matching input in', 'c', 'a', 'b', 'd', 'd'),"
                     + "('1', 'CAB302','put the non matching input in', 'a','b','c','b','b'),"
                     + "('1', 'CAB302','Is this loss', '|','||','||','|_','|_'),"
@@ -82,7 +82,7 @@ public class SqliteQuizDAO implements IQuizDAO{
     @Override
     public void addQuiz(Quiz quiz) {
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO quiz (user_id, Course, QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO quiz (user_id, course_id, QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             statement.setInt(1, quiz.getUser().getId());
             statement.setInt(2, quiz.getCourse().getId());
             statement.setString(3, quiz.getQuizQuestion());
@@ -140,7 +140,7 @@ public class SqliteQuizDAO implements IQuizDAO{
             if (resultSet.next()) {
 
                 int user_id = resultSet.getInt("user_id");
-                int course_id = resultSet.getInt("Course");
+                int course_id = resultSet.getInt("course_id");
                 String question = resultSet.getString("QuizQuestion");
                 String answer1 = resultSet.getString("Answer1");
                 String answer2 = resultSet.getString("Answer2");
@@ -179,7 +179,7 @@ public class SqliteQuizDAO implements IQuizDAO{
 
                 int id = resultSet.getInt("QuizID");
                 int user_id = resultSet.getInt("user_id");
-                int course_id = resultSet.getInt("Course");
+                int course_id = resultSet.getInt("course_id");
                 String question = resultSet.getString("QuizQuestion");
                 String answer1 = resultSet.getString("Answer1");
                 String answer2 = resultSet.getString("Answer2");

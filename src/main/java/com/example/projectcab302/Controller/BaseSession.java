@@ -6,9 +6,9 @@ import com.example.projectcab302.Model.User;
 public abstract class BaseSession {
     protected static User user;
 
-    public static void setUser(User user) {
+    public static void setUser(User user1) {
+        user = user1;
         System.out.println(user.getUsername());
-        BaseSession.user = user;
     }
 
 

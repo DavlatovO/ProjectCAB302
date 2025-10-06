@@ -3,7 +3,9 @@ package com.example.projectcab302.Controller;
 
 import com.example.projectcab302.Model.*;
 import com.example.projectcab302.Persistence.ICoursesDAO;
+import com.example.projectcab302.Persistence.IUserDAO;
 import com.example.projectcab302.Persistence.SqliteCoursesDAO;
+import com.example.projectcab302.Persistence.SqliteUserDAO;
 import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -118,8 +120,9 @@ public class CoursesController extends BaseFXMLandSession{
             return;
         }
 
+
         // Create and add the new course
-        Course newCourse = new Course(courseInput);
+        Course newCourse = new Course(courseInput, user);
         courseDAO.addCourse(newCourse);
 
         // Refresh the course grid
@@ -136,7 +139,7 @@ public class CoursesController extends BaseFXMLandSession{
      */
     @FXML
     private void onBack() throws IOException {
-        SceneManager.switchTo("teacher-view.fxml", this.user);
+        SceneManager.switchTo("teacher-view.fxml", user);
     }
 
 

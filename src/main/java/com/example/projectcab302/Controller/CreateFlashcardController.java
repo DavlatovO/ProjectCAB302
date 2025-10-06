@@ -155,7 +155,7 @@ public class CreateFlashcardController extends BaseCourseAndSession {
      */
     @FXML
     private void onPreview() throws IOException {
-        SceneManager.switchTo("flashcard-view.fxml", this.user, course);
+        SceneManager.switchTo("flashcard-view.fxml", user, course);
     }
 
     /**
@@ -165,6 +165,6 @@ public class CreateFlashcardController extends BaseCourseAndSession {
      */
     @FXML
     private void onBack() throws IOException {
-        SceneManager.switchTo("courses-view.fxml", this.user);
+        SceneManager.switchTo("courses-view.fxml", user);
     }
 }

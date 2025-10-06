@@ -53,13 +53,12 @@ public class TeacherController extends BaseSession{
     }
     @FXML
     protected void onQuizButtonClick() throws IOException {
-        SceneManager.switchTo("quiz.fxml", this.user);
+        SceneManager.switchTo("courses-view.fxml", this.user, "Edit-Quiz.fxml");
     }
 
     @FXML
     protected void onFlashcardsButtonClick() throws IOException {
-
-        SceneManager.switchTo("courses-view.fxml", this.user);
+        SceneManager.switchTo("courses-view.fxml", this.user, "createFlashcard-view.fxml");
     }
 
 

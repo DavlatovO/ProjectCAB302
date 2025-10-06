@@ -76,7 +76,7 @@ public class CoursesController extends BaseSession{
             Button btn = new Button(courses.get(idx).getTitle());
 
             // When clicked, switch to the flashcard creation view for this course
-            btn.setOnAction(e -> SceneManager.switchTo("createFlashcard-view.fxml", user, courses.get(idx)));
+            btn.setOnAction(e -> SceneManager.switchTo("createFlashcard-view.fxml", this.user, courses.get(idx)));
 
             // Let button expand in its grid cell
             btn.setMinWidth(0);
@@ -115,7 +115,7 @@ public class CoursesController extends BaseSession{
         }
 
         // Create and add the new course
-        Course newCourse = new Course(courseInput, user);
+        Course newCourse = new Course(courseInput);
         courseDAO.addCourse(newCourse);
 
         // Refresh the course grid
@@ -132,7 +132,7 @@ public class CoursesController extends BaseSession{
      */
     @FXML
     private void onBack() throws IOException {
-        SceneManager.switchTo("teacher-view.fxml", user);
+        SceneManager.switchTo("teacher-view.fxml", this.user);
     }
 
 

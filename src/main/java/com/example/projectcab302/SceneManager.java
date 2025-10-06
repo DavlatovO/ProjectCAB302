@@ -1,9 +1,6 @@
 package com.example.projectcab302;
 
-import com.example.projectcab302.Controller.BaseCourseAndSession;
-import com.example.projectcab302.Controller.BaseSession;
-import com.example.projectcab302.Controller.FlashcardController;
-import com.example.projectcab302.Controller.SessionInterface;
+import com.example.projectcab302.Controller.*;
 import com.example.projectcab302.Model.Course;
 import com.example.projectcab302.Model.User;
 import javafx.fxml.FXMLLoader;
@@ -37,6 +34,21 @@ public class SceneManager {
             Parent root = fxmlLoader.load();                 // must load before getController()
             BaseSession b = fxmlLoader.getController(); // Polymorphism
             b.setUser(user);
+            stage.setScene(new Scene(root, 1000, 600));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // For switching scene and injecting user and next fxml doc into the next controller
+    public static void switchTo(String fxmlFile, User user, String fxml) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/projectcab302/" + fxmlFile));
+            Parent root = fxmlLoader.load();                 // must load before getController()
+            BaseFXMLandSession b = fxmlLoader.getController(); // Polymorphism
+            b.setUser(user);
+            b.setFXML(fxml);
             stage.setScene(new Scene(root, 1000, 600));
             stage.show();
         } catch (IOException e) {

@@ -1,5 +1,6 @@
 package com.example.projectcab302.Controller;
 
+import com.example.projectcab302.Utils.Session;
 import com.example.projectcab302.SceneManager;
 import com.example.projectcab302.ViewManager;
 import javafx.fxml.FXML;
@@ -22,23 +23,23 @@ public class StudentController extends BaseSession {
 
     @FXML
     protected void logout() {
-        BaseSession.clear();
+        Session.clear();
         SceneManager.switchTo("landingpage.fxml");
     }
 
     @FXML
     protected void quiz() {
-        SceneManager.switchTo("quiz.fxml", this.user);
+        SceneManager.switchTo("courses-view.fxml", this.user, "studentQuiz.fxml");
     }
 
     @FXML
     protected void createFlashcard() {
-        SceneManager.switchTo("createFlashcard-view.fxml");
+        SceneManager.switchTo("courses-view.fxml", this.user, "flashcard-view.fxml");
     }
 
     @FXML
     protected void viewFlashcards() {
-        SceneManager.switchTo("flashcard-view.fxml");
+
     }
 
 }

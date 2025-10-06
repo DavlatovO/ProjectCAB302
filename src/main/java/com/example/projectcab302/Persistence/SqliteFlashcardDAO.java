@@ -1,6 +1,8 @@
 package com.example.projectcab302.Persistence;
 
+import com.example.projectcab302.Model.Course;
 import com.example.projectcab302.Model.Flashcard;
+import com.example.projectcab302.Model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -55,16 +57,16 @@ public class SqliteFlashcardDAO implements IFlashcardDAO {
 
             // Insert sample flashcards
             Statement insertStatement = connection.createStatement();
-            String insertQuery = "INSERT INTO flashcards(course, question, answer) VALUES "
-                    + "('CAB202', 'What does ldi do in AVR programming? ', 'load data into a register'),"
-                    + "('CAB202', 'What does sts do in AVR programming? ', 'store data from a register to a data space'),"
-                    + "('CAB202', 'What does rotate right do? ', 'Shifts all bits to the right and places the bits pushed out, back in front'),"
-                    + "('CAB302', 'What is Java? ', 'Java is a statically typed, object-oriented programming language and a runtime platform (JVM).'),"
-                    + "('CAB302', 'What agile software development? ', 'Agile software development is an iterative, incremental way of building software'),"
-                    + "('CAB302', 'What is maven? ', 'A Java build automation and dependency management tool.'),"
-                    + "('CAB201', 'In SOLID principles, what does the S stand for ', 'Single Responsibility, a class should have one reason to change'),"
-                    + "('CAB201', 'In SOLID principles, what does the O stand for ', 'Open/closed, Software entities should be open for extension, closed for modification.'),"
-                    + "('CAB201', 'In SOLID principles, what does the L stand for ', 'Liskov Substitution, subtypes must be usable wherever their base type is expected')";
+            String insertQuery = "INSERT INTO flashcards(user_id, course, question, answer) VALUES "
+                    + "('1', 'CAB202', 'What does ldi do in AVR programming? ', 'load data into a register'),"
+                    + "('1', 'CAB202', 'What does sts do in AVR programming? ', 'store data from a register to a data space'),"
+                    + "('1', 'CAB202', 'What does rotate right do? ', 'Shifts all bits to the right and places the bits pushed out, back in front'),"
+                    + "('1', 'CAB302', 'What is Java? ', 'Java is a statically typed, object-oriented programming language and a runtime platform (JVM).'),"
+                    + "('1', 'CAB302', 'What agile software development? ', 'Agile software development is an iterative, incremental way of building software'),"
+                    + "('1', 'CAB302', 'What is maven? ', 'A Java build automation and dependency management tool.'),"
+                    + "('1', 'CAB201', 'In SOLID principles, what does the S stand for ', 'Single Responsibility, a class should have one reason to change'),"
+                    + "('1', 'CAB201', 'In SOLID principles, what does the O stand for ', 'Open/closed, Software entities should be open for extension, closed for modification.'),"
+                    + "('1', 'CAB201', 'In SOLID principles, what does the L stand for ', 'Liskov Substitution, subtypes must be usable wherever their base type is expected')";
             insertStatement.execute(insertQuery);
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,6 +93,7 @@ public class SqliteFlashcardDAO implements IFlashcardDAO {
      * The table has the following schema:
      * <ul>
      *     <li>{@code id} – INTEGER PRIMARY KEY AUTOINCREMENT</li>
+     *     <li>{@code user_id} – INTEGER NOT NULL</li>
      *     <li>{@code course} – VARCHAR NOT NULL</li>
      *     <li>{@code question} – VARCHAR NOT NULL</li>
      *     <li>{@code answer} – VARCHAR NOT NULL</li>
@@ -102,9 +105,12 @@ public class SqliteFlashcardDAO implements IFlashcardDAO {
             Statement statement = connection.createStatement();
             String query = "CREATE TABLE IF NOT EXISTS flashcards ("
                     + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "user_id INTEGER NOT NULL,"
                     + "course VARCHAR NOT NULL,"
                     + "question VARCHAR NOT NULL,"
-                    + "answer VARCHAR NOT NULL"
+                    + "answer VARCHAR NOT NULL,"
+                    + "created_at DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                    + "FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE"
                     + ")";
             statement.execute(query);
         } catch (Exception e) {
@@ -121,11 +127,12 @@ public class SqliteFlashcardDAO implements IFlashcardDAO {
     public void addFlashcard(Flashcard flashcard) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO flashcards (course, question, answer) VALUES (?, ?, ?)",
+                    "INSERT INTO flashcards (user_id, course, question, answer) VALUES (?, ?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, flashcard.getCourse());
-            statement.setString(2, flashcard.getQuestion());
-            statement.setString(3, flashcard.getAnswer());
+            statement.setInt(1, flashcard.getUser().getId());
+            statement.setInt(2, flashcard.getCourse().getId());
+            statement.setString(3, flashcard.getQuestion());
+            statement.setString(4, flashcard.getAnswer());
 
             statement.executeUpdate();
 
@@ -190,11 +197,20 @@ public class SqliteFlashcardDAO implements IFlashcardDAO {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                String course = resultSet.getString("course");
+                int course_id = resultSet.getInt("course");
                 String question = resultSet.getString("question");
                 String answer = resultSet.getString("answer");
+                int user_id = resultSet.getInt("user_id");
 
-                Flashcard flashcard = new Flashcard(course, question, answer);
+                //Fetching the user from db
+                IUserDAO userDAO = new SqliteUserDAO();
+                User user = userDAO.getUser(user_id);
+
+                //Fetching the Course from the database
+                ICoursesDAO courseDAO = new SqliteCoursesDAO();
+                Course course = courseDAO.getCourse(course_id);
+
+                Flashcard flashcard = new Flashcard(user, course, question, answer);
                 flashcard.setId(id);
                 return flashcard;
             }
@@ -219,11 +235,20 @@ public class SqliteFlashcardDAO implements IFlashcardDAO {
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                String course = resultSet.getString("course");
+                int course_id = resultSet.getInt("course");
                 String question = resultSet.getString("question");
                 String answer = resultSet.getString("answer");
+                int user_id = resultSet.getInt("user_id");
 
-                Flashcard flashcard = new Flashcard(course, question, answer);
+                //Fetching the user from the database
+                IUserDAO userDAO = new SqliteUserDAO();
+                User user = userDAO.getUser(user_id);
+
+                //Fetching the Course from the database
+                ICoursesDAO courseDAO = new SqliteCoursesDAO();
+                Course course = courseDAO.getCourse(course_id);
+
+                Flashcard flashcard = new Flashcard(user, course, question, answer);
                 flashcard.setId(id);
                 flashcards.add(flashcard);
             }

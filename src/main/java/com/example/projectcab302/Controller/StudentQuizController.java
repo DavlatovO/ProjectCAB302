@@ -4,15 +4,13 @@ import com.example.projectcab302.Model.Course;
 import com.example.projectcab302.Model.Quiz;
 import com.example.projectcab302.Persistence.ICoursesDAO;
 import com.example.projectcab302.Persistence.IQuizDAO;
-import com.example.projectcab302.Persistence.SqlQuizDAO;
-import com.example.projectcab302.Persistence.SqliteCoursesDAO;
+import com.example.projectcab302.Persistence.SqliteQuizDAO;
 import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -60,7 +58,7 @@ public class StudentQuizController extends BaseCourseAndSession{
 
     @Override
     public void afterCourseisSet() {
-        quizDAO = new SqlQuizDAO();
+        quizDAO = new SqliteQuizDAO();
         quizzes = course.getQuizzes();
 
 
@@ -143,7 +141,7 @@ public class StudentQuizController extends BaseCourseAndSession{
         }
 
         // Create and add the new course
-        Course newCourse = new Course(courseInput);
+        Course newCourse = new Course(courseInput, user);
         courseDAO.addCourse(newCourse);
 
         // Refresh the course grid

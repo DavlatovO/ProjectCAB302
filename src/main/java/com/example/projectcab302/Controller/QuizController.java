@@ -1,10 +1,8 @@
 package com.example.projectcab302.Controller;
 
 import com.example.projectcab302.Model.Course;
-import com.example.projectcab302.Model.Quiz;
 import com.example.projectcab302.Persistence.ICoursesDAO;
 import com.example.projectcab302.Persistence.IQuizDAO;
-import com.example.projectcab302.Persistence.SqlQuizDAO;
 import com.example.projectcab302.Persistence.SqliteCoursesDAO;
 import com.example.projectcab302.SceneManager;
 import javafx.event.ActionEvent;
@@ -12,11 +10,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.stage.PopupWindow;
 
-import java.io.IOException;
 import java.util.List;
 
 
@@ -73,7 +68,7 @@ public class QuizController extends BaseSession {
             final int idx = i;
             Button btn = new Button(courses.get(idx).getTitle());
     
-            btn.setOnAction(e -> SceneManager.switchTo("Edit-Quiz.fxml", this.user, courses.get(idx)));
+            btn.setOnAction(e -> SceneManager.switchTo("Edit-Quiz.fxml", user, courses.get(idx)));
     
             btn.setMinWidth(0);
             btn.setMaxWidth(Double.MAX_VALUE);

@@ -426,7 +426,7 @@ public class FlashcardController extends BaseCourseAndSession {
      */
     @FXML
     private void onModifyFlashcard() throws IOException {
-        SceneManager.switchTo("createFlashcard-view.fxml", this.user, this.course);
+        SceneManager.switchTo("createFlashcard-view.fxml", user, this.course);
     }
 
     /**

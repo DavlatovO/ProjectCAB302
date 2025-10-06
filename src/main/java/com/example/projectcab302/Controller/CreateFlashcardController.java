@@ -143,7 +143,7 @@ public class CreateFlashcardController extends BaseCourseAndSession {
             String question = matcher.group(1).trim();
             String answer = matcher.group(2).trim();
 
-            Flashcard card = new Flashcard(course.getTitle(), question, answer);
+            Flashcard card = new Flashcard(user, course, question, answer);
             flashcardDAO.addFlashcard(card);
         }
     }

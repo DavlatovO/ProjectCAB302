@@ -3,19 +3,16 @@ package com.example.projectcab302.Controller;
 import com.example.projectcab302.Model.*;
 import com.example.projectcab302.Persistence.ICoursesDAO;
 import com.example.projectcab302.Persistence.IQuizDAO;
-import com.example.projectcab302.Persistence.SqlQuizDAO;
+import com.example.projectcab302.Persistence.SqliteQuizDAO;
 import com.example.projectcab302.Persistence.SqliteCoursesDAO;
 import com.example.projectcab302.SceneManager;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
-import javax.swing.*;
 import java.lang.String;
 import java.util.List;
-import java.util.Objects;
 
 
 public class CreateQuizController {
@@ -154,9 +151,9 @@ public class CreateQuizController {
         Course chosenCourse = courseListView.getSelectionModel().getSelectedItem();
 
         startQuiz.setVisible(false);
-        quizDAO = new SqlQuizDAO();
+        quizDAO = new SqliteQuizDAO();
         courseListView.setVisible(false);
-        List<Quiz> questions = quizDAO.getAllQuestionsfromCourse(chosenCourse.getTitle());
+        List<Quiz> questions = quizDAO.getAllQuestionsfromCourse(chosenCourse);
         System.out.println(questions);
         ToggleGroup group = new ToggleGroup();
         optionAField.setToggleGroup(group);

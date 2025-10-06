@@ -2,16 +2,18 @@ package com.example.projectcab302.Model;
 
 public class Quiz {
     private int quizID;
+    private User user;
     private String QuizQuestion;
     private String Answer1;
     private String Answer2;
     private String Answer3;
     private String Answer4;
     private String correctAnswer;
-    private String Course;
+    private Course course;
 
-    public Quiz(String Course, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer) {
-        this.Course = Course;
+    public Quiz(User user, Course course, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer) {
+        this.user = user;
+        this.course = course;
         this.QuizQuestion = QuizQuestion;
         this.Answer1 = Answer1;
         this.Answer2 = Answer2;
@@ -23,9 +25,10 @@ public class Quiz {
     public int getQuizID() {
         return quizID;
     }
-    public String getCourse()
+    public User getUser() {return user;}
+    public Course getCourse()
     {
-        return Course;
+        return course;
     }
     public String getQuizQuestion() {
         return QuizQuestion;
@@ -79,8 +82,8 @@ public class Quiz {
         if (correctAnswer == null) throw new IllegalArgumentException("CorrectAnswer cannot be null");
         this.correctAnswer = correctAnswer;
     }
-    public void setCourse(String course) {
-        this.Course = course;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
 
@@ -88,6 +91,7 @@ public class Quiz {
     public String toString() {
         return "Quiz{" +
                 "quizID=" + quizID +
+                ", User.username='" + user.getUsername() + '\'' +
                 ", QuizQuestion='" + QuizQuestion + '\'' +
                 ", Answer1=" + Answer1 + '\'' +
                 ", Answer2=" + Answer2 + '\'' +

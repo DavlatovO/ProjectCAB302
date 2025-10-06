@@ -3,7 +3,6 @@ package com.example.projectcab302.Controller;
 
 import com.example.projectcab302.Persistence.IUserDAO;
 import com.example.projectcab302.Persistence.SqliteUserDAO;
-import com.example.projectcab302.Utils.Session;
 import com.example.projectcab302.Model.User;
 import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
@@ -28,10 +27,10 @@ public class LoginController {
 
         User user = userDAO.login(username, password);
         if (user != null) {
-            Session.setUser(user);
+            BaseSession.setUser(user);
             switch (user.getRoles()) {
-                case Student -> SceneManager.switchTo("student-view.fxml");
-                case Teacher -> SceneManager.switchTo("teacher-view.fxml");
+                case Student -> SceneManager.switchTo("student-view.fxml", user);
+                case Teacher -> SceneManager.switchTo("teacher-view.fxml", user);
             }
         } else {
             errorLabel.setText("Login failed. Try again.");

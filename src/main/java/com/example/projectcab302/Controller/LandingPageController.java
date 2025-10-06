@@ -20,15 +20,21 @@ public class LandingPageController {
 
     @FXML
     protected void teacherDashboard() {
-        Teacher user = new Teacher("John", "john@123.com", User.Roles.Teacher, "123");
+        if (BaseSession.getUser() == null) {
+            SceneManager.switchTo("login-view.fxml");
+//            SceneManager.switchTo("teacher-view.fxml", user);
+        }
 
-        SceneManager.switchTo("teacher-view.fxml", user);
+
     }
 
     @FXML
     protected void studentDashboard() {
-        Student user = new Student("Student", "john@123.com", User.Roles.Student, "123");
-        SceneManager.switchTo("student-view.fxml", user);
+        if (BaseSession.getUser() == null) {
+            SceneManager.switchTo("login-view.fxml");
+//            SceneManager.switchTo("teacher-view.fxml", user);
+        }
+//        SceneManager.switchTo("student-view.fxml", user);
     }
 
 }

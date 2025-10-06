@@ -21,6 +21,11 @@ public class Flashcard {
      */
     private int id;
 
+    /**
+     * User's identifier for this flashcard.
+     */
+    private User user;
+
     /** The prompt or question shown to the learner. */
     private String question;
 
@@ -28,7 +33,7 @@ public class Flashcard {
     private String answer;
 
     /** The expected answer to the question. */
-    private String course;
+    private Course course;
 
     /**
      * Constructs a new {@code Flashcard}.
@@ -37,10 +42,11 @@ public class Flashcard {
      * @param question the question text (e.g., "What is 2 + 2?")
      * @param answer   the answer text (e.g., "4")
      */
-    public Flashcard(String course, String question, String answer) {
+    public Flashcard(User user, Course course, String question, String answer) {
+        this.user = user;
+        this.course = course;
         setQuestion(question);
         setAnswer(answer);
-        setCourse(course);
     }
 
     /**
@@ -50,6 +56,15 @@ public class Flashcard {
      */
     public int getId() {
         return id;
+    }
+
+    /**
+     * Returns the unique identifier for this flashcard.
+     *
+     * @return the user who created the course
+     */
+    public User getUser() {
+        return user;
     }
 
     /**
@@ -105,18 +120,17 @@ public class Flashcard {
      *
      * @return the course
      */
-    public String getCourse() {
+    public Course getCourse() {
         return this.course;
     }
 
     /**
      * Updates the answer text.
      *
-     * @param Course the new answer text
+     * @param course the new answer text
      */
-    public void setCourse(String Course) {
-
-        this.course = modelUtils.checkValidityAndTrim(Course, "Course title");
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
 

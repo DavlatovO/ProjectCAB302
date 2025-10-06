@@ -1,10 +1,9 @@
 package com.example.projectcab302.Controller;
 
-import com.example.projectcab302.Model.Course;
 import com.example.projectcab302.Model.Quiz;
 import com.example.projectcab302.Persistence.ICoursesDAO;
 import com.example.projectcab302.Persistence.IQuizDAO;
-import com.example.projectcab302.Persistence.SqlQuizDAO;
+import com.example.projectcab302.Persistence.SqliteQuizDAO;
 import com.example.projectcab302.SceneManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -12,9 +11,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.json.JSONObject;
 
@@ -27,7 +23,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.io.*;
 
 public class EditQuizController extends BaseCourseAndSession {
 
@@ -57,7 +52,7 @@ public class EditQuizController extends BaseCourseAndSession {
     private IQuizDAO quizDAO;
 
     public EditQuizController() {
-        quizDAO = new SqlQuizDAO();
+        quizDAO = new SqliteQuizDAO();
     }
 
     private void SelectedQuiz(Quiz question) {
@@ -126,7 +121,8 @@ public class EditQuizController extends BaseCourseAndSession {
     @FXML
     private void onCreateQuiz() {
         Quiz newQuestion = new Quiz(
-                course.getTitle(),
+                course.getUser(),
+                course,
                 questionField.getText(),
                 optionAField.getText(),
                 optionBField.getText(),

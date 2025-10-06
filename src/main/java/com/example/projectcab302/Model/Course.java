@@ -1,11 +1,9 @@
 package com.example.projectcab302.Model;
 
-import com.example.projectcab302.Persistence.ICoursesDAO;
 import com.example.projectcab302.Persistence.IFlashcardDAO;
 import com.example.projectcab302.Persistence.IQuizDAO;
-import com.example.projectcab302.Persistence.SqliteCoursesDAO;
 import com.example.projectcab302.Persistence.SqliteFlashcardDAO;
-import com.example.projectcab302.Persistence.SqlQuizDAO;
+import com.example.projectcab302.Persistence.SqliteQuizDAO;
 import com.example.projectcab302.modelUtils;
 
 import java.util.ArrayList;
@@ -24,6 +22,11 @@ public class Course {
     private int id;
 
     /**
+     * Unique identifier for the user (matches the database ID).
+     */
+    private User user;
+
+    /**
      * The title of the course (e.g., "CAB202").
      */
     private String title;
@@ -38,16 +41,18 @@ public class Course {
      * Data Access Object (DAO) for quizzes.
      * Used to fetch quizzes from the database.
      */
-    private IQuizDAO quizDAO = new SqlQuizDAO();
+    private IQuizDAO quizDAO = new SqliteQuizDAO();
 
     /**
      * Constructs a new Course instance with the specified title.
      *
      * @param title the title of the course
+     * @param user the owner of the course
      * @throws IllegalArgumentException if the title is invalid
      */
-    public Course(String title) {
+    public Course(String title, User user) {
         this.setTitle(title);
+        this.user = user;
     }
 
     /**
@@ -84,6 +89,14 @@ public class Course {
         return courseQuizzes;
     }
 
+    /**
+     * Returns the unique identifier for this flashcard.
+     *
+     * @return the user who created the course
+     */
+    public User getUser() {
+        return user;
+    }
 
     /**
      * Gets the unique ID of the course.

@@ -1,6 +1,7 @@
 package com.example.projectcab302.Persistence;
 
 import com.example.projectcab302.Model.Course;
+import com.example.projectcab302.Model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -54,10 +55,10 @@ public class SqliteCoursesDAO implements ICoursesDAO {
 
             // Insert sample records
             Statement insertStatement = connection.createStatement();
-            String insertQuery = "INSERT INTO courses(title) VALUES "
-                    + "('CAB202'),"
-                    + "('CAB302'),"
-                    + "('CAB201')";
+            String insertQuery = "INSERT INTO courses(user_id, title) VALUES "
+                    + "('1','CAB202'),"
+                    + "('1','CAB302'),"
+                    + "('1','CAB201')";
             insertStatement.execute(insertQuery);
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,7 +119,10 @@ public class SqliteCoursesDAO implements ICoursesDAO {
             Statement statement = connection.createStatement();
             String query = "CREATE TABLE IF NOT EXISTS courses ("
                     + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "title VARCHAR NOT NULL"
+                    + "user_id INTEGER NOT NULL,"
+                    + "title VARCHAR NOT NULL,"
+                    + "created_at DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                    + "FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE"
                     + ")";
             statement.execute(query);
         } catch (Exception e) {
@@ -139,10 +143,10 @@ public class SqliteCoursesDAO implements ICoursesDAO {
         }
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO courses (title) VALUES (?)",
+                    "INSERT INTO courses (user_id, title) VALUES (?,?)",
                     Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, course.getTitle());
-
+            statement.setInt(1, course.getUser().getId());
+            statement.setString(2, course.getTitle());
             statement.executeUpdate();
 
             // Set the generated ID on the course object
@@ -206,9 +210,17 @@ public class SqliteCoursesDAO implements ICoursesDAO {
 
             if (resultSet.next()) {
                 String title = resultSet.getString("title");
-                Course course = new Course(title);
-                course.setId(id);
-                return course;
+                int user_id = resultSet.getInt("user_id");
+
+                //Fetch user from the database
+                IUserDAO userDAO = new SqliteUserDAO();
+                User user = userDAO.getUser(user_id);
+                if (user != null) {
+                    Course course = new Course(title, user);
+                    course.setId(id);
+                    return course;
+                }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -232,8 +244,14 @@ public class SqliteCoursesDAO implements ICoursesDAO {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String title = resultSet.getString("title");
+                int user_id = resultSet.getInt("user_id");
 
-                Course course = new Course(title);
+                //fetching the corresponding user from db
+                //Fetch user from the database
+                IUserDAO userDAO = new SqliteUserDAO();
+                User user = userDAO.getUser(user_id);
+
+                Course course = new Course(title, user);
                 course.setId(id);
                 courses.add(course);
             }

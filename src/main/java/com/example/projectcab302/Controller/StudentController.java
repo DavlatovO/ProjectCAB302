@@ -29,12 +29,12 @@ public class StudentController extends BaseSession {
 
     @FXML
     protected void quiz() {
-        SceneManager.switchTo("quiz.fxml", this.user);
+        SceneManager.switchTo("courses-view.fxml", this.user, "studentQuiz.fxml");
     }
 
     @FXML
     protected void createFlashcard() {
-
+        SceneManager.switchTo("courses-view.fxml", this.user, "flashcard-view.fxml");
     }
 
     @FXML

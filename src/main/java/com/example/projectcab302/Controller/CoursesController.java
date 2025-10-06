@@ -17,7 +17,7 @@ import java.util.List;
  * Controller for the Courses view.
 
  */
-public class CoursesController extends BaseSession{
+public class CoursesController extends BaseFXMLandSession{
     // ───────────── Layouts ─────────────
     @FXML private VBox allCourses;
     @FXML private GridPane courseGrid;
@@ -34,6 +34,7 @@ public class CoursesController extends BaseSession{
     private ICoursesDAO courseDAO;
     private List<Course> courses;
     private Course course;
+
 
 
     /**
@@ -58,6 +59,9 @@ public class CoursesController extends BaseSession{
         createCoursesGrid();
     }
 
+
+
+
     /**
      * Populates the grid with buttons for all available courses.
      * <p>
@@ -76,7 +80,7 @@ public class CoursesController extends BaseSession{
             Button btn = new Button(courses.get(idx).getTitle());
 
             // When clicked, switch to the flashcard creation view for this course
-            btn.setOnAction(e -> SceneManager.switchTo("createFlashcard-view.fxml", this.user, courses.get(idx)));
+            btn.setOnAction(e -> SceneManager.switchTo(this.fxml, this.user, courses.get(idx)));
 
             // Let button expand in its grid cell
             btn.setMinWidth(0);

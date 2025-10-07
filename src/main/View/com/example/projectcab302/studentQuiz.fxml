@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 
-
+<?import javafx.scene.text.Text?>
 <BorderPane xmlns="http://javafx.com/javafx/21"
             stylesheets="@dashboards.css"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -32,16 +32,7 @@
 <center>
     <VBox fx:id="allCourses" spacing="6" alignment="TOP_CENTER" style="-fx-padding: 6;">
         <!-- Row with input + button side by side -->
-        <HBox spacing="8" alignment="CENTER_LEFT">
-            <!-- If you really want multiple lines, keep TextArea; otherwise use TextField -->
-            <TextField fx:id="courseField"
-                       promptText="Add your course here"
-                       HBox.hgrow="ALWAYS"/>
-            <Button fx:id="createCourse"
-                    text="+  Create Course"
-                    onAction="#onCreateCourse"
-                    style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
-        </HBox>
+
 
         <ScrollPane fx:id="scrollPane"
                     fitToWidth="true"
@@ -56,7 +47,15 @@
             </content>
         </ScrollPane>
 
+        <HBox fx:id="submitWindow" spacing="8" alignment="CENTER_LEFT">
+            <!-- If you really want multiple lines, keep TextArea; otherwise use TextField -->
 
+            <Button fx:id="submit"
+                    text="Submit"
+                    onAction="#onSubmit"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+            <Text fx:id="score" />
+        </HBox>
         <!-- Your course container -->
 
     </VBox>

@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,18 +28,22 @@ public class StudentQuizController extends BaseCourseAndSession{
     @FXML private VBox allQuestions;
     @FXML private GridPane courseGrid;
     @FXML private HBox courseBox;
+    @FXML private HBox submitWindow;
 
     // ───────────── Buttons ─────────────
     @FXML
     Button createCourse;
     @FXML Button back;
+    @FXML Button submit;
 
     // ───────────── Texts ─────────────
     @FXML private TextField courseField;
+    @FXML private Text score;
 
     // ─────── Controller state (non-UI, no @FXML) ───────
     private ICoursesDAO courseDAO;
     private List<Course> courses;
+    private List<String> selectedAnswers = new ArrayList<>();
 
     private IQuizDAO quizDAO;
     private List<Quiz> quizzes;
@@ -63,6 +68,7 @@ public class StudentQuizController extends BaseCourseAndSession{
         quizDAO = new SqlQuizDAO();
         quizzes = course.getQuizzes();
 
+        while (selectedAnswers.size() < quizzes.size()) selectedAnswers.add(null);
 
         createCoursesGrid();
     }
@@ -91,10 +97,29 @@ public class StudentQuizController extends BaseCourseAndSession{
 
 
             String correctAnswer = quizzes.get(idx).getCorrectAnswer();
+            btn1.setOnAction(e ->{
+                onButtonSelect(btn1, btn1, btn2, btn3, btn4);
+                storeAnswer(quizzes.get(idx).getAnswer1(), idx);
+            });
+            btn2.setOnAction(e -> {
+                onButtonSelect(btn2, btn1, btn2, btn3, btn4);
+                storeAnswer(quizzes.get(idx).getAnswer2(), idx);
+            });
+            btn3.setOnAction(e -> {
+                onButtonSelect(btn3, btn1, btn2, btn3, btn4);
+                storeAnswer(quizzes.get(idx).getAnswer3(), idx);
+            });
+            btn4.setOnAction(e -> {
+                onButtonSelect(btn4, btn1, btn2, btn3, btn4);
+                storeAnswer(quizzes.get(idx).getAnswer4(), idx);
+            });
+
+            /*
             btn1.setOnAction(e -> checkAnswer(quizzes.get(idx).getAnswer1(), correctAnswer, btn1));
             btn2.setOnAction(e -> checkAnswer(quizzes.get(idx).getAnswer2(), correctAnswer, btn2));
             btn3.setOnAction(e -> checkAnswer(quizzes.get(idx).getAnswer3(), correctAnswer, btn3));
             btn4.setOnAction(e -> checkAnswer(quizzes.get(idx).getAnswer4(), correctAnswer, btn4));
+            */
 
             // Let button expand in its grid cell
             btn1.setMinWidth(0);
@@ -115,13 +140,32 @@ public class StudentQuizController extends BaseCourseAndSession{
         }
     }
 
-    public void checkAnswer(String answer, String correctAnswer, Button btn){
-        if (Objects.equals(answer, correctAnswer)){
-            btn.setStyle("-fx-background-color: green; -fx-text-fill: black;");
-        } else{
-            btn.setStyle("-fx-background-color: red; -fx-text-fill: black;");
-        }
+    public void onButtonSelect(Button btn, Button btn1, Button btn2, Button btn3, Button btn4){
+        btn1.setStyle("");
+        btn2.setStyle("");
+        btn3.setStyle("");
+        btn4.setStyle("");
+
+        btn.setStyle("-fx-background-color: grey; -fx-text-fill: black;");
+
     }
+
+    public void storeAnswer(String answer, int index){
+        selectedAnswers.set(index, answer);
+    }
+
+    public void onSubmit(){
+        int tally = 0;
+        System.out.println(selectedAnswers);
+        for (int i = 0; i < quizzes.size(); i++){
+            if (Objects.equals(quizzes.get(i).getCorrectAnswer(), selectedAnswers.get(i))){
+
+                tally++;
+            }
+        }
+        score.setText(tally + "/" + quizzes.size());
+    }
+
 
     /**
      * Handles the action when the "Create Course" button is pressed.

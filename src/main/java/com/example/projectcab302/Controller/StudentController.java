@@ -23,6 +23,7 @@ public class StudentController extends BaseSession {
     @FXML
     protected void logout() {
 
+        clear();
         SceneManager.switchTo("landingpage.fxml");
     }
 
@@ -33,12 +34,11 @@ public class StudentController extends BaseSession {
 
     @FXML
     protected void createFlashcard() {
-        SceneManager.switchTo("courses-view.fxml", this.user, "flashcard-view.fxml");
+        SceneManager.switchTo("courses-view.fxml", user, "flashcard-view.fxml");
     }
 
     @FXML
     protected void viewFlashcards() {
-
     }
 
 }

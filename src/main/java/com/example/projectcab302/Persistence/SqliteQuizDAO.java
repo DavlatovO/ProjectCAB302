@@ -27,10 +27,10 @@ public class SqliteQuizDAO implements IQuizDAO{
             clearStatement.execute(clearQuery);
             Statement insertStatement = connection.createStatement();
             String insertQuery = "INSERT INTO quiz(user_id, course_id, QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES "
-                    + "('1', 'CAB302',' put the matching input in', 'c', 'a', 'b', 'd', 'd'),"
-                    + "('1', 'CAB302','put the non matching input in', 'a','b','c','b','b'),"
-                    + "('1', 'CAB302','Is this loss', '|','||','||','|_','|_'),"
-                    + "('1', 'CAB302','What is a valid type of signal modulation? ', 'Bell', 'Gate', 'Digitisation', 'Phase', 'Phase')";
+                    + "('1', '1', ' put the matching input in', 'c', 'a', 'b', 'd', 'd'),"
+                    + "('1', '1', 'put the non matching input in', 'a','b','c','b','b'),"
+                    + "('1', '1', 'Is this loss', '|','||','||','|_','|_'),"
+                    + "('1', '1', 'What is a valid type of signal modulation? ', 'Bell', 'Gate', 'Digitisation', 'Phase', 'Phase')";
 //                    + "( 'Fourier transform of a Gate function? ', 'Sin', 'Cos', 'Sinc', 'Cot', 'Sinc','CAB302'),"
 //                    + "( 'What Filter is used in FM signal reception', 'Matched', 'Bandpass', 'Lowpass', 'IDK','Matched','CAB302'),"
 //                    + "('What are diodes made of?', 'Doped silicon', 'Doped lemon', 'Spicy rocks?', 'Copper', 'Doped silicon','CAB302'),"
@@ -60,17 +60,17 @@ public class SqliteQuizDAO implements IQuizDAO{
             Statement statement = connection.createStatement();
             String query = "CREATE TABLE IF NOT EXISTS quiz("
                     + "quizID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "user_id INTEGER NOT NULL"
+                    + "user_id INTEGER NOT NULL,"
                     + "course_id INTEGER,"
-                    + "QuizQuestion VARCHAR NOT NULL,"
-                    + "Answer1 VARCHAR NOT NULL,"
-                    + "Answer2 VARCHAR NOT NULL,"
-                    + "Answer3 VARCHAR NOT NULL,"
-                    + "Answer4 VARCHAR NOT NULL,"
+                    + "quizQuestion VARCHAR NOT NULL,"
+                    + "answer1 VARCHAR NOT NULL,"
+                    + "answer2 VARCHAR NOT NULL,"
+                    + "answer3 VARCHAR NOT NULL,"
+                    + "answer4 VARCHAR NOT NULL,"
                     + "correctAnswer VARCHAR NOT NULL,"
                     + "created_at DATETIME DEFAULT CURRENT_TIMESTAMP,"
                     + "FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,"
-                    + "FOREIGN KEY(course_id) REFERENCES courses(id) ON DELETE CASCADE,"
+                    + "FOREIGN KEY(course_id) REFERENCES courses(id) ON DELETE CASCADE"
                     + ")";
             statement.execute(query);
         } catch (Exception e) {
@@ -82,7 +82,7 @@ public class SqliteQuizDAO implements IQuizDAO{
     @Override
     public void addQuiz(Quiz quiz) {
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO quiz (user_id, course_id, QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO quiz (user_id, course_id, quizQuestion, answer1, answer2, answer3, answer4, correctAnswer) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             statement.setInt(1, quiz.getUser().getId());
             statement.setInt(2, quiz.getCourse().getId());
             statement.setString(3, quiz.getQuizQuestion());
@@ -105,7 +105,7 @@ public class SqliteQuizDAO implements IQuizDAO{
     public void updateQuiz(Quiz quizs) {
 
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE quiz SET Course = ?, QuizQuestion = ?, Answer1 = ?, Answer2 = ?, Answer3 = ?, Answer4 = ?, correctAnswer = ? WHERE QuizID = ?");
+            PreparedStatement statement = connection.prepareStatement("UPDATE quiz SET course = ?, quizQuestion = ?, answer1 = ?, answer2 = ?, answer3 = ?, answer4 = ?, correctAnswer = ? WHERE quizID = ?");
             statement.setInt(1, quizs.getCourse().getId());
             statement.setString(2, quizs.getQuizQuestion());
             statement.setString(3, quizs.getAnswer1());
@@ -121,10 +121,10 @@ public class SqliteQuizDAO implements IQuizDAO{
     }
 
     @Override
-    public void deleteQuiz(Quiz quizs) {
+    public void deleteQuiz(Quiz quiz) {
         try {
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM quiz WHERE QuizID = ?");
-            statement.setInt(1, quizs.getQuizID());
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM quiz WHERE quizID = ?");
+            statement.setInt(1, quiz.getQuizID());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,18 +134,18 @@ public class SqliteQuizDAO implements IQuizDAO{
     @Override
     public Quiz getQuiz(int id) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM quiz WHERE QuizID = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM quiz WHERE quizID = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
 
                 int user_id = resultSet.getInt("user_id");
                 int course_id = resultSet.getInt("course_id");
-                String question = resultSet.getString("QuizQuestion");
-                String answer1 = resultSet.getString("Answer1");
-                String answer2 = resultSet.getString("Answer2");
-                String answer3 = resultSet.getString("Answer3");
-                String answer4 = resultSet.getString("Answer4");
+                String question = resultSet.getString("quizQuestion");
+                String answer1 = resultSet.getString("answer1");
+                String answer2 = resultSet.getString("answer2");
+                String answer3 = resultSet.getString("answer3");
+                String answer4 = resultSet.getString("answer4");
                 String correctAnswer = resultSet.getString("correctAnswer");
 
                 //Fetching the user from the database
@@ -156,7 +156,7 @@ public class SqliteQuizDAO implements IQuizDAO{
                 ICoursesDAO courseDAO = new SqliteCoursesDAO();
                 Course course = courseDAO.getCourse(course_id);
 
-                Quiz quizs = new Quiz(user, course,question, answer1,answer2,answer3, answer4, correctAnswer);
+                Quiz quizs = new Quiz(user, course, question, answer1, answer2, answer3, answer4, correctAnswer);
                 quizs.setQuizID(id);
                 return quizs;
             }
@@ -177,14 +177,14 @@ public class SqliteQuizDAO implements IQuizDAO{
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
 
-                int id = resultSet.getInt("QuizID");
+                int id = resultSet.getInt("quizID");
                 int user_id = resultSet.getInt("user_id");
                 int course_id = resultSet.getInt("course_id");
-                String question = resultSet.getString("QuizQuestion");
-                String answer1 = resultSet.getString("Answer1");
-                String answer2 = resultSet.getString("Answer2");
-                String answer3 = resultSet.getString("Answer3");
-                String answer4 = resultSet.getString("Answer4");
+                String question = resultSet.getString("quizQuestion");
+                String answer1 = resultSet.getString("answer1");
+                String answer2 = resultSet.getString("answer2");
+                String answer3 = resultSet.getString("answer3");
+                String answer4 = resultSet.getString("answer4");
                 String correctAnswer = resultSet.getString("correctAnswer");
 
                 //Fetching the user from the database
@@ -211,20 +211,20 @@ public class SqliteQuizDAO implements IQuizDAO{
     public List<Quiz> getAllQuestionsfromCourse(Course course) {
         List<Quiz> quizs = new ArrayList<>();
         try {
-            PreparedStatement statement = connection.prepareStatement( "SELECT * FROM quiz WHERE Course = ?");
+            PreparedStatement statement = connection.prepareStatement( "SELECT * FROM quiz WHERE course_id = ?");
             statement.setInt(1,course.getId());
             ResultSet resultSet = statement.executeQuery();
             System.out.println("at query");
             while (resultSet.next()) {
 
-                int id = resultSet.getInt("QuizID");
+                int id = resultSet.getInt("quizID");
                 int user_id = resultSet.getInt("user_id");
                 //String course = resultSet.getString("course");
-                String question = resultSet.getString("QuizQuestion");
-                String answer1 = resultSet.getString("Answer1");
-                String answer2 = resultSet.getString("Answer2");
-                String answer3 = resultSet.getString("Answer3");
-                String answer4 = resultSet.getString("Answer4");
+                String question = resultSet.getString("quizQuestion");
+                String answer1 = resultSet.getString("answer1");
+                String answer2 = resultSet.getString("answer2");
+                String answer3 = resultSet.getString("answer3");
+                String answer4 = resultSet.getString("answer4");
                 String correctAnswer = resultSet.getString("correctAnswer");
 
                 //Fetching the user from the database

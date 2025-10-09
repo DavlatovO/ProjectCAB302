@@ -58,6 +58,7 @@ public class SqliteCoursesDAO implements ICoursesDAO {
             String insertQuery = "INSERT INTO courses(user_id, title) VALUES "
                     + "('1','CAB202'),"
                     + "('1','CAB302'),"
+                    +  "('1','CAB340'),"
                     + "('1','CAB201')";
             insertStatement.execute(insertQuery);
         } catch (Exception e) {
@@ -118,7 +119,7 @@ public class SqliteCoursesDAO implements ICoursesDAO {
         try {
             Statement statement = connection.createStatement();
             String query = "CREATE TABLE IF NOT EXISTS courses ("
-                    + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "course_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "user_id INTEGER NOT NULL,"
                     + "title VARCHAR NOT NULL,"
                     + "created_at DATETIME DEFAULT CURRENT_TIMESTAMP,"
@@ -168,7 +169,7 @@ public class SqliteCoursesDAO implements ICoursesDAO {
     public void updateCourse(Course course) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE courses SET title = ? WHERE id = ?");
+                    "UPDATE courses SET title = ? WHERE course_id = ?");
             statement.setString(1, course.getTitle());
             statement.setInt(2, course.getId());
             statement.executeUpdate();
@@ -186,7 +187,7 @@ public class SqliteCoursesDAO implements ICoursesDAO {
     public void deleteCourse(Course course) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "DELETE FROM courses WHERE id = ?");
+                    "DELETE FROM courses WHERE course_id = ?");
             statement.setInt(1, course.getId());
             statement.executeUpdate();
         } catch (Exception e) {
@@ -204,7 +205,7 @@ public class SqliteCoursesDAO implements ICoursesDAO {
     public Course getCourse(int id) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM courses WHERE id = ?");
+                    "SELECT * FROM courses WHERE course_id = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
 
@@ -242,7 +243,7 @@ public class SqliteCoursesDAO implements ICoursesDAO {
             ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
+                int id = resultSet.getInt("course_id");
                 String title = resultSet.getString("title");
                 int user_id = resultSet.getInt("user_id");
 

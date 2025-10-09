@@ -64,6 +64,7 @@ public class TeacherController extends BaseSession{
 
     @FXML
     protected void logout() {
+        clear();
         SceneManager.switchTo("landingpage.fxml");
     }
 

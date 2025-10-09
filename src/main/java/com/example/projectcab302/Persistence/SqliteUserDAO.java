@@ -66,7 +66,7 @@ public class SqliteUserDAO implements IUserDAO {
     }
 
     @Override
-    public void createUser(User user) {
+    public void registerUser(User user) {
         //Save user details to the database
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -151,7 +151,7 @@ public class SqliteUserDAO implements IUserDAO {
     @Override
     public User getUser(int user_id) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT FROM user WHERE id = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT username, email, role, password FROM users WHERE id = ?");
             statement.setInt(1, user_id);
             ResultSet resultSet = statement.executeQuery();
 

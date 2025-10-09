@@ -6,7 +6,7 @@ import com.example.projectcab302.Model.User;
 import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
 
-public class LandingPageController {
+public class LandingPageController extends BaseSession{
 
     @FXML
     protected void login() {
@@ -20,7 +20,7 @@ public class LandingPageController {
 
     @FXML
     protected void teacherDashboard() {
-        if (BaseSession.getUser() == null) {
+        if (getUser() == null) {
             SceneManager.switchTo("login-view.fxml");
 //            SceneManager.switchTo("teacher-view.fxml", user);
         }
@@ -30,7 +30,7 @@ public class LandingPageController {
 
     @FXML
     protected void studentDashboard() {
-        if (BaseSession.getUser() == null) {
+        if (getUser() == null) {
             SceneManager.switchTo("login-view.fxml");
 //            SceneManager.switchTo("teacher-view.fxml", user);
         }

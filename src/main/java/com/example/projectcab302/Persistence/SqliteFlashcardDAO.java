@@ -58,15 +58,15 @@ public class SqliteFlashcardDAO implements IFlashcardDAO {
             // Insert sample flashcards
             Statement insertStatement = connection.createStatement();
             String insertQuery = "INSERT INTO flashcards(user_id, course, question, answer) VALUES "
-                    + "('1', 'CAB202', 'What does ldi do in AVR programming? ', 'load data into a register'),"
-                    + "('1', 'CAB202', 'What does sts do in AVR programming? ', 'store data from a register to a data space'),"
-                    + "('1', 'CAB202', 'What does rotate right do? ', 'Shifts all bits to the right and places the bits pushed out, back in front'),"
-                    + "('1', 'CAB302', 'What is Java? ', 'Java is a statically typed, object-oriented programming language and a runtime platform (JVM).'),"
-                    + "('1', 'CAB302', 'What agile software development? ', 'Agile software development is an iterative, incremental way of building software'),"
-                    + "('1', 'CAB302', 'What is maven? ', 'A Java build automation and dependency management tool.'),"
-                    + "('1', 'CAB201', 'In SOLID principles, what does the S stand for ', 'Single Responsibility, a class should have one reason to change'),"
-                    + "('1', 'CAB201', 'In SOLID principles, what does the O stand for ', 'Open/closed, Software entities should be open for extension, closed for modification.'),"
-                    + "('1', 'CAB201', 'In SOLID principles, what does the L stand for ', 'Liskov Substitution, subtypes must be usable wherever their base type is expected')";
+                    + "('1', '1', 'What does ldi do in AVR programming? ', 'load data into a register'),"
+                    + "('1', '1', 'What does sts do in AVR programming? ', 'store data from a register to a data space'),"
+                    + "('1', '1', 'What does rotate right do? ', 'Shifts all bits to the right and places the bits pushed out, back in front'),"
+                    + "('1', '1', 'What is Java? ', 'Java is a statically typed, object-oriented programming language and a runtime platform (JVM).'),"
+                    + "('1', '1', 'What agile software development? ', 'Agile software development is an iterative, incremental way of building software'),"
+                    + "('1', '1', 'What is maven? ', 'A Java build automation and dependency management tool.'),"
+                    + "('1', '1', 'In SOLID principles, what does the S stand for ', 'Single Responsibility, a class should have one reason to change'),"
+                    + "('1', '1', 'In SOLID principles, what does the O stand for ', 'Open/closed, Software entities should be open for extension, closed for modification.'),"
+                    + "('1', '1', 'In SOLID principles, what does the L stand for ', 'Liskov Substitution, subtypes must be usable wherever their base type is expected')";
             insertStatement.execute(insertQuery);
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,7 +106,7 @@ public class SqliteFlashcardDAO implements IFlashcardDAO {
             String query = "CREATE TABLE IF NOT EXISTS flashcards ("
                     + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "user_id INTEGER NOT NULL,"
-                    + "course VARCHAR NOT NULL,"
+                    + "course INTEGER NOT NULL,"
                     + "question VARCHAR NOT NULL,"
                     + "answer VARCHAR NOT NULL,"
                     + "created_at DATETIME DEFAULT CURRENT_TIMESTAMP,"
@@ -127,7 +127,7 @@ public class SqliteFlashcardDAO implements IFlashcardDAO {
     public void addFlashcard(Flashcard flashcard) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO flashcards (user_id, course, question, answer) VALUES (?, ?, ?, ?, ?)",
+                    "INSERT INTO flashcards (user_id, course, question, answer) VALUES (?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, flashcard.getUser().getId());
             statement.setInt(2, flashcard.getCourse().getId());

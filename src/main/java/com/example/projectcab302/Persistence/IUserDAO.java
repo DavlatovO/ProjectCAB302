@@ -18,7 +18,7 @@ public interface IUserDAO {
      *
      * @param user The {@link User} object to be stored.
      */
-    void createUser(User user);
+    void registerUser(User user);
 
     /**
      * Deletes an existing user from the database.

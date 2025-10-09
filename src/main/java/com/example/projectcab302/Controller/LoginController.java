@@ -13,7 +13,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class LoginController {
+public class LoginController extends BaseSession {
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
@@ -27,7 +27,7 @@ public class LoginController {
 
         User user = userDAO.login(username, password);
         if (user != null) {
-            BaseSession.setUser(user);
+            setUser(user);
             switch (user.getRoles()) {
                 case Student -> SceneManager.switchTo("student-view.fxml", user);
                 case Teacher -> SceneManager.switchTo("teacher-view.fxml", user);

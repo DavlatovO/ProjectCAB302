@@ -4,19 +4,19 @@ import com.example.projectcab302.Model.Course;
 import com.example.projectcab302.Model.User;
 
 public abstract class BaseSession {
-    protected static User user;
+    protected User user;
 
-    public static void setUser(User user1) {
+    public void setUser(User user1) {
         user = user1;
         System.out.println(user.getUsername());
     }
 
 
-    public static User getUser() {
+    public User getUser() {
         return user;
     }
 
-    public static void clear() {
+    public void clear() {
         user = null;
     }
 

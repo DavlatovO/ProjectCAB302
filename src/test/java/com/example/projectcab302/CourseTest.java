@@ -1,5 +1,9 @@
-package com.example.projectcab302.Model;
+package com.example.projectcab302;
 
+import com.example.projectcab302.Model.Course;
+import com.example.projectcab302.Model.Flashcard;
+import com.example.projectcab302.Model.Teacher;
+import com.example.projectcab302.Model.User;
 import com.example.projectcab302.Persistence.ICoursesDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

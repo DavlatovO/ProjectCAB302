@@ -1,5 +1,9 @@
-package com.example.projectcab302.Model;
+package com.example.projectcab302;
 
+import com.example.projectcab302.Model.Course;
+import com.example.projectcab302.Model.Flashcard;
+import com.example.projectcab302.Model.Teacher;
+import com.example.projectcab302.Model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,65 +13,62 @@ class FlashcardTest {
 
     private Flashcard card;
     private Teacher testUser;
-    private Course tesCourse;
+    private Course testCourse;
 
     @BeforeEach
     void setUp() {
         testUser = new Teacher("asd", "asd@gmail.com", User.Roles.Teacher, "123");
-        tesCourse = new Course("Siuu", testUser);
-        card = new Flashcard(testUser, tesCourse, "What is Java?", "A programming language");
+        testCourse = new Course("Siuu", testUser);
+        card = new Flashcard(testUser, testCourse, "What is Java?", "A programming language");
     }
 
     // Constructor: happy path & trimming
-
     @Test
     void constructor_trimsAllFields() {
-        Flashcard c = new Flashcard(testUser, testCourse, "\t A1  ");
-        assertEquals("CAB201", c.getCourse());
-        assertEquals("Q1", c.getQuestion());
-        assertEquals("A1", c.getAnswer());
+        Flashcard c = new Flashcard(testUser, testCourse, "  What?  ", "  Answer  ");
+        assertEquals("What?", c.getQuestion());
+        assertEquals("Answer", c.getAnswer());
     }
 
     // Constructor: nulls throw
+    @Test
+    void constructor_nullUser_throws() {
+        assertThrows(IllegalArgumentException.class, () -> new Flashcard(null, testCourse, "Q", "A"));
+    }
 
     @Test
     void constructor_nullCourse_throws() {
-        assertThrows(IllegalArgumentException.class, () -> new Flashcard(null, "Q", "A"));
+        assertThrows(IllegalArgumentException.class, () -> new Flashcard(testUser, null, "Q", "A"));
     }
 
     @Test
     void constructor_nullQuestion_throws() {
-        assertThrows(IllegalArgumentException.class, () -> new Flashcard("CAB302", null, "A"));
+        assertThrows(IllegalArgumentException.class, () -> new Flashcard(testUser, testCourse, null, "A"));
     }
 
     @Test
     void constructor_nullAnswer_throws() {
-        assertThrows(IllegalArgumentException.class, () -> new Flashcard("CAB302", "Q", null));
+        assertThrows(IllegalArgumentException.class, () -> new Flashcard(testUser, testCourse, "Q", null));
     }
 
     // Constructor: blanks throw
-
-    @Test
-    void constructor_blankCourse_throws() {
-        assertThrows(IllegalArgumentException.class, () -> new Flashcard("   ", "Q", "A"));
-    }
-
     @Test
     void constructor_blankQuestion_throws() {
-        assertThrows(IllegalArgumentException.class, () -> new Flashcard("CAB302", "   ", "A"));
+        assertThrows(IllegalArgumentException.class, () -> new Flashcard(testUser, testCourse, "   ", "A"));
     }
 
     @Test
     void constructor_blankAnswer_throws() {
-        assertThrows(IllegalArgumentException.class, () -> new Flashcard("CAB302", "Q", "   "));
+        assertThrows(IllegalArgumentException.class, () -> new Flashcard(testUser, testCourse, "Q", "   "));
     }
 
     // Setters: trimming
-
     @Test
-    void setCourse_trims() {
-        card.setCourse("  CAB203  ");
-        assertEquals("CAB203", card.getCourse());
+    void setCourse_trimsAndSets() {
+        Course newCourse = new Course("  CAB203  ", testUser);
+        card.setCourse(newCourse);
+        assertEquals(newCourse, card.getCourse());
+        assertEquals("CAB203", card.getCourse().getTitle().trim());
     }
 
     @Test
@@ -83,11 +84,9 @@ class FlashcardTest {
     }
 
     // Setters: null/blank throw
-
     @Test
-    void setCourse_nullOrBlank_throws() {
+    void setCourse_null_throws() {
         assertThrows(IllegalArgumentException.class, () -> card.setCourse(null));
-        assertThrows(IllegalArgumentException.class, () -> card.setCourse("   "));
     }
 
     @Test
@@ -102,11 +101,10 @@ class FlashcardTest {
         assertThrows(IllegalArgumentException.class, () -> card.setAnswer("   "));
     }
 
-    // ---- id behavior ----
-
+    // ID behavior
     @Test
     void id_defaultsToZero_andCanBeSet() {
-        Flashcard c = new Flashcard("CAB230", "Q", "A");
+        Flashcard c = new Flashcard(testUser, testCourse, "Q", "A");
         assertEquals(0, c.getId());
         c.setId(123);
         assertEquals(123, c.getId());

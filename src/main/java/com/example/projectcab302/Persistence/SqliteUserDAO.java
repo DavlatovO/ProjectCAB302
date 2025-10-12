@@ -28,7 +28,7 @@ public class SqliteUserDAO implements IUserDAO {
             clearStatement.execute(clearQuery);
             Statement insertStatement = connection.createStatement();
             String insertQuery = "INSERT INTO users(username, email, role, password) VALUES "
-                    + "('bex', 'bex@gmail.com', 'Student', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')"
+                    + "('bex', 'bex@gmail.com', 'Student', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', '0.73'')"
                     + "('Sean', 'sean@gmail.com', 'Teacher', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')";
             insertStatement.execute(insertQuery);
         } catch (Exception e) {
@@ -57,7 +57,9 @@ public class SqliteUserDAO implements IUserDAO {
                     + "username TEXT UNIQUE NOT NULL,"
                     + "email TEXT UNIQUE NOT NULL,"
                     + "role TEXT NOT NULL,"
-                    + "password TEXT NOT NULL"
+                    + "password TEXT NOT NULL,"
+                    //Keep var able to be NULL, important to scoring logic
+                    + "aveScore DOUBLE"
                     + ")";
             statement.execute(query);
         } catch (Exception e) {
@@ -70,7 +72,7 @@ public class SqliteUserDAO implements IUserDAO {
         //Save user details to the database
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO users (username, email, role, password) VALUES (?, ?, ?, ?)");
+                    "INSERT INTO users (username, email, role, password, aveScore) VALUES (?, ?, ?, ?, NULL)");
 
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getEmail());
@@ -88,6 +90,8 @@ public class SqliteUserDAO implements IUserDAO {
         }
     }
 
+    // Update user does not consider scores as it currently has no usages
+    // Custom functions for updating scores, overload function if required for scores as it will result in conflicts with teacher user type
     public void updateUser(User user) {
         try {
             PreparedStatement statement = connection.prepareStatement("UPDATE users SET username = ?, email = ?, role = ?, password = ? WHERE id = ?");
@@ -116,7 +120,7 @@ public class SqliteUserDAO implements IUserDAO {
     public  User login(String username, String plainPassword) {
         //Checking user details to login
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT id, role, email, password FROM users WHERE username = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT id, role, email, password, aveScore FROM users WHERE username = ?");
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
 
@@ -125,13 +129,14 @@ public class SqliteUserDAO implements IUserDAO {
                 String roleStr = resultSet.getString("role");
                 String email = resultSet.getString("email");
                 String storedHash = resultSet.getString("password");
+                int aveScore = resultSet.getInt("aveScore");
 
                 String inputHash = Hashing.hashPassword(plainPassword);
 
                 if (storedHash.equals(inputHash)) {
                     User.Roles roleEnum = User.Roles.valueOf(roleStr);
                     User user = switch (roleEnum) {
-                        case Student -> new Student(username, email, roleEnum, storedHash);
+                        case Student -> new Student(username, email, roleEnum, storedHash, aveScore);
                         case Teacher -> new Teacher(username, email, roleEnum, storedHash );
                     };
                     user.setId(id);
@@ -164,7 +169,17 @@ public class SqliteUserDAO implements IUserDAO {
         return false;
     }
 
+    public void updateStudentScore(Student user, int score) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("UPDATE users SET aveScore = ? WHERE id = ?");
+            statement.setDouble(1, ( user.getAveScore() + score)/2);
+            statement.setInt(2, user.getId());
 
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

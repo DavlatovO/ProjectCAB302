@@ -14,7 +14,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class LoginController {
+public class LoginController extends BaseSession{
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
@@ -30,8 +30,8 @@ public class LoginController {
         if (user != null) {
             Session.setUser(user);
             switch (user.getRoles()) {
-                case Student -> SceneManager.switchTo("student-view.fxml");
-                case Teacher -> SceneManager.switchTo("teacher-view.fxml");
+                case Student -> SceneManager.switchTo("student-view.fxml", user);
+                case Teacher -> SceneManager.switchTo("teacher-view.fxml", user);
             }
         } else {
             errorLabel.setText("Login failed. Try again.");

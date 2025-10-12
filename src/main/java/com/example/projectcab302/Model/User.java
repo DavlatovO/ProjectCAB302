@@ -10,16 +10,19 @@ public abstract class User {
     private String password;
 
 
+
+
     public enum Roles{
         Student,
         Teacher
     }
 
-    public User(String username, String email, Roles role, String password) {
+    public User(String username, String email, Roles role, String password){ //, int firstScore, int lastScore, int highestScore, int aveScore) {
         this.username = username;
         this.email = email;
         this.role = role;
         this.password = password;
+
     }
 
     public int getId() {
@@ -36,6 +39,8 @@ public abstract class User {
     }
     public String getUsername() {return username;}
     public abstract String getRole();
+
+
 
 
 }

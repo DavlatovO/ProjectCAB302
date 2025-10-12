@@ -24,11 +24,11 @@ public class SqlQuizDAO implements IQuizDAO{
             String clearQuery = "DELETE FROM quiz";
             clearStatement.execute(clearQuery);
             Statement insertStatement = connection.createStatement();
-            String insertQuery = "INSERT INTO quiz(Course, QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES "
-                    + "('CAB302',' put the matching input in', 'c', 'a', 'b', 'd', 'd'),"
-                    + "('CAB302','put the non matching input in', 'a','b','c','b','b'),"
-                    + "('CAB302','Is this loss', '|','||','||','|_','|_'),"
-                    + "('CAB302','What is a valid type of signal modulation? ', 'Bell', 'Gate', 'Digitisation', 'Phase', 'Phase')";
+            String insertQuery = "INSERT INTO quiz(Course, QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer, correct, wrong) VALUES "
+                    + "('CAB302',' put the matching input in', 'c', 'a', 'b', 'd', 'd', 5, 7),"
+                    + "('CAB302','put the non matching input in', 'a','b','c','b','b', 3, 9),"
+                    + "('CAB302','Is this loss', '|','||','||','|_','|_', 12, 0),"
+                    + "('CAB302','What is a valid type of signal modulation? ', 'Bell', 'Gate', 'Digitisation', 'Phase', 'Phase', 6, 6)";
 //                    + "( 'Fourier transform of a Gate function? ', 'Sin', 'Cos', 'Sinc', 'Cot', 'Sinc','CAB302'),"
 //                    + "( 'What Filter is used in FM signal reception', 'Matched', 'Bandpass', 'Lowpass', 'IDK','Matched','CAB302'),"
 //                    + "('What are diodes made of?', 'Doped silicon', 'Doped lemon', 'Spicy rocks?', 'Copper', 'Doped silicon','CAB302'),"
@@ -64,7 +64,9 @@ public class SqlQuizDAO implements IQuizDAO{
                     + "Answer2 VARCHAR NOT NULL,"
                     + "Answer3 VARCHAR NOT NULL,"
                     + "Answer4 VARCHAR NOT NULL,"
-                    + "correctAnswer VARCHAR NOT NULL"
+                    + "correctAnswer VARCHAR NOT NULL,"
+                    + "correct INTEGER NOT NULL,"
+                    + "wrong INTEGER NOT NULL"
                     + ")";
             statement.execute(query);
         } catch (Exception e) {
@@ -139,8 +141,10 @@ public class SqlQuizDAO implements IQuizDAO{
                 String answer3 = resultSet.getString("Answer3");
                 String answer4 = resultSet.getString("Answer4");
                 String correctAnswer = resultSet.getString("correctAnswer");
+                int correct = resultSet.getInt("correct");
+                int wrong = resultSet.getInt("wrong");
 
-                Quiz quizs = new Quiz(course,question, answer1,answer2,answer3, answer4, correctAnswer);
+                Quiz quizs = new Quiz(course,question, answer1,answer2,answer3, answer4, correctAnswer, correct, wrong);
                 quizs.setQuizID(id);
                 return quizs;
             }
@@ -169,7 +173,9 @@ public class SqlQuizDAO implements IQuizDAO{
                 String answer3 = resultSet.getString("Answer3");
                 String answer4 = resultSet.getString("Answer4");
                 String correctAnswer = resultSet.getString("correctAnswer");
-                Quiz quiz = new Quiz(course, question, answer1, answer2, answer3, answer4, correctAnswer);
+                int correct = resultSet.getInt("correct");
+                int wrong = resultSet.getInt("wrong");
+                Quiz quiz = new Quiz(course, question, answer1, answer2, answer3, answer4, correctAnswer, correct, wrong);
                 quiz.setQuizID(id);
                 quizs.add(quiz);
             }
@@ -199,7 +205,9 @@ public class SqlQuizDAO implements IQuizDAO{
                 String answer3 = resultSet.getString("Answer3");
                 String answer4 = resultSet.getString("Answer4");
                 String correctAnswer = resultSet.getString("correctAnswer");
-                Quiz quiz = new Quiz(course, question, answer1,answer2,answer3, answer4, correctAnswer);
+                int correct = resultSet.getInt("correct");
+                int wrong = resultSet.getInt("wrong");
+                Quiz quiz = new Quiz(course, question, answer1,answer2,answer3, answer4, correctAnswer, correct, wrong);
                 quiz.setQuizID(id);
                 quizs.add(quiz);
             }
@@ -208,5 +216,24 @@ public class SqlQuizDAO implements IQuizDAO{
         }
         System.out.println(quizs);
         return quizs;
+    }
+
+    public void updateQuizMetrics(Quiz quizs, Boolean result) {
+
+        try {
+            PreparedStatement statement = connection.prepareStatement("UPDATE quiz SET correct = ?, wrong = ? WHERE QuizID = ?");
+            if (result == Boolean.TRUE) {
+                statement.setInt(1, quizs.getCorrect() + 1);
+                statement.setInt( 2, quizs.getWrong());
+            }
+            if (result == Boolean.FALSE) {
+                statement.setInt(1, quizs.getCorrect() );
+                statement.setInt( 2, quizs.getWrong() + 1);
+            }
+            statement.setInt(3, quizs.getQuizID());
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

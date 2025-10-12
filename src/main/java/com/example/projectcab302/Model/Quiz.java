@@ -9,6 +9,21 @@ public class Quiz {
     private String Answer4;
     private String correctAnswer;
     private String Course;
+    private int correct;
+    private int wrong;
+
+
+    public Quiz(String Course, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer, int correct, int wrong) {
+        this.Course = Course;
+        this.QuizQuestion = QuizQuestion;
+        this.Answer1 = Answer1;
+        this.Answer2 = Answer2;
+        this.Answer3 = Answer3;
+        this.Answer4 = Answer4;
+        this.correctAnswer = correctAnswer;
+        this.correct = correct;
+        this.wrong = wrong;
+    }
 
     public Quiz(String Course, String QuizQuestion, String Answer1, String Answer2, String Answer3, String Answer4, String correctAnswer) {
         this.Course = Course;
@@ -45,6 +60,8 @@ public class Quiz {
     public String getCorrectAnswer() {
         return correctAnswer;
     }
+    public int getCorrect() {return correct;}
+    public int getWrong() {return wrong;}
 
 
     public void setQuizID(Integer quizID) {
@@ -82,6 +99,10 @@ public class Quiz {
     public void setCourse(String course) {
         this.Course = course;
     }
+
+    public void setCorrect (int correct) {this.correct = correct; }
+
+    public void setWrong (int wrong) {this.wrong = wrong; }
 
 
     @Override

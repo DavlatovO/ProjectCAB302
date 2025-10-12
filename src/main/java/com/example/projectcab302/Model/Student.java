@@ -18,5 +18,7 @@ public class Student extends User{
     }
 
     public double getAveScore() {return aveScore;}
-    public void setAveScore() {this.aveScore = (this.aveScore + aveScore)/2 ;}
+    public void setAveScore(Double aveScore) {
+        this.aveScore = aveScore;
+    }
 }

@@ -37,8 +37,8 @@
                     <children>
                         <Label text="Dashboard" styleClass="sidebar-title"/>
                         <Button fx:id="quizButton" text="Quizzes" onAction="#quiz" styleClass="nav-button"/>
-                        <Button fx:id="createFlashcardButton" text="Create Flashcard" onAction="#createFlashcard" styleClass="nav-button"/>
-                        <Button fx:id="viewFlashcardsButton" text="View Flashcards" onAction="#viewFlashcards" styleClass="nav-button"/>
+                        <Button fx:id="createFlashcardButton" text="Flashcard" onAction="#createFlashcard" styleClass="nav-button"/>
+<!--                        <Button fx:id="viewFlashcardsButton" text="View Flashcards" onAction="#viewFlashcards" styleClass="nav-button"/>-->
                         <Region VBox.vgrow="ALWAYS"/>
                         <Button fx:id="settingsButton" text="Settings" onAction="#openSettings" styleClass="nav-button"/>
                     </children>

@@ -28,7 +28,7 @@ public class SqliteUserDAO implements IUserDAO {
             clearStatement.execute(clearQuery);
             Statement insertStatement = connection.createStatement();
             String insertQuery = "INSERT INTO users(username, email, role, password) VALUES "
-                    + "('bex', 'bex@gmail.com', 'Student', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', '0.73'')"
+                    + "('bex', 'bex@gmail.com', 'Student', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 0.7)"
                     + "('Sean', 'sean@gmail.com', 'Teacher', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')";
             insertStatement.execute(insertQuery);
         } catch (Exception e) {
@@ -181,7 +181,21 @@ public class SqliteUserDAO implements IUserDAO {
         }
     }
 
+    public void updateStudentScore(Student user, double score) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("UPDATE users SET averScore = ? WHERE id = ?");
+            try {
+                statement.setDouble(1, (user.getAveScore() + score)/2);
+            } catch (Exception e) {
+                statement.setDouble(1,score);
+            }
+            statement.setInt(2, user.getId());
 
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

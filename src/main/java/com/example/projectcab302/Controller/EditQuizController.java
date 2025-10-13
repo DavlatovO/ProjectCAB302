@@ -292,7 +292,7 @@ public class EditQuizController extends BaseCourseAndSession {
         if (optionAField.getText().isBlank() && optionBField.getText().isBlank() && optionCField.getText().isBlank() && optionDField.getText().isBlank()) {
             Platform.runLater(() -> aiResponse.setText("No answers to shuffle."));
             return;
-        };
+        }
 
         //create arraylist with answers from input field
         ArrayList<String> answers = new ArrayList<>();

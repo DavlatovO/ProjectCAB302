@@ -63,7 +63,11 @@
                         style="-fx-background-color: #f39c12; -fx-text-fill: white;"/>
                 <Button alignment = "bottom_left" text="+  Delete Quiz" onAction="#onDeleteQuiz"
                         style="-fx-background-color: #c0392b; -fx-text-fill: white;"/>
-                <Button alignment = "bottom_left" text="+  Autofill Quiz" onAction="#genFalseAnswers"
+            </HBox>
+            <HBox alignment="CENTER" style="-fx-padding: 12;" spacing="12">
+                <Button alignment = "bottom_left" text="+  Autofill Answers" onAction="#genFalseAnswers"
+                        style="-fx-background-color: #2980b9; -fx-text-fill: white;"/>
+                <Button alignment = "bottom_left" text="+  Shuffle Answers" onAction="#randomizeAnswers"
                         style="-fx-background-color: #2980b9; -fx-text-fill: white;"/>
             </HBox>
 

@@ -3,6 +3,10 @@ package com.example.projectcab302.Controller;
 import com.example.projectcab302.Model.Student;
 import com.example.projectcab302.Model.Teacher;
 import com.example.projectcab302.Model.User;
+import com.example.projectcab302.Persistence.IScoresDAO;
+import com.example.projectcab302.Persistence.IUserDAO;
+import com.example.projectcab302.Persistence.SqliteScoreDAO;
+import com.example.projectcab302.Persistence.SqliteUserDAO;
 import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
 
@@ -27,7 +31,10 @@ public class LandingPageController {
 
     @FXML
     protected void studentDashboard() {
-        Student user = new Student("Student", "john@123.com", User.Roles.Student, "123", 0.5 );
+        IUserDAO userDAO = new SqliteUserDAO();
+        IScoresDAO scoresDAO = new SqliteScoreDAO();
+        Student user = new Student("Student", "john@123.com", User.Roles.Student, "123" );
+        user.setId(101);
         SceneManager.switchTo("student-view.fxml", user);
     }
 

@@ -10,10 +10,18 @@ public abstract class BaseSession {
     public void setUser(User user) {
         System.out.println(user.getUsername());
         this.user = user;
+        afterUserisSet();
     }
+
+    public void afterUserisSet(){};
+
+    /*
     public void setUser(Student user) { //to handle student users that have different subclass attributes
         System.out.println(user.getUsername());
         this.user = user;
+        afterUserisSet();
     }
+
+     */
 
 }

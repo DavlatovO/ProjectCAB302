@@ -5,12 +5,10 @@ import com.example.projectcab302.Model.Teacher;
 import com.example.projectcab302.Model.User;
 import com.example.projectcab302.Utils.Hashing;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Objects;
 
 public class SqliteUserDAO implements IUserDAO {
     private Connection connection;
@@ -18,6 +16,7 @@ public class SqliteUserDAO implements IUserDAO {
     public SqliteUserDAO() {
         this.connection = SqliteConnection.getInstance();
         createTable();
+        insertSampleData();
     }
 
     public void insertSampleData() {
@@ -26,10 +25,12 @@ public class SqliteUserDAO implements IUserDAO {
             Statement clearStatement = connection.createStatement();
             String clearQuery = "DELETE FROM users";
             clearStatement.execute(clearQuery);
+
+            // Insert sample users
             Statement insertStatement = connection.createStatement();
             String insertQuery = "INSERT INTO users(username, email, role, password) VALUES "
-                    + "('bex', 'bex@gmail.com', 'Student', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 0.7)"
-                    + "('Sean', 'sean@gmail.com', 'Teacher', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')";
+                    + "('bex', 'bex@gmail.com', 'Student', '123'),"
+                    + "('Sean', 'sean@gmail.com', 'Teacher', '123')";
             insertStatement.execute(insertQuery);
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,11 +39,9 @@ public class SqliteUserDAO implements IUserDAO {
 
     public void clearData() {
         try {
-            // Clear before inserting
             Statement clearStatement = connection.createStatement();
             String clearQuery = "DELETE FROM users";
             clearStatement.execute(clearQuery);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,15 +51,13 @@ public class SqliteUserDAO implements IUserDAO {
         // Create table if not exists
         try {
             Statement statement = connection.createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS users ("
-                    + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "username TEXT UNIQUE NOT NULL,"
-                    + "email TEXT UNIQUE NOT NULL,"
-                    + "role TEXT NOT NULL,"
-                    + "password TEXT NOT NULL,"
-                    //Keep var able to be NULL, important to scoring logic
-                    + "aveScore DOUBLE"
-                    + ")";
+            String query = "CREATE TABLE IF NOT EXISTS users (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "username TEXT UNIQUE NOT NULL," +
+                    "email TEXT UNIQUE NOT NULL," +
+                    "role TEXT NOT NULL," +
+                    "password TEXT NOT NULL" +
+                    ")";
             statement.execute(query);
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,18 +66,18 @@ public class SqliteUserDAO implements IUserDAO {
 
     @Override
     public void createUser(User user) {
-        //Save user details to the database
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO users (username, email, role, password, aveScore) VALUES (?, ?, ?, ?, NULL)");
+                    "INSERT INTO users (username, email, role, password) VALUES (?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS);
 
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getEmail());
             statement.setString(3, user.getRole());
             statement.setString(4, user.getHashedPassword());
-
             statement.executeUpdate();
-            // Set the id of the new contact
+
+            // Retrieve generated ID
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 user.setId(generatedKeys.getInt(1));
@@ -90,15 +87,15 @@ public class SqliteUserDAO implements IUserDAO {
         }
     }
 
-    // Update user does not consider scores as it currently has no usages
-    // Custom functions for updating scores, overload function if required for scores as it will result in conflicts with teacher user type
     public void updateUser(User user) {
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE users SET username = ?, email = ?, role = ?, password = ? WHERE id = ?");
+            PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE users SET username = ?, email = ?, role = ?, password = ? WHERE id = ?");
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getEmail());
             statement.setString(3, user.getRoles().name());
             statement.setString(4, user.getHashedPassword());
+            statement.setInt(5, user.getId());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -115,12 +112,12 @@ public class SqliteUserDAO implements IUserDAO {
             e.printStackTrace();
         }
     }
-    
+
     @Override
-    public  User login(String username, String plainPassword) {
-        //Checking user details to login
+    public User login(String username, String plainPassword) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT id, role, email, password, aveScore FROM users WHERE username = ?");
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT id, role, email, password FROM users WHERE username = ?");
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
 
@@ -129,15 +126,14 @@ public class SqliteUserDAO implements IUserDAO {
                 String roleStr = resultSet.getString("role");
                 String email = resultSet.getString("email");
                 String storedHash = resultSet.getString("password");
-                int aveScore = resultSet.getInt("aveScore");
 
                 String inputHash = Hashing.hashPassword(plainPassword);
 
                 if (storedHash.equals(inputHash)) {
                     User.Roles roleEnum = User.Roles.valueOf(roleStr);
                     User user = switch (roleEnum) {
-                        case Student -> new Student(username, email, roleEnum, storedHash, aveScore);
-                        case Teacher -> new Teacher(username, email, roleEnum, storedHash );
+                        case Student -> new Student(username, email, roleEnum, storedHash);
+                        case Teacher -> new Teacher(username, email, roleEnum, storedHash);
                     };
                     user.setId(id);
                     return user;
@@ -148,14 +144,13 @@ public class SqliteUserDAO implements IUserDAO {
             e.printStackTrace();
         }
         return null;
-
     }
 
     @Override
     public boolean emailExists(String email) {
-        //Retrieves true if email is already in the database
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) FROM users WHERE email = ?");
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT COUNT(*) FROM users WHERE email = ?");
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
 
@@ -168,37 +163,4 @@ public class SqliteUserDAO implements IUserDAO {
         }
         return false;
     }
-
-    public void updateStudentScore(Student user, int score) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE users SET aveScore = ? WHERE id = ?");
-            statement.setDouble(1, ( user.getAveScore() + score)/2);
-            statement.setInt(2, user.getId());
-
-            statement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void updateStudentScore(Student user, double score) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE users SET averScore = ? WHERE id = ?");
-            try {
-                statement.setDouble(1, (user.getAveScore() + score)/2);
-            } catch (Exception e) {
-                statement.setDouble(1,score);
-            }
-            statement.setInt(2, user.getId());
-
-            statement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-
 }
-

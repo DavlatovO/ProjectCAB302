@@ -42,13 +42,13 @@ public class SceneManager {
     }
 
     // For switching scene and injecting user and next fxml doc into the next controller
-    public static void switchTo(String fxmlFile, User user, String fxml) {
+    public static void switchTo(String fxmlFile, User user, String nextfxml) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/projectcab302/" + fxmlFile));
             Parent root = fxmlLoader.load();                 // must load before getController()
             BaseFXMLandSession b = fxmlLoader.getController(); // Polymorphism
             b.setUser(user);
-            b.setFXML(fxml);
+            b.setFXML(nextfxml);
             stage.setScene(new Scene(root, 1000, 600));
             stage.show();
         } catch (IOException e) {

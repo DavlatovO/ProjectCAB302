@@ -58,7 +58,7 @@
                             <content>
                                 <StackPane styleClass="content">
                                     <children>
-                                        <VBox spacing="16" alignment="TOP_LEFT" styleClass="card">
+                                        <VBox fx:id="dashboard" spacing="16" alignment="TOP_LEFT" styleClass="card">
                                             <children>
                                                 <Label wrapText="true"
                                                        text="Use the left navigation to access quizzes and flashcards. Your profile and settings are available in the top-right."/>

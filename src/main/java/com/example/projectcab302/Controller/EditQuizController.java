@@ -25,6 +25,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.io.*;
@@ -120,7 +122,7 @@ public class EditQuizController extends BaseCourseAndSession {
     }
 
     public void onBack(ActionEvent actionEvent) {
-        SceneManager.switchTo("quiz.fxml", this.user);
+        SceneManager.switchTo("courses-view.fxml", this.user);
     }
 
     @FXML
@@ -196,6 +198,17 @@ public class EditQuizController extends BaseCourseAndSession {
      */
     @FXML
     private void genFalseAnswers() {
+
+        if (questionField.getText() == null || questionField.getText().isBlank()) {
+            Platform.runLater(() -> aiResponse.setText("Please fill the question field before trying to autocomplete answers."));
+            return;
+        }
+
+        if (optionAField.getText() == null || optionAField.getText().isBlank()) {
+            Platform.runLater(() -> aiResponse.setText("Please fill the Option A field with the correct answer to the question."));
+            return;
+        }
+
         CompletableFuture.runAsync(() -> {
             try {
                 URL url = new URL("http://localhost:11434/api/generate");
@@ -207,7 +220,7 @@ public class EditQuizController extends BaseCourseAndSession {
 
                 String prompt =
                         "Generate 3 false but believable answers for the multiple choice question: " + questionField.getText() + ".\n" +
-                                "The correct answer is: " + answerField.getText() + ".\n" +
+                                "The correct answer is: " + optionAField.getText() + ".\n" +
                                 "Return ONLY valid JSON of the exact form: " +
                                 "{\"false1\": A, \"false2\": B, \"false3\": C} " +
                                 "where A, B, and C are different false but believable answers. " +
@@ -254,6 +267,7 @@ public class EditQuizController extends BaseCourseAndSession {
                             optionBField.setText(falseAnswers.optString("false1", ""));
                             optionCField.setText(falseAnswers.optString("false2", ""));
                             optionDField.setText(falseAnswers.optString("false3", ""));
+                            answerField.setText("A");
                             aiResponse.setText("False answers generated successfully.");
                         });
                     } else {
@@ -267,6 +281,61 @@ public class EditQuizController extends BaseCourseAndSession {
                 Platform.runLater(() -> aiResponse.setText("Error: " + e.getMessage()));
             }
         });
+    }
+
+    /**
+     * Shuffles multiple choice answers and automatically updates answerField to remain consistent with the shuffle.
+     */
+    @FXML
+    private void randomizeAnswers() {
+
+        if (optionAField.getText().isBlank() && optionBField.getText().isBlank() && optionCField.getText().isBlank() && optionDField.getText().isBlank()) {
+            Platform.runLater(() -> aiResponse.setText("No answers to shuffle."));
+            return;
+        }
+
+        //create arraylist with answers from input field
+        ArrayList<String> answers = new ArrayList<>();
+        answers.add(optionAField.getText());
+        answers.add(optionBField.getText());
+        answers.add(optionCField.getText());
+        answers.add(optionDField.getText());
+
+        String correctLetter = answerField.getText().trim().toUpperCase();
+
+        int correctIndex = switch (correctLetter) {
+            case "A" -> 0;
+            case "B" -> 1;
+            case "C" -> 2;
+            case "D" -> 3;
+            default -> -1; // fallback if invalid
+        };
+
+        if (correctIndex == -1) {
+            aiResponse.setText("Invalid correct answer in Answer Field.");
+            return;
+        }
+        String correctAnswer = answers.get(correctIndex);
+
+        //shuffle answers list
+        Collections.shuffle(answers);
+
+        //set shuffled answers
+        optionAField.setText(answers.get(0));
+        optionBField.setText(answers.get(1));
+        optionCField.setText(answers.get(2));
+        optionDField.setText(answers.get(3));
+
+        int newCorrectIndex = answers.indexOf(correctAnswer);
+        String newCorrectLetter = switch (newCorrectIndex) {
+            case 0 -> "A";
+            case 1 -> "B";
+            case 2 -> "C";
+            case 3 -> "D";
+            default -> "?";
+        };
+
+        answerField.setText(newCorrectLetter);
     }
 
 }

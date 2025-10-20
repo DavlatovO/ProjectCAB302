@@ -12,3 +12,5 @@ public abstract class BaseCourseAndSession extends BaseSession{
         afterCourseisSet();
     }
 }
+
+

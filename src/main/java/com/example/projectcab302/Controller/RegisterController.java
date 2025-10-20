@@ -13,7 +13,7 @@ import javafx.scene.control.*;
 import java.io.IOException;
 
 
-public class RegisterController {
+public class RegisterController extends BaseSession {
 
 
     public TextField usernameField;
@@ -60,12 +60,14 @@ public class RegisterController {
         if (role == User.Roles.Student) {
             newUser = new Student(username, email, role, password);
             userDAO.createUser(newUser); //saving to the DB
-            SceneManager.switchTo("student-view.fxml");
+            setUser(newUser);
+            SceneManager.switchTo("student-view.fxml", this.user);
         }
         if (role == User.Roles.Teacher) {
             newUser = new Teacher(username, email, role, password);
             userDAO.createUser(newUser); //saving to the DB
-            SceneManager.switchTo("teacher-view.fxml");
+            setUser(newUser);
+            SceneManager.switchTo("teacher-view.fxml", this.user);
         }
 
 

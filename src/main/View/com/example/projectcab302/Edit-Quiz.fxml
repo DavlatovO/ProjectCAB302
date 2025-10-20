@@ -69,6 +69,8 @@
                         style="-fx-background-color: #2980b9; -fx-text-fill: white;"/>
                 <Button alignment = "bottom_left" text="+  Shuffle Answers" onAction="#randomizeAnswers"
                         style="-fx-background-color: #2980b9; -fx-text-fill: white;"/>
+                <Button alignment = "bottom_left" text="+  Quiz Metrics" onAction="#onQuizMetrics"
+                        style="-fx-background-color: #2980b9; -fx-text-fill: white;"/>
             </HBox>
 
             <Text fx:id="aiResponse"/>

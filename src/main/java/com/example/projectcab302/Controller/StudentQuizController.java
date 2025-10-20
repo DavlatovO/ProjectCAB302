@@ -154,8 +154,7 @@ public class StudentQuizController extends BaseCourseAndSession{
 
     public void onSubmit(){
         int tally = 0;
-        List<Integer> correctAnswerIDs = new ArrayList<>();
-        List<Integer> incorrectAnswerIDs = new ArrayList<>();
+
         System.out.println(selectedAnswers);
         for (int i = 0; i < quizzes.size(); i++){
             if (Objects.equals(quizzes.get(i).getCorrectAnswer(), selectedAnswers.get(i))){

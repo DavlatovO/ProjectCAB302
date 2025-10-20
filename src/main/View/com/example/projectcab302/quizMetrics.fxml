@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            stylesheets="@dashboards.css"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.projectcab302.Controller.QuizMetrics"
+            prefWidth="900" prefHeight="650">
+
+
+    <left>
+        <VBox spacing="10" styleClass="sidebar-dark">
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Courses" styleClass="sidebar-title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="back" text="Back" onAction="#onBack" styleClass="nav-button"/>
+                </HBox>
+
+                <Region VBox.vgrow="ALWAYS"/>
+            </children>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox fx:id="Metrics" spacing="6" alignment="TOP_CENTER" style="-fx-padding: 6;">
+            <TableView fx:id="quizTable">
+                <columns>
+                    <TableColumn fx:id="questionColumn" text="Quiz Question" prefWidth="300"/>
+                    <TableColumn fx:id="correctColumn" text="Correct" prefWidth="100"/>
+                    <TableColumn fx:id="wrongColumn" text="Wrong" prefWidth="100"/>
+                    <TableColumn fx:id="averageColumn" text="Average" prefWidth="100"/>
+
+                </columns>
+            </TableView>
+
+        </VBox>
+    </center>
+
+</BorderPane>

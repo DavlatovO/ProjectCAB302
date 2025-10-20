@@ -338,4 +338,9 @@ public class EditQuizController extends BaseCourseAndSession {
         answerField.setText(newCorrectLetter);
     }
 
+    @FXML
+    private void onQuizMetrics(){
+        SceneManager.switchTo("quizMetrics.fxml", this.user, this.course);
+    }
+
 }

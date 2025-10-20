@@ -63,6 +63,12 @@ public class Quiz {
     public int getCorrect() {return correct;}
     public int getWrong() {return wrong;}
 
+    public double getAverage() {
+        int total = this.correct + this.wrong;
+        if (total == 0) return 0.0;
+        return ((double) this.correct / total) * 100.0; // as percentage
+    }
+
 
     public void setQuizID(Integer quizID) {
         if (quizID == null) throw new IllegalArgumentException("quizID cannot be null");

@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SqliteUserDAO implements IUserDAO {
     private Connection connection;
@@ -28,9 +30,12 @@ public class SqliteUserDAO implements IUserDAO {
 
             // Insert sample users
             Statement insertStatement = connection.createStatement();
-            String insertQuery = "INSERT INTO users(username, email, role, password) VALUES "
-                    + "('bex', 'bex@gmail.com', 'Student', '123'),"
-                    + "('Sean', 'sean@gmail.com', 'Teacher', '123')";
+            String insertQuery = "INSERT INTO users(id, username, email, role, password) VALUES "
+                    //+ "(1, 'bex', 'bex@gmail.com', 'Student', '123'),"
+                    + "(101, 'Alice', 'Alice@gmail.com', 'Student', '123'),"
+                    + "(102, 'Bob', 'Bob@gmail.com', 'Student', '123'),"
+                    + "(103, 'Charlie', 'Charlie@gmail.com', 'Student', '123'),"
+                    + "(2, 'Sean', 'sean@gmail.com', 'Teacher', '123')";
             insertStatement.execute(insertQuery);
         } catch (Exception e) {
             e.printStackTrace();
@@ -144,6 +149,34 @@ public class SqliteUserDAO implements IUserDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public List<Student> getAllStudents() {
+        List<Student> students = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT id, username, email, password FROM users WHERE role = 'Student'"
+            );
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String username = resultSet.getString("username");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+
+                Student student = new Student(username, email, User.Roles.Student, password);
+                student.setId(id);
+                students.add(student);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return students;
     }
 
     @Override

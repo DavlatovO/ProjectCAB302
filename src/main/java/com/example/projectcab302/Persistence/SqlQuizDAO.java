@@ -218,6 +218,7 @@ public class SqlQuizDAO implements IQuizDAO{
         return quizs;
     }
 
+    @Override
     public void updateQuizMetrics(Quiz quizs, Boolean result) {
 
         try {

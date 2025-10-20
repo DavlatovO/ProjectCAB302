@@ -1,7 +1,8 @@
 package com.example.projectcab302.Controller;
 
 
-import com.example.projectcab302.Model.User;
+import com.example.projectcab302.Model.*;
+import com.example.projectcab302.Persistence.*;
 import com.example.projectcab302.SceneManager;
 import com.example.projectcab302.ViewManager;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
+import java.util.List;
 
 public class TeacherController extends BaseSession{
     @FXML
@@ -61,6 +63,21 @@ public class TeacherController extends BaseSession{
         SceneManager.switchTo("courses-view.fxml", this.user, "createFlashcard-view.fxml");
     }
 
+    @Override
+    public void afterUserisSet() {
+        // Student student = (Student) this.user;
+        IScoresDAO scoresDAO = new SqliteScoreDAO();
+        List<Score> scores = scoresDAO.getAllScores();
+        System.out.println(scores);
+
+        IUserDAO userDAO = new SqliteUserDAO();
+        List<Student> students = userDAO.getAllStudents();
+        System.out.println(students.get(0).getUsername());
+
+        ISubmissionDAO submissionDAO = new SqliteSubmissionDAO();
+        List<Submission> submissions = submissionDAO.getAllSubmissions();
+        System.out.println(submissions);
+    }
 
     @FXML
     protected void logout() {

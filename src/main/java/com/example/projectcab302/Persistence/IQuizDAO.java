@@ -28,4 +28,6 @@ public interface IQuizDAO {
     List<Quiz> getAllQuestionsfromCourse(String course);
 
     void updateQuiz(Quiz newquestion);
+
+    void updateQuizMetrics(Quiz quizs, Boolean result);
 }

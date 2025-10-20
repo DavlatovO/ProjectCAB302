@@ -1,11 +1,9 @@
 package com.example.projectcab302.Controller;
 
 import com.example.projectcab302.Model.Course;
+import com.example.projectcab302.Model.Submission;
 import com.example.projectcab302.Model.Quiz;
-import com.example.projectcab302.Persistence.ICoursesDAO;
-import com.example.projectcab302.Persistence.IQuizDAO;
-import com.example.projectcab302.Persistence.SqlQuizDAO;
-import com.example.projectcab302.Persistence.SqliteCoursesDAO;
+import com.example.projectcab302.Persistence.*;
 import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -156,13 +154,21 @@ public class StudentQuizController extends BaseCourseAndSession{
 
     public void onSubmit(){
         int tally = 0;
+        List<Integer> correctAnswerIDs = new ArrayList<>();
+        List<Integer> incorrectAnswerIDs = new ArrayList<>();
         System.out.println(selectedAnswers);
         for (int i = 0; i < quizzes.size(); i++){
             if (Objects.equals(quizzes.get(i).getCorrectAnswer(), selectedAnswers.get(i))){
-
                 tally++;
+                quizDAO.updateQuizMetrics(quizzes.get(i), true);
+            }else{
+                quizDAO.updateQuizMetrics(quizzes.get(i), false);
             }
         }
+
+
+
+
         score.setText(tally + "/" + quizzes.size());
     }
 

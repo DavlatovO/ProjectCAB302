@@ -1,6 +1,9 @@
 package com.example.projectcab302.Persistence;
 
+import com.example.projectcab302.Model.Student;
 import com.example.projectcab302.Model.User;
+
+import java.util.List;
 
 /**
  * Interface for the User Data Access Object (DAO).
@@ -44,4 +47,7 @@ public interface IUserDAO {
      *         or {@code null} if authentication fails.
      */
     User login(String username, String plainPassword);
+
+
+    public List<Student> getAllStudents();
 }

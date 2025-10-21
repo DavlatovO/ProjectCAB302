@@ -1,7 +1,7 @@
 package com.example.projectcab302.Model;
 
 public class Score {
-
+    private int scoreID;
     private int studentID;
     private double quizScore;
     private double pvpScore;
@@ -26,6 +26,8 @@ public class Score {
         return pvpScore;
     }
 
+    public int getScoreID() {return scoreID;}
+
     // Setters
     public void setStudentID(int studentID) {
         this.studentID = studentID;
@@ -38,6 +40,8 @@ public class Score {
     public void setPvpScore(double pvpScore) {
         this.pvpScore = pvpScore;
     }
+
+    public void setScoreID(int scoreID) { this.scoreID = scoreID; }
 
     // Optional helper: calculate overall average
     public double getAverageScore() {

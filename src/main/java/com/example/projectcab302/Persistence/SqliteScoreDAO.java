@@ -1,6 +1,8 @@
 package com.example.projectcab302.Persistence;
 
 import com.example.projectcab302.Model.Score;
+import com.example.projectcab302.Model.Student;
+import com.example.projectcab302.Model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -38,10 +40,27 @@ public class SqliteScoreDAO implements IScoresDAO {
             ps.setDouble(2, score.getQuizScore());
             ps.setDouble(3, score.getPvpScore());
             ps.executeUpdate();
+
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                score.setScoreID(generatedKeys.getInt(1));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+
+//    public void addStudent(User user) {
+//        String query = "INSERT INTO scores (stdntID, 0, 0) VALUES (?)";
+//        try (PreparedStatement ps = connection.prepareStatement(query)) {
+//            ps.setInt(1, user.getId());
+//
+//            ps.executeUpdate();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public void updateScore(Score score) {

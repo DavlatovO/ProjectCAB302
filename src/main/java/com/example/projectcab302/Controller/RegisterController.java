@@ -1,6 +1,9 @@
 package com.example.projectcab302.Controller;
 
+import com.example.projectcab302.Model.Score;
+import com.example.projectcab302.Persistence.IScoresDAO;
 import com.example.projectcab302.Persistence.IUserDAO;
+import com.example.projectcab302.Persistence.SqliteScoreDAO;
 import com.example.projectcab302.Persistence.SqliteUserDAO;
 import com.example.projectcab302.Model.Student;
 import com.example.projectcab302.Model.Teacher;
@@ -51,6 +54,7 @@ public class RegisterController extends BaseSession {
             return;
         }
         IUserDAO userDAO = new SqliteUserDAO();
+        SqliteScoreDAO scoresDAO = new SqliteScoreDAO();
 
         if (userDAO.emailExists(email)) {
             errorLabel.setText("Email already registered!");
@@ -60,6 +64,9 @@ public class RegisterController extends BaseSession {
         if (role == User.Roles.Student) {
             newUser = new Student(username, email, role, password);
             userDAO.createUser(newUser); //saving to the DB
+            Score Stud_score = new Score(newUser.getId(), 0,0);
+
+            scoresDAO.addScore(Stud_score);
             setUser(newUser);
             SceneManager.switchTo("student-view.fxml", this.user);
         }

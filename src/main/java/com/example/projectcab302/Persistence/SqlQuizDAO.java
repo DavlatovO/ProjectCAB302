@@ -78,7 +78,7 @@ public class SqlQuizDAO implements IQuizDAO{
     @Override
     public void addQuiz(Quiz quiz) {
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO quiz (Course, QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO quiz (Course, QuizQuestion, Answer1, Answer2, Answer3, Answer4, correctAnswer, correct, wrong) VALUES (?, ?, ?, ?, ?, ?, ?,?, ?)");
             statement.setString(1, quiz.getCourse());
             statement.setString(2, quiz.getQuizQuestion());
             statement.setString(3, quiz.getAnswer1());
@@ -86,6 +86,8 @@ public class SqlQuizDAO implements IQuizDAO{
             statement.setString(5, quiz.getAnswer3());
             statement.setString(6, quiz.getAnswer4());
             statement.setString(7, quiz.getCorrectAnswer());
+            statement.setInt(8, quiz.getCorrect());
+            statement.setInt(9, quiz.getWrong());
             statement.executeUpdate();
             // Set the id of the new contact
             ResultSet generatedKeys = statement.getGeneratedKeys();

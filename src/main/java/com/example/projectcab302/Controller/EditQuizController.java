@@ -134,7 +134,9 @@ public class EditQuizController extends BaseCourseAndSession {
                 optionBField.getText(),
                 optionCField.getText(),
                 optionDField.getText(),
-                answerField.getText()
+                answerField.getText(),
+                0,
+                0
         );
 
         quizDAO.addQuiz(newQuestion);

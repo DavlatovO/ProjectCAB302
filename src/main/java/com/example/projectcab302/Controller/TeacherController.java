@@ -74,9 +74,8 @@ public class TeacherController extends BaseSession{
         List<Student> students = userDAO.getAllStudents();
         System.out.println(students.get(0).getUsername());
 
-        ISubmissionDAO submissionDAO = new SqliteSubmissionDAO();
-        List<Submission> submissions = submissionDAO.getAllSubmissions();
-        System.out.println(submissions);
+
+
     }
 
     @FXML

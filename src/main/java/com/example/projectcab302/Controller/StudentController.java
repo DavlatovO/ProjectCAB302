@@ -5,7 +5,7 @@ import com.example.projectcab302.Model.Student;
 import com.example.projectcab302.Persistence.IScoresDAO;
 import com.example.projectcab302.Persistence.SqliteCoursesDAO;
 import com.example.projectcab302.Persistence.SqliteScoreDAO;
-import com.example.projectcab302.Utils.RingProgressIndicator;
+
 import com.example.projectcab302.Utils.Session;
 import com.example.projectcab302.SceneManager;
 import com.example.projectcab302.ViewManager;

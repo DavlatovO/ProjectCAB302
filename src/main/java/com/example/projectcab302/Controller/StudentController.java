@@ -42,7 +42,7 @@ public class StudentController extends BaseSession {
 
     private void gpaRing(double gpa, String gradeMeasure) {
         StackPane stackPane = new StackPane();
-        Text label = new Text(gradeMeasure + gpa*100 + "%");
+        Text label = new Text(String.format("%s%.2f%%", gradeMeasure, gpa * 100));
 
         Student student = (Student) this.user;
 

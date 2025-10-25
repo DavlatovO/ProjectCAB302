@@ -50,4 +50,7 @@ public interface IUserDAO {
 
 
     public List<Student> getAllStudents();
+
+    public Student getStudent(int id);
+
 }

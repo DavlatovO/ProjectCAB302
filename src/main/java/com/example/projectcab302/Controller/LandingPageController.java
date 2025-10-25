@@ -32,9 +32,9 @@ public class LandingPageController {
     @FXML
     protected void studentDashboard() {
         IUserDAO userDAO = new SqliteUserDAO();
-        IScoresDAO scoresDAO = new SqliteScoreDAO();
-        Student user = new Student("Student", "john@123.com", User.Roles.Student, "123" );
-        user.setId(101);
+
+        Student user = userDAO.getStudent(101);
+
         SceneManager.switchTo("student-view.fxml", user);
     }
 

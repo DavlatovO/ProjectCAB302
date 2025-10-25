@@ -45,4 +45,10 @@ public interface IScoresDAO {
      * Inserts sample data into the scores table.
      */
     void insertSampleData();
+
+
+    public void updatePVPScore(int stdntID, int result);
+
+    public void updateQuizScore(int stdntID, double newQuizResult);
+
 }

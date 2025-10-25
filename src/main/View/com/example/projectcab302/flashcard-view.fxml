@@ -52,12 +52,20 @@
             <Text fx:id="cardNum" fill="Black"/>
             <Text fx:id="question" fill="Black"/>
             <StackPane >
+
                 <HBox alignment="CENTER" spacing="200">
                     <Text fx:id="player1" fill="Black"/>
                 <Text fx:id="countdown" fill="Black"/>
                     <Text fx:id="player2" fill="Black"/>
                 </HBox>
-                <Button fx:id="flipButton" text="Flip" onAction="#flipCard"/>
+                <HBox alignment="CENTER">
+                    <TextField fx:id="p2ID"
+                               promptText="Type your id..."
+                               visible="false"
+                               prefWidth="120" />
+                    <Button fx:id="EnterID" text="Enter" visible="false" onAction="#onEnterID"/>
+                </HBox>
+                <Button fx:id="flipButton" text="Flip" onAction="#flipCard" mouseTransparent="true" />
             </StackPane>
             <StackPane fx:id="cubeGroup">
                 <Rectangle width="400" height="200"

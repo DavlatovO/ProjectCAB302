@@ -3,6 +3,7 @@ package com.example.projectcab302.Controller;
 import com.example.projectcab302.Model.Course;
 
 import com.example.projectcab302.Model.Quiz;
+import com.example.projectcab302.Model.Score;
 import com.example.projectcab302.Persistence.*;
 import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
@@ -36,7 +37,7 @@ public class StudentQuizController extends BaseCourseAndSession{
 
     // ───────────── Texts ─────────────
     @FXML private TextField courseField;
-    @FXML private Text score;
+    @FXML private Text scoreText;
 
     // ─────── Controller state (non-UI, no @FXML) ───────
     private ICoursesDAO courseDAO;
@@ -45,7 +46,7 @@ public class StudentQuizController extends BaseCourseAndSession{
 
     private IQuizDAO quizDAO;
     private List<Quiz> quizzes;
-
+    private IScoresDAO scoresDAO = new SqliteScoreDAO();
 
 
     /**
@@ -164,11 +165,10 @@ public class StudentQuizController extends BaseCourseAndSession{
                 quizDAO.updateQuizMetrics(quizzes.get(i), false);
             }
         }
+        scoresDAO.updateQuizScore(this.user.getId(), tally/ quizzes.size());
 
 
-
-
-        score.setText(tally + "/" + quizzes.size());
+        scoreText.setText(tally + "/" + quizzes.size());
     }
 
 

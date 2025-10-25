@@ -1,6 +1,9 @@
 package com.example.projectcab302.Controller;
 
 import com.example.projectcab302.Model.Course;
+import com.example.projectcab302.Model.Score;
+import com.example.projectcab302.Model.Student;
+import com.example.projectcab302.Persistence.*;
 import com.example.projectcab302.SceneManager;
 import javafx.animation.*;
 import javafx.application.Platform;
@@ -13,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -21,7 +25,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import com.example.projectcab302.HelloApplication;
 import com.example.projectcab302.Model.Flashcard;
-import com.example.projectcab302.Persistence.IFlashcardDAO;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -81,6 +84,12 @@ public class FlashcardController extends BaseCourseAndSession {
     /** Open the flashcard edit view for this course. */
     @FXML private Button modifyButton;
 
+    /** Start PVP */
+    @FXML private Button pvp;
+
+    /** submit button for ID */
+    @FXML private Button EnterID;
+
     // ───────────── Texts ─────────────
 
     /** Displays the current question (or the countdown temporarily). */
@@ -106,6 +115,8 @@ public class FlashcardController extends BaseCourseAndSession {
 
     /** Input area for the user's answer. */
     @FXML private TextArea answer;
+
+    @FXML private TextField p2ID;
 
     // ─────── Controller state (non-UI, no @FXML) ───────
 
@@ -139,6 +150,10 @@ public class FlashcardController extends BaseCourseAndSession {
 
     /** Player 2 cumulative score. */
     private int p2Score = 0;
+
+    private Student stdntplayer2;
+
+    private IScoresDAO scoresDAO = new SqliteScoreDAO();
 
     /**
      * Initializes the controller after FXML has been loaded.
@@ -175,6 +190,16 @@ public class FlashcardController extends BaseCourseAndSession {
         flashcards = course.getFlashcards();
         question.setText(flashcards.get(cardCount).getQuestion());
         cardNum.setText((cardCount + 1) + "/" + flashcards.size());
+
+        if (this.user.getRole().equals("Teacher")){
+            pvp.setVisible(false);
+        }
+
+        if (this.user.getRole().equals("Student")){
+            modifyButton.setVisible(false);
+        }
+
+
     }
 
     /**
@@ -185,26 +210,54 @@ public class FlashcardController extends BaseCourseAndSession {
      */
     @FXML
     private void onPvP() {
-        bar.setVisible(true);
-        ready.setVisible(true);
-        cardCount = 0;
-        p1Score = 0;
-        p2Score = 0;
-        player1.setVisible(true);
-        player2.setVisible(true);
-        player1.setText("player 1: " + p1Score);
-        player2.setText("player 1: " + p1Score);
-        player2.setVisible(true);
+        question.setText("Enter the id of Player 2");
+        p2ID.setVisible(true);
+        EnterID.setVisible(true);
 
         previewOptions.setVisible(false);
-        pvpOptions.setVisible(true);
-        pvpActive = true;
+
         p1Turn = true;
         flipButton.setVisible(false);
 
-        startRound();
+
         System.out.println("onPvP clicked");
     }
+
+    @FXML
+    private void onEnterID(){
+
+        String idString = p2ID.getText();
+        int id = Integer.parseInt(idString);
+        IUserDAO userDAO = new SqliteUserDAO();
+        if (userDAO.getStudent(id) != null){
+            stdntplayer2 = userDAO.getStudent(id);
+
+            p2ID.setVisible(false);
+            EnterID.setVisible(false);
+
+            pvpOptions.setVisible(true);
+            bar.setVisible(true);
+            ready.setVisible(true);
+            cardCount = 0;
+            p1Score = 0;
+            p2Score = 0;
+            player1.setVisible(true);
+            player2.setVisible(true);
+            player1.setText(this.user.getUsername() + ": " + p1Score);
+            player2.setText(stdntplayer2.getUsername() + ": " + p2Score);
+            player2.setVisible(true);
+
+            pvpOptions.setVisible(true);
+            pvpActive = true;
+
+            startRound();
+
+        }
+        System.out.println(userDAO.getStudent(id));
+    }
+
+
+
 
     /**
      * Starts a single PvP round with a 3-second countdown, then enables answering.
@@ -255,10 +308,15 @@ public class FlashcardController extends BaseCourseAndSession {
         }
 
         String response = answer.getText();
+        if(checkWinner()){
+            return;
+        }
         if (response.isEmpty()) {
             aiResponse.setText("Score 0/5, no answer given");
             flipCard();
+
             switchTurns();
+
         } else {
             onSubmit();
         }
@@ -275,10 +333,16 @@ public class FlashcardController extends BaseCourseAndSession {
      */
     private boolean checkWinner() {
         if (cardCount == (flashcards.size() - 1) && p2Turn) {
+
+
             if (p1Score > p2Score) {
-                countdown.setText("player 1 won");
+                countdown.setText(this.user.getUsername() + " won!");
+                scoresDAO.updatePVPScore(this.user.getId(), 1);
+                scoresDAO.updatePVPScore(stdntplayer2.getId(), 0);
             } else {
-                countdown.setText("player 2 won");
+                countdown.setText(stdntplayer2.getUsername() + " won!");
+                scoresDAO.updatePVPScore(this.user.getId(), 0);
+                scoresDAO.updatePVPScore(stdntplayer2.getId(), 1);
             }
             ready.setDisable(true);
             pvpSubmitButton.setDisable(true);
@@ -436,7 +500,13 @@ public class FlashcardController extends BaseCourseAndSession {
      */
     @FXML
     private void onBack() throws IOException {
-        SceneManager.switchTo("teacher-view.fxml", this.user);
+        if (this.user.getRole().equals("Teacher")){
+            SceneManager.switchTo("teacher-view.fxml", this.user);
+        }
+
+        if (this.user.getRole().equals("Student")){
+            SceneManager.switchTo("student-view.fxml", this.user);
+        }
     }
 
     /**
@@ -530,10 +600,10 @@ public class FlashcardController extends BaseCourseAndSession {
                         flipCard();
                         if (p1Turn) {
                             p1Score += score;
-                            player1.setText("player 1: " + p1Score);
+                            player1.setText(this.user.getUsername() + " " + p1Score);
                         } else {
                             p2Score += score;
-                            player2.setText("player 2: " + p2Score);
+                            player2.setText(stdntplayer2.getUsername() + " " + p2Score);
                         }
                         if (!checkWinner()) {
                             switchTurns();

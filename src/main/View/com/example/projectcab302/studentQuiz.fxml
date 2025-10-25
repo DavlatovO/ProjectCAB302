@@ -54,7 +54,7 @@
                     text="Submit"
                     onAction="#onSubmit"
                     style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
-            <Text fx:id="score" />
+            <Text fx:id="scoreText" />
         </HBox>
         <!-- Your course container -->
 

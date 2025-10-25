@@ -1,5 +1,6 @@
 package com.example.projectcab302.Persistence;
 
+import com.example.projectcab302.Model.Score;
 import com.example.projectcab302.Model.Student;
 import com.example.projectcab302.Model.Teacher;
 import com.example.projectcab302.Model.User;
@@ -18,7 +19,7 @@ public class SqliteUserDAO implements IUserDAO {
     public SqliteUserDAO() {
         this.connection = SqliteConnection.getInstance();
         createTable();
-        insertSampleData();
+        //insertSampleData();
     }
 
     public void insertSampleData() {
@@ -86,6 +87,12 @@ public class SqliteUserDAO implements IUserDAO {
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 user.setId(generatedKeys.getInt(1));
+            }
+
+            if (user.getRole().equals("Student")){
+                IScoresDAO scoresDAO = new SqliteScoreDAO();
+                Score score = new Score(user.getId(), 0, 0, 0, 0);
+                scoresDAO.addScore(score);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -196,4 +203,31 @@ public class SqliteUserDAO implements IUserDAO {
         }
         return false;
     }
+
+    @Override
+    public Student getStudent(int id) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT id, username, email, role, password FROM users WHERE id = ? AND role = 'Student'"
+            );
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String username = resultSet.getString("username");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+
+                Student student = new Student(username, email, User.Roles.Student, password);
+                student.setId(id);
+                return student;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }

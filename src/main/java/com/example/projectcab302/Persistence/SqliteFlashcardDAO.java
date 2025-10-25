@@ -35,7 +35,7 @@ public class SqliteFlashcardDAO implements IFlashcardDAO {
     public SqliteFlashcardDAO() {
         connection = SqliteConnection.getInstance();
         createTable();
-        // insertSampleData();
+        //insertSampleData();
     }
 
     /**

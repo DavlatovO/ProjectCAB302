@@ -1,163 +1,106 @@
-package com.example.projectcab302;
+package com.example.projectcab302.Model;
 
-import com.example.projectcab302.Model.Quiz;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Unit tests for the Quiz model.
- * Covers constructors, getters/setters, toString, and edge cases.
- * //Updated Quizs to have course String in table, will modify to meet prototype requirements, Fynn.
- */
-
 class QuizTest {
-/*
-    @Test
-    @DisplayName("Constructor with quizID should set all fields correctly")
-    void constructor_withId_setsAllFields() {
-        Quiz quiz = new Quiz(1, "What is Java?", "Language", "Platform", "Coffee", "OS", "Language");
 
-        assertEquals(1, quiz.getQuizID());
-        assertEquals("What is Java?", quiz.getQuizQuestion());
-        assertEquals("Language", quiz.getAnswer1());
-        assertEquals("Platform", quiz.getAnswer2());
-        assertEquals("Coffee", quiz.getAnswer3());
-        assertEquals("OS", quiz.getAnswer4());
-        assertEquals("Language", quiz.getCorrectAnswer());
-    }
+    private Quiz quizFull;
+    private Quiz quizBasic;
 
-    @Test
-    @DisplayName("Constructor without quizID should default quizID to 0")
-    void constructor_withoutId_defaultsQuizIDToZero() {
-        Quiz quiz = new Quiz(
-                "What is Java?",
-                "Language",
-                "Platform",
-                "Coffee",
-                "OS",
-                "Language"
+    @BeforeEach
+    void setUp() {
+        quizFull = new Quiz(
+                "Math",
+                "What is 2 + 2?",
+                "3", "4", "5", "6",
+                "4",
+                8, 2
         );
 
-        assertEquals(0, quiz.getQuizID()); // Java default int = 0
-        assertEquals("What is Java?", quiz.getQuizQuestion());
+        quizBasic = new Quiz(
+                "Science",
+                "What is H2O?",
+                "Oxygen", "Hydrogen", "Water", "Steam",
+                "Water"
+        );
+    }
+
+    // ---- Constructor Tests ----
+    @Test
+    void testConstructorWithStats() {
+        assertEquals("Math", quizFull.getCourse());
+        assertEquals("What is 2 + 2?", quizFull.getQuizQuestion());
+        assertEquals("4", quizFull.getCorrectAnswer());
+        assertEquals(8, quizFull.getCorrect());
+        assertEquals(2, quizFull.getWrong());
     }
 
     @Test
-    @DisplayName("setQuizID should update quizID field")
-    void setQuizID_updatesValue() {
-        Quiz quiz = new Quiz("Q", "A1", "A2", "A3", "A4", "A1");
+    void testConstructorWithoutStats() {
+        assertEquals("Science", quizBasic.getCourse());
+        assertEquals("What is H2O?", quizBasic.getQuizQuestion());
+        assertEquals("Water", quizBasic.getCorrectAnswer());
+        assertEquals(0, quizBasic.getCorrect());
+        assertEquals(0, quizBasic.getWrong());
+    }
 
-        quiz.setQuizID(42);
+    // ---- Setter Tests ----
+    @Test
+    void testSettersAndGetters() {
+        quizFull.setQuizID(10);
+        quizFull.setCourse("Programming");
+        quizFull.setQuizQuestion("What is Java?");
+        quizFull.setAnswer1("Language");
+        quizFull.setAnswer2("IDE");
+        quizFull.setAnswer3("Framework");
+        quizFull.setAnswer4("OS");
+        quizFull.setCorrectAnswer("Language");
+        quizFull.setCorrect(5);
+        quizFull.setWrong(5);
 
-        assertEquals(42, quiz.getQuizID());
+        assertEquals(10, quizFull.getQuizID());
+        assertEquals("Programming", quizFull.getCourse());
+        assertEquals("What is Java?", quizFull.getQuizQuestion());
+        assertEquals("Language", quizFull.getCorrectAnswer());
+        assertEquals(5, quizFull.getCorrect());
+        assertEquals(5, quizFull.getWrong());
+    }
+
+    // ---- Validation Tests ----
+    @Test
+    void testSettersRejectNullValues() {
+        assertThrows(IllegalArgumentException.class, () -> quizFull.setQuizQuestion(null));
+        assertThrows(IllegalArgumentException.class, () -> quizFull.setAnswer1(null));
+        assertThrows(IllegalArgumentException.class, () -> quizFull.setAnswer2(null));
+        assertThrows(IllegalArgumentException.class, () -> quizFull.setAnswer3(null));
+        assertThrows(IllegalArgumentException.class, () -> quizFull.setAnswer4(null));
+        assertThrows(IllegalArgumentException.class, () -> quizFull.setCorrectAnswer(null));
+        assertThrows(IllegalArgumentException.class, () -> quizFull.setQuizID(null));
+    }
+
+    // ---- Logic Tests ----
+    @Test
+    void testGetAverageWhenNoAttempts() {
+        quizFull.setCorrect(0);
+        quizFull.setWrong(0);
+        assertEquals(0.0, quizFull.getAverage(), 0.001);
     }
 
     @Test
-    @DisplayName("Setters should update corresponding fields")
-    void setters_updateFields() {
-        Quiz quiz = new Quiz("Q", "A1", "A2", "A3", "A4", "A1");
-
-        quiz.setQuizQuestion("New Question");
-        quiz.setAnswer1("New A1");
-        quiz.setAnswer2("New A2");
-        quiz.setAnswer3("New A3");
-        quiz.setAnswer4("New A4");
-        quiz.setCorrectAnswer("New Correct");
-
-        assertEquals("New Question", quiz.getQuizQuestion());
-        assertEquals("New A1", quiz.getAnswer1());
-        assertEquals("New A2", quiz.getAnswer2());
-        assertEquals("New A3", quiz.getAnswer3());
-        assertEquals("New A4", quiz.getAnswer4());
-        assertEquals("New Correct", quiz.getCorrectAnswer());
+    void testGetAverageCorrectCalculation() {
+        quizFull.setCorrect(3);
+        quizFull.setWrong(1);
+        assertEquals(75.0, quizFull.getAverage(), 0.001);
     }
 
     @Test
-    @DisplayName("Setters should throw exception on null (matching NOT NULL DB constraint)")
-    void setters_disallowNulls() {
-        Quiz quiz = new Quiz("Q", "A1", "A2", "A3", "A4", "A1");
-
-        assertThrows(IllegalArgumentException.class, () -> quiz.setQuizQuestion(null));
-        assertThrows(IllegalArgumentException.class, () -> quiz.setAnswer1(null));
-        assertThrows(IllegalArgumentException.class, () -> quiz.setAnswer2(null));
-        assertThrows(IllegalArgumentException.class, () -> quiz.setAnswer3(null));
-        assertThrows(IllegalArgumentException.class, () -> quiz.setAnswer4(null));
-        assertThrows(IllegalArgumentException.class, () -> quiz.setCorrectAnswer(null));
-        assertThrows(IllegalArgumentException.class, () -> quiz.setQuizID(null));
+    void testToStringContainsKeyFields() {
+        String str = quizFull.toString();
+        assertTrue(str.contains("QuizQuestion"));
+        assertTrue(str.contains("Answer1"));
+        assertTrue(str.contains("correctAnswer"));
     }
-
-    @Test
-    @DisplayName("toString should contain key field values")
-    void toString_includesFieldValues() {
-        Quiz quiz = new Quiz(7, "Q?", "A1", "A2", "A3", "A4", "A2");
-
-        String str = quiz.toString();
-
-        assertTrue(str.contains("quizID=7"));
-        assertTrue(str.contains("Q?"));
-        assertTrue(str.contains("A1"));
-        assertTrue(str.contains("A2"));
-        assertTrue(str.contains("A3"));
-        assertTrue(str.contains("A4"));
-        assertTrue(str.contains("correctAnswer=A2"));
-    }
-
-    // --- Edge Cases ---
-
-    @Test
-    @DisplayName("Supports empty strings for question and answers")
-    void supportsEmptyStrings() {
-        Quiz quiz = new Quiz("", "", "", "", "", "");
-        assertEquals("", quiz.getQuizQuestion());
-        assertEquals("", quiz.getAnswer1());
-        assertEquals("", quiz.getAnswer2());
-        assertEquals("", quiz.getAnswer3());
-        assertEquals("", quiz.getAnswer4());
-        assertEquals("", quiz.getCorrectAnswer());
-    }
-
-    @Test
-    @DisplayName("Handles very long strings without truncation")
-    void handlesVeryLongStrings() {
-        String longString = "x".repeat(10_000);
-        Quiz quiz = new Quiz(longString, longString, longString, longString, longString, longString);
-
-        assertEquals(longString, quiz.getQuizQuestion());
-        assertEquals(longString, quiz.getAnswer1());
-        assertEquals(longString, quiz.getAnswer2());
-        assertEquals(longString, quiz.getAnswer3());
-        assertEquals(longString, quiz.getAnswer4());
-        assertEquals(longString, quiz.getCorrectAnswer());
-    }
-
-    @Test
-    @DisplayName("Allows duplicate answers across multiple fields")
-    void allowsDuplicateAnswers() {
-        Quiz quiz = new Quiz("Q", "Same", "Same", "Same", "Same", "Same");
-        assertEquals("Same", quiz.getAnswer1());
-        assertEquals("Same", quiz.getAnswer2());
-        assertEquals("Same", quiz.getAnswer3());
-        assertEquals("Same", quiz.getAnswer4());
-        assertEquals("Same", quiz.getCorrectAnswer());
-    }
-
-    @Test
-    @DisplayName("Correct answer not required to match provided answers")
-    void correctAnswer_canDifferFromOptions() {
-        Quiz quiz = new Quiz("Q", "A1", "A2", "A3", "A4", "Different");
-        assertEquals("Different", quiz.getCorrectAnswer());
-    }
-
-    @Test
-    @DisplayName("Supports negative quizID values")
-    void supportsNegativeQuizID() {
-        Quiz quiz = new Quiz(-99, "Q", "A1", "A2", "A3", "A4", "A1");
-        assertEquals(-99, quiz.getQuizID());
-    }
-
-
-
- */
 }

@@ -36,7 +36,7 @@
                 <Region VBox.vgrow="ALWAYS"/>
 
                 <Button fx:id="pvp" text="PvP mode" onAction="#onPvP"/>
-                <Button fx:id="preview" text="Preview mode" onAction="#initialize"/>
+                <Button fx:id="preview" text="Preview mode" onAction="#onPreview"/>
                 <Button fx:id="modifyButton" text="Modify flashcard" onAction="#onModifyFlashcard"/>
             </children>
         </VBox>
@@ -58,14 +58,15 @@
                 <Text fx:id="countdown" fill="Black"/>
                     <Text fx:id="player2" fill="Black"/>
                 </HBox>
-                <HBox alignment="CENTER">
+                <HBox alignment="CENTER" >
                     <TextField fx:id="p2ID"
                                promptText="Type your id..."
-                               visible="false"
-                               prefWidth="120" />
-                    <Button fx:id="EnterID" text="Enter" visible="false" onAction="#onEnterID"/>
+
+                               prefWidth="120"
+                               />
+                    <Button fx:id="EnterID" text="Enter" onAction="#onEnterID" />
                 </HBox>
-                <Button fx:id="flipButton" text="Flip" onAction="#flipCard" mouseTransparent="true" />
+                <Button fx:id="flipButton" text="Flip" onAction="#flipCard"  />
             </StackPane>
             <StackPane fx:id="cubeGroup">
                 <Rectangle width="400" height="200"

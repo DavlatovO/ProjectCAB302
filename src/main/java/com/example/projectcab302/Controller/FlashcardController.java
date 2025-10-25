@@ -175,6 +175,25 @@ public class FlashcardController extends BaseCourseAndSession {
         bar.setVisible(false);
         flipButton.setVisible(true);
         flipButton.setDisable(false);
+
+        p2ID.setVisible(false);
+        EnterID.setVisible(false);
+
+        p2ID.setMouseTransparent(true);
+        EnterID.setMouseTransparent(true);
+
+        flipButton.setVisible(true);
+        flipButton.setMouseTransparent(false);
+    }
+
+    @FXML public void onPreview(){
+        initialize();
+        question.setText(flashcards.get(cardCount).getQuestion());
+        cardNum.setText((cardCount + 1) + "/" + flashcards.size());
+
+
+
+
     }
 
     /**
@@ -214,10 +233,15 @@ public class FlashcardController extends BaseCourseAndSession {
         p2ID.setVisible(true);
         EnterID.setVisible(true);
 
+        p2ID.setMouseTransparent(false);
+        EnterID.setMouseTransparent(false);
+
         previewOptions.setVisible(false);
 
         p1Turn = true;
         flipButton.setVisible(false);
+
+        flipButton.setMouseTransparent(true);
 
 
         System.out.println("onPvP clicked");

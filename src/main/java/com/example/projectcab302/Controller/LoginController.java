@@ -19,6 +19,7 @@ public class LoginController extends BaseSession{
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
 
+
     @FXML
     protected void login() {
         String username = usernameField.getText().trim();
@@ -27,6 +28,7 @@ public class LoginController extends BaseSession{
         IUserDAO userDAO = new SqliteUserDAO();
 
         User user = userDAO.login(username, password);
+        System.out.println(user);
         if (user != null) {
             Session.setUser(user);
             switch (user.getRoles()) {

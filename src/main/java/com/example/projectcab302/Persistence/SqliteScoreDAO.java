@@ -13,7 +13,9 @@ public class SqliteScoreDAO implements IScoresDAO {
     public SqliteScoreDAO() {
         connection = SqliteConnection.getInstance();
         createTable();
-        //insertSampleData();
+        if (getAllScores().isEmpty()){
+            insertSampleData();
+        }
     }
 
     private void createTable() {

@@ -19,7 +19,9 @@ public class SqliteUserDAO implements IUserDAO {
     public SqliteUserDAO() {
         this.connection = SqliteConnection.getInstance();
         createTable();
-        //insertSampleData();
+        if (getAllUsers().isEmpty()){
+            insertSampleData();
+        }
     }
 
     public void insertSampleData() {
@@ -33,14 +35,51 @@ public class SqliteUserDAO implements IUserDAO {
             Statement insertStatement = connection.createStatement();
             String insertQuery = "INSERT INTO users(id, username, email, role, password) VALUES "
                     //+ "(1, 'bex', 'bex@gmail.com', 'Student', '123'),"
-                    + "(101, 'Alice', 'Alice@gmail.com', 'Student', '123'),"
-                    + "(102, 'Bob', 'Bob@gmail.com', 'Student', '123'),"
-                    + "(103, 'Charlie', 'Charlie@gmail.com', 'Student', '123'),"
-                    + "(2, 'Sean', 'sean@gmail.com', 'Teacher', '123')";
+                    + "(101, 'Alice', 'Alice@gmail.com', 'Student', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'),"
+                    + "(102, 'Bob', 'Bob@gmail.com', 'Student', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'),"
+                    + "(103, 'Charlie', 'Charlie@gmail.com', 'Student', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'),"
+                    + "(2, 'Sean', 'sean@gmail.com', 'Teacher', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')";
             insertStatement.execute(insertQuery);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        List<User> users = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT id, username, email, role, password FROM users"
+            );
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String username = resultSet.getString("username");
+                String email = resultSet.getString("email");
+                String roleStr = resultSet.getString("role");
+                String password = resultSet.getString("password");
+
+                // Convert string → enum
+                User.Roles roleEnum = User.Roles.valueOf(roleStr);
+
+                // Instantiate correct subclass
+                User user = switch (roleEnum) {
+                    case Student -> new Student(username, email, roleEnum, password);
+                    case Teacher -> new Teacher(username, email, roleEnum, password);
+                };
+
+                user.setId(id);
+                users.add(user);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return users;
     }
 
     public void clearData() {
@@ -79,7 +118,7 @@ public class SqliteUserDAO implements IUserDAO {
 
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getEmail());
-            statement.setString(3, user.getRole());
+            statement.setString(3, user.getRoles().name());
             statement.setString(4, user.getHashedPassword());
             statement.executeUpdate();
 
@@ -89,9 +128,9 @@ public class SqliteUserDAO implements IUserDAO {
                 user.setId(generatedKeys.getInt(1));
             }
 
-            if (user.getRole().equals("Student")){
+            if (user.getRoles().name().equals("Student")){
                 IScoresDAO scoresDAO = new SqliteScoreDAO();
-                Score score = new Score(user.getId(), 0, 0, 0, 0);
+                Score score = new Score(user.getId(), 1, 1, 0, 0);
                 scoresDAO.addScore(score);
             }
         } catch (Exception e) {

@@ -15,7 +15,7 @@ import java.util.List;
  * </p>
  */
 public interface IUserDAO {
-
+    public List<User> getAllUsers();
     /**
      * Creates a new user in the database.
      *

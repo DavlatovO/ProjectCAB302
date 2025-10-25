@@ -136,7 +136,13 @@ public class CoursesController extends BaseFXMLandSession{
      */
     @FXML
     private void onBack() throws IOException {
-        SceneManager.switchTo("teacher-view.fxml", this.user);
+        if (this.user.getRole().equals("Teacher")){
+            SceneManager.switchTo("teacher-view.fxml", this.user);
+        }
+
+        if (this.user.getRole().equals("Student")){
+            SceneManager.switchTo("student-view.fxml", this.user);
+        }
     }
 
 

@@ -15,7 +15,7 @@ class CourseTest {
 
     @BeforeEach
     void setUp() {
-        // Fixture: constructs Course (current design hits SQLite via DAOs → integration-style tests)
+        // Fixture : constructs Course (current design hits SQLite via DAOs → integration-style tests)
         course = new Course("CAB402");
     }
 
@@ -33,7 +33,7 @@ class CourseTest {
         assertThrows(IllegalArgumentException.class, () -> new Course(null));
     }
 
-    // Constructor & title validation — throws on blank "   " title
+    // Constructor & title validation — throw  s on blank "   " title
     @Test
     void constructor_withBlank_throws() {
         assertThrows(IllegalArgumentException.class, () -> new Course("   "));

@@ -40,9 +40,9 @@ public class StudentController extends BaseSession {
     }
 
 
-    private void gpaRing(double gpa, String gradeMeasure) {
+    private void gpaRing(double gpa, String gradeMeasure, String attempts) {
         StackPane stackPane = new StackPane();
-        Text label = new Text(String.format("%s%.2f%%", gradeMeasure, gpa * 100));
+        Text label = new Text(String.format("%s%.2f%%", gradeMeasure, gpa * 100) + "\n"+ attempts);
 
         Student student = (Student) this.user;
 
@@ -106,9 +106,14 @@ public class StudentController extends BaseSession {
         Score score = scoresDAO.getScore(student.getId());
         double quizScore = score.getQuizScore();
         double pvpScore = score.getPvpScore();
+        int pvpBattles = score.getPvpBattle();
+        int quizAttempts = score.getQuizAttempts();
         String quizText = "Your quiz average is: ";
-        gpaRing(quizScore, quizText);
+        String quizType = "with "+ quizAttempts + " quiz submissions";
+        gpaRing(quizScore, quizText, quizType);
+
         String pvpText = "Your PVP winrate is: ";
-        gpaRing(pvpScore, pvpText);
+        String pvpType = "with "+ pvpBattles + " PvP Battles";
+        gpaRing(pvpScore, pvpText, pvpType);
     }
 }

@@ -35,6 +35,9 @@ public class SqliteCoursesDAO implements ICoursesDAO {
     public SqliteCoursesDAO() {
         connection = SqliteConnection.getInstance();
         createTable();
+        if (getAllCourses().isEmpty()){
+            insertSampleData();
+        }
     }
 
     /**

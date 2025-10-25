@@ -30,7 +30,7 @@ public class LoginController extends BaseSession{
         User user = userDAO.login(username, password);
         System.out.println(user);
         if (user != null) {
-            Session.setUser(user);
+            setUser(user);
             switch (user.getRoles()) {
                 case Student -> SceneManager.switchTo("student-view.fxml", user);
                 case Teacher -> SceneManager.switchTo("teacher-view.fxml", user);

@@ -10,7 +10,7 @@ import com.example.projectcab302.Persistence.SqliteUserDAO;
 import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
 
-public class LandingPageController {
+public class LandingPageController extends BaseSession{
 
     @FXML
     protected void login() {
@@ -24,18 +24,23 @@ public class LandingPageController {
 
     @FXML
     protected void teacherDashboard() {
-        Teacher user = new Teacher("John", "john@123.com", User.Roles.Teacher, "123");
+        //Teacher user = new Teacher("John", "john@123.com", User.Roles.Teacher, "123");
+        if (user != null){
+            SceneManager.switchTo("teacher-view.fxml", user);
+        } else {
+            SceneManager.switchTo("login-view.fxml");
+        }
 
-        SceneManager.switchTo("teacher-view.fxml", user);
     }
 
     @FXML
     protected void studentDashboard() {
-        IUserDAO userDAO = new SqliteUserDAO();
-
-        Student user = userDAO.getStudent(101);
-
-        SceneManager.switchTo("student-view.fxml", user);
+        //Student user = new Student("Student", "john@123.com", User.Roles.Student, "123");
+        if (user != null){
+            SceneManager.switchTo("student-view.fxml", user);
+        } else {
+            SceneManager.switchTo("login-view.fxml");
+        }
     }
 
 }

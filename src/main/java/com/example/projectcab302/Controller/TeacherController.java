@@ -26,14 +26,6 @@ public class TeacherController extends BaseSession{
 
 
 
-//    @FXML
-//    protected void onTestingButtonClick() {
-//        ViewManager.getInstance().switchToTranslateView("C:/Users/anodi/Downloads/trans-472009-db2d770946a8.json","trans-472009");
-//    }
-
-//    protected void onSettingsButtonClick() {
-//        ViewManager.getInstance().switchToSettingsView();
-//    }
 
     @FXML
     Button flashcardsButton;

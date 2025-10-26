@@ -32,7 +32,7 @@ public class QuizMetrics extends BaseCourseAndSession {
     @FXML private VBox Metrics;
 
     @Override
-    public void afterCourseisSet() {
+    protected void afterCourseisSet() {
         IQuizDAO quizDAO = new SqlQuizDAO();
         List<Quiz> quizzes = quizDAO.getAllQuestionsfromCourse(this.course.getTitle());
         double quizAvg = 0;

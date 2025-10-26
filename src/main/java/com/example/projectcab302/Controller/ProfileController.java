@@ -10,6 +10,12 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.net.URL;
 
+/**
+ * Controller for the user profile view.
+ * <p>
+ * Handles displaying and editing user details, uploading avatars,
+ * and performing profile-related actions such as password changes and logout.
+ */
 public class ProfileController {
 
     @FXML private Label  nameLabel;
@@ -84,6 +90,9 @@ public class ProfileController {
         }
     }
 
+    /**
+     * Opens a dialog for the user to change their password.
+     */
     @FXML
     protected void changePassword() {
         TextInputDialog dialog = new TextInputDialog();
@@ -96,6 +105,7 @@ public class ProfileController {
         });
     }
 
+    // Toggles between view and edit mode for profile fields
     private void setEditMode(boolean on) {
         editing = on;
 
@@ -108,6 +118,7 @@ public class ProfileController {
         if (editSaveBtn != null) editSaveBtn.setText(on ? "Save" : "Edit");
     }
 
+    // Refreshes profile display with current user data
     private void refreshView() {
         if (nameLabel  != null) nameLabel.setText(currentName);
         if (emailLabel != null) emailLabel.setText(currentEmail);

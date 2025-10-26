@@ -1,23 +1,34 @@
 package com.example.projectcab302.Persistence;
 
 import com.example.projectcab302.Model.Score;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * SQLite implementation of {@link IScoresDAO}.
+ * <p>
+ * Handles all database operations related to student scores, including
+ * creation, retrieval, updates, deletions, and sample data initialization.
+ */
 public class SqliteScoreDAO implements IScoresDAO {
 
+    /** Active database connection. */
     private final Connection connection;
 
+    /**
+     * Initializes the DAO, creates the scores table if needed,
+     * and inserts sample data if the table is empty.
+     */
     public SqliteScoreDAO() {
         connection = SqliteConnection.getInstance();
         createTable();
-        if (getAllScores().isEmpty()){
+        if (getAllScores().isEmpty()) {
             insertSampleData();
         }
     }
 
+    // Creates the scores table if it does not already exist
     private void createTable() {
         try (Statement statement = connection.createStatement()) {
             String query = "CREATE TABLE IF NOT EXISTS scores (" +
@@ -34,6 +45,7 @@ public class SqliteScoreDAO implements IScoresDAO {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void addScore(Score score) {
         String query = "INSERT INTO scores (stdntID, quizScore, pvpScore, pvpBattle, quizAttempts) VALUES (?, ?, ?, ?, ?)";
@@ -49,6 +61,7 @@ public class SqliteScoreDAO implements IScoresDAO {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void updateScore(Score score) {
         String query = "UPDATE scores SET quizScore = ?, pvpScore = ?, pvpBattle = ?, quizAttempts = ? WHERE stdntID = ?";
@@ -64,6 +77,7 @@ public class SqliteScoreDAO implements IScoresDAO {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void deleteScore(Score score) {
         String query = "DELETE FROM scores WHERE stdntID = ?";
@@ -75,6 +89,7 @@ public class SqliteScoreDAO implements IScoresDAO {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public Score getScore(int id) {
         String query = "SELECT * FROM scores WHERE stdntID = ?";
@@ -96,6 +111,7 @@ public class SqliteScoreDAO implements IScoresDAO {
         return null; // not found
     }
 
+    /** {@inheritDoc} */
     @Override
     public List<Score> getAllScores() {
         List<Score> scores = new ArrayList<>();
@@ -118,6 +134,7 @@ public class SqliteScoreDAO implements IScoresDAO {
         return scores;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void clearData() {
         String query = "DELETE FROM scores";
@@ -128,6 +145,7 @@ public class SqliteScoreDAO implements IScoresDAO {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void insertSampleData() {
         clearData();
@@ -136,37 +154,43 @@ public class SqliteScoreDAO implements IScoresDAO {
         addScore(new Score(103, 0.90, 0.88, 7, 5));
     }
 
-
-
-    /** Update PvP score based on win/loss result (true = win, false = loss) */
+    /**
+     * Updates a student's PvP score after a match.
+     *
+     * @param stdntID student ID
+     * @param result  result of match (1 = win, 0 = loss)
+     */
     public void updatePVPScore(int stdntID, int result) {
         try {
             Score score = getScore(stdntID);
             PreparedStatement statement = connection.prepareStatement(
                     "UPDATE scores SET pvpScore = ?, pvpBattle = ? WHERE stdntID = ?");
-            statement.setDouble(1, (score.getPvpScore() + result)/2);
+            statement.setDouble(1, (score.getPvpScore() + result) / 2);
             statement.setDouble(2, score.getPvpBattle() + 1);
             statement.setInt(3, stdntID);
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    /** Update quiz score and increment attempt count */
+    /**
+     * Updates a student's quiz score and increments their attempt count.
+     *
+     * @param stdntID        student ID
+     * @param newQuizResult  latest quiz result (0–1)
+     */
     public void updateQuizScore(int stdntID, double newQuizResult) {
         try {
             Score score = getScore(stdntID);
             PreparedStatement statement = connection.prepareStatement(
                     "UPDATE scores SET quizScore = ?, quizAttempts = ? WHERE stdntID = ?");
-            statement.setDouble(1, (score.getQuizScore() + newQuizResult)/2);
+            statement.setDouble(1, (score.getQuizScore() + newQuizResult) / 2);
             statement.setDouble(2, score.getQuizAttempts() + 1);
             statement.setInt(3, stdntID);
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }

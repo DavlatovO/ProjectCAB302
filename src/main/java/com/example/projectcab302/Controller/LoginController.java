@@ -13,13 +13,21 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
-
+/**
+ * Controller for the login view.
+ * <p>
+ * Handles user authentication and navigation between
+ * the login and registration screens.
+ */
 public class LoginController extends BaseSession{
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
 
-
+    /**
+     * Attempts to log in a user using the provided credentials.
+     * If successful, switches to the appropriate dashboard view.
+     */
     @FXML
     protected void login() {
         String username = usernameField.getText().trim();

@@ -13,28 +13,39 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * SQLite implementation of {@link IUserDAO}.
+ * <p>
+ * Manages database operations for user accounts including creation,
+ * retrieval, authentication, and sample data population.
+ */
 public class SqliteUserDAO implements IUserDAO {
+
+    /** Active database connection. */
     private Connection connection;
 
+    /**
+     * Initializes the DAO, creates the users table if necessary,
+     * and inserts sample data if the table is empty.
+     */
     public SqliteUserDAO() {
         this.connection = SqliteConnection.getInstance();
         createTable();
-        if (getAllUsers().isEmpty()){
+        if (getAllUsers().isEmpty()) {
             insertSampleData();
         }
     }
 
+    // Inserts initial sample data for testing
     public void insertSampleData() {
         try {
-            // Clear before inserting
+            // Clear existing data
             Statement clearStatement = connection.createStatement();
-            String clearQuery = "DELETE FROM users";
-            clearStatement.execute(clearQuery);
+            clearStatement.execute("DELETE FROM users");
 
-            // Insert sample users
+            // Insert demo users
             Statement insertStatement = connection.createStatement();
             String insertQuery = "INSERT INTO users(id, username, email, role, password) VALUES "
-                    //+ "(1, 'bex', 'bex@gmail.com', 'Student', '123'),"
                     + "(101, 'Alice', 'Alice@gmail.com', 'Student', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'),"
                     + "(102, 'Bob', 'Bob@gmail.com', 'Student', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'),"
                     + "(103, 'Charlie', 'Charlie@gmail.com', 'Student', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'),"
@@ -45,27 +56,23 @@ public class SqliteUserDAO implements IUserDAO {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT id, username, email, role, password FROM users"
-            );
-            ResultSet resultSet = statement.executeQuery();
+                    "SELECT id, username, email, role, password FROM users");
+            ResultSet rs = statement.executeQuery();
 
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String username = resultSet.getString("username");
-                String email = resultSet.getString("email");
-                String roleStr = resultSet.getString("role");
-                String password = resultSet.getString("password");
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String username = rs.getString("username");
+                String email = rs.getString("email");
+                String roleStr = rs.getString("role");
+                String password = rs.getString("password");
 
-                // Convert string → enum
                 User.Roles roleEnum = User.Roles.valueOf(roleStr);
-
-                // Instantiate correct subclass
                 User user = switch (roleEnum) {
                     case Student -> new Student(username, email, roleEnum, password);
                     case Teacher -> new Teacher(username, email, roleEnum, password);
@@ -74,26 +81,24 @@ public class SqliteUserDAO implements IUserDAO {
                 user.setId(id);
                 users.add(user);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return users;
     }
 
+    // Clears all user data (used for testing or resets)
     public void clearData() {
         try {
             Statement clearStatement = connection.createStatement();
-            String clearQuery = "DELETE FROM users";
-            clearStatement.execute(clearQuery);
+            clearStatement.execute("DELETE FROM users");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    // Creates the users table if it does not already exist
     private void createTable() {
-        // Create table if not exists
         try {
             Statement statement = connection.createStatement();
             String query = "CREATE TABLE IF NOT EXISTS users (" +
@@ -109,6 +114,7 @@ public class SqliteUserDAO implements IUserDAO {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void createUser(User user) {
         try {
@@ -122,13 +128,14 @@ public class SqliteUserDAO implements IUserDAO {
             statement.setString(4, user.getHashedPassword());
             statement.executeUpdate();
 
-            // Retrieve generated ID
+            // Assign auto-generated ID
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 user.setId(generatedKeys.getInt(1));
             }
 
-            if (user.getRoles().name().equals("Student")){
+            // Automatically create score entry for new students
+            if (user.getRoles().name().equals("Student")) {
                 IScoresDAO scoresDAO = new SqliteScoreDAO();
                 Score score = new Score(user.getId(), 1, 1, 0, 0);
                 scoresDAO.addScore(score);
@@ -138,6 +145,11 @@ public class SqliteUserDAO implements IUserDAO {
         }
     }
 
+    /**
+     * Updates an existing user's details.
+     *
+     * @param user the user with updated information
+     */
     public void updateUser(User user) {
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -153,6 +165,7 @@ public class SqliteUserDAO implements IUserDAO {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void deleteUser(User user) {
         try {
@@ -164,20 +177,20 @@ public class SqliteUserDAO implements IUserDAO {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public User login(String username, String plainPassword) {
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT id, role, email, password FROM users WHERE username = ?");
             statement.setString(1, username);
-            ResultSet resultSet = statement.executeQuery();
+            ResultSet rs = statement.executeQuery();
 
-            if (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String roleStr = resultSet.getString("role");
-                String email = resultSet.getString("email");
-                String storedHash = resultSet.getString("password");
-
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                String roleStr = rs.getString("role");
+                String email = rs.getString("email");
+                String storedHash = rs.getString("password");
                 String inputHash = Hashing.hashPassword(plainPassword);
 
                 if (storedHash.equals(inputHash)) {
@@ -190,83 +203,76 @@ public class SqliteUserDAO implements IUserDAO {
                     return user;
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return null; // login failed
     }
 
+    /** {@inheritDoc} */
     @Override
     public List<Student> getAllStudents() {
         List<Student> students = new ArrayList<>();
-
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT id, username, email, password FROM users WHERE role = 'Student'"
-            );
-            ResultSet resultSet = statement.executeQuery();
+                    "SELECT id, username, email, password FROM users WHERE role = 'Student'");
+            ResultSet rs = statement.executeQuery();
 
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String username = resultSet.getString("username");
-                String email = resultSet.getString("email");
-                String password = resultSet.getString("password");
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String username = rs.getString("username");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
 
                 Student student = new Student(username, email, User.Roles.Student, password);
                 student.setId(id);
                 students.add(student);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return students;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean emailExists(String email) {
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT COUNT(*) FROM users WHERE email = ?");
             statement.setString(1, email);
-            ResultSet resultSet = statement.executeQuery();
+            ResultSet rs = statement.executeQuery();
 
-            if (resultSet.next()) {
-                return resultSet.getInt(1) > 0;
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Student getStudent(int id) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT id, username, email, role, password FROM users WHERE id = ? AND role = 'Student'"
-            );
+                    "SELECT id, username, email, role, password FROM users WHERE id = ? AND role = 'Student'");
             statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
+            ResultSet rs = statement.executeQuery();
 
-            if (resultSet.next()) {
-                String username = resultSet.getString("username");
-                String email = resultSet.getString("email");
-                String password = resultSet.getString("password");
+            if (rs.next()) {
+                String username = rs.getString("username");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
 
                 Student student = new Student(username, email, User.Roles.Student, password);
                 student.setId(id);
                 return student;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
-
 }

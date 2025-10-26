@@ -3,7 +3,7 @@ package com.example.projectcab302.Controller;
 import com.example.projectcab302.Model.Score;
 import com.example.projectcab302.Model.Student;
 import com.example.projectcab302.Persistence.IScoresDAO;
-import com.example.projectcab302.Persistence.SqliteCoursesDAO;
+
 import com.example.projectcab302.Persistence.SqliteScoreDAO;
 
 import com.example.projectcab302.Utils.Session;
@@ -13,18 +13,17 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
+
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
-import javafx.scene.shape.Circle;
+
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import java.awt.*;
+
 
 public class StudentController extends BaseSession {
 
@@ -39,7 +38,7 @@ public class StudentController extends BaseSession {
         );
     }
 
-
+    // Displays a progress ring, along with labels indicating type of metric, and percentages
     private void gpaRing(double gpa, String gradeMeasure, String attempts) {
         StackPane stackPane = new StackPane();
         Text label = new Text(String.format("%s%.2f%%", gradeMeasure, gpa * 100) + "\n"+ attempts);

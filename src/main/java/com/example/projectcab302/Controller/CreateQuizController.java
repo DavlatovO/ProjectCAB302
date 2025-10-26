@@ -175,14 +175,6 @@ public class CreateQuizController {
         }
     }
 
-//    public void onSubmitAnswer(ActionEvent actionEvent) {
-//        if (Objects.equals(onStartQuiz().getCorrectAnswer(), selectedAnswer)) {
-//            score = score + 1;
-//            System.out.println("value was correctly observed");
-//            System.out.println(score);
-//        }
-//        System.out.println("button was clicked");
-//    }
 
     private void syncRadials (Quiz question) {
         optionAField.setText(question.getAnswer1());
@@ -192,33 +184,7 @@ public class CreateQuizController {
         Question.setText(question.getQuizQuestion());
     }
 
-//    public void onSubmitAnswer(ActionEvent actionEvent) {
-//        int i = 1;
-//        i = i+1;
-//        Course chosenCourse = courseListView.getSelectionModel().getSelectedItem();
-//        quizDAO = new SqlQuizDAO();
-//        courseListView.setVisible(false);
-//        List<Quiz> questions = quizDAO.getAllQuestionsfromCourse(chosenCourse.getTitle());
-//        Quiz question = questions.get(i);
-//
-//        System.out.println(questions);
-//        ToggleGroup group = new ToggleGroup();
-//        optionAField.setToggleGroup(group);
-//        optionBField.setToggleGroup(group);
-//        optionCField.setToggleGroup(group);
-//        optionDField.setToggleGroup(group);
-//        RadioButton selected_radial = (RadioButton) group.getSelectedToggle();
-//        String toggledValue = selected_radial.getText();
-//
-//        if (toggledValue.equals(question.getCorrectAnswer())) {
-//            score = score + 1;
-//
-//            errorQuizLabel.setText("Well done");
-//        }
-//        if (toggledValue != question.getCorrectAnswer()) {
-//            errorQuizLabel.setText("Unlucky");
-//        }
-//        System.out.println(score);
+
 
 
 }

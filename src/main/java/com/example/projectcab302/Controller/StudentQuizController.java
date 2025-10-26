@@ -113,12 +113,6 @@ public class StudentQuizController extends BaseCourseAndSession{
                 storeAnswer(quizzes.get(idx).getAnswer4(), idx);
             });
 
-            /*
-            btn1.setOnAction(e -> checkAnswer(quizzes.get(idx).getAnswer1(), correctAnswer, btn1));
-            btn2.setOnAction(e -> checkAnswer(quizzes.get(idx).getAnswer2(), correctAnswer, btn2));
-            btn3.setOnAction(e -> checkAnswer(quizzes.get(idx).getAnswer3(), correctAnswer, btn3));
-            btn4.setOnAction(e -> checkAnswer(quizzes.get(idx).getAnswer4(), correctAnswer, btn4));
-            */
 
             // Let button expand in its grid cell
             btn1.setMinWidth(0);

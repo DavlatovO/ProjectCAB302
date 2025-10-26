@@ -1,5 +1,6 @@
 package com.example.projectcab302.Controller;
 
+import com.example.projectcab302.Model.Course;
 import com.example.projectcab302.Model.Student;
 import com.example.projectcab302.Model.Teacher;
 import com.example.projectcab302.Model.User;
@@ -10,6 +11,10 @@ import com.example.projectcab302.Persistence.SqliteUserDAO;
 import com.example.projectcab302.SceneManager;
 import javafx.fxml.FXML;
 
+/**
+ * Controller for landing page for a user to either login or register an account.
+
+ */
 public class LandingPageController extends BaseSession{
 
     @FXML

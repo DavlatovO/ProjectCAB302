@@ -54,6 +54,7 @@ public class RegisterController extends BaseSession {
 
         if (userDAO.emailExists(email)) {
             errorLabel.setText("Email already registered!");
+            return;
         }
 
         User newUser;

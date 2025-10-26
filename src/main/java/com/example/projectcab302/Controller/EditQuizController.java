@@ -122,7 +122,8 @@ public class EditQuizController extends BaseCourseAndSession {
     }
 
     public void onBack(ActionEvent actionEvent) {
-        SceneManager.switchTo("courses-view.fxml", this.user);
+        SceneManager.switchTo("courses-view.fxml", this.user, "Edit-Quiz.fxml");
+
     }
 
     @FXML

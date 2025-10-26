@@ -53,7 +53,7 @@ public class AppSettings {
         setNotifications(true);
     }
 
-    /** Apply theme + scale to a Scene (call this after each view load). */
+
     public void applyToScene(Scene scene) {
         if (scene == null) return;
 
@@ -62,7 +62,7 @@ public class AppSettings {
         root.setScaleX(uiScale);
         root.setScaleY(uiScale);
 
-        // make sure the base stylesheet is present (resolve to URL!)
+
         var baseUrl = AppSettings.class.getResource("/com/example/projectcab302/style.css");
         if (baseUrl != null) {
             var css = baseUrl.toExternalForm();
@@ -84,7 +84,7 @@ public class AppSettings {
         }
     }
 
-    /** Force Preferences to write to disk (optional). */
+
     public void save() {
         try {
             p.flush(); // ensures values are persisted immediately

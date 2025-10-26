@@ -14,6 +14,10 @@ import javafx.scene.layout.GridPane;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Controller for the teacher dashboard view.
+
+ */
 public class TeacherController extends BaseSession{
     @FXML
     private Label pageHeader;

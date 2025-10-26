@@ -6,7 +6,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import com.example.projectcab302.z_Misc.AppSettings;  // <— import from the base package
 
+/**
+ * Controller for the settings view.
 
+ */
 public class SettingsController {
 
     @FXML private CheckBox darkModeCheckBox;

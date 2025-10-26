@@ -24,7 +24,10 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 
+/**
+ * Controller for the student dashboard view.
 
+ */
 public class StudentController extends BaseSession {
 
     @FXML private VBox dashboard;

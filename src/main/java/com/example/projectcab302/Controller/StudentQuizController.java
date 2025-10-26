@@ -20,7 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Controller for the student quiz view.
 
+ */
 public class StudentQuizController extends BaseCourseAndSession{
     // ───────────── Layouts ─────────────
     @FXML

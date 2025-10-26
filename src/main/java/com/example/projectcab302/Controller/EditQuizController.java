@@ -30,7 +30,24 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.io.*;
-
+/**
+ * Controller for the "Edit Quiz" view.
+ * <p>
+ * Allows teachers to create, edit, delete, and manage quiz questions
+ * associated with a specific {@link Course}. Integrates with
+ * {@link SqlQuizDAO} for database operations and supports AI-assisted
+ * false answer generation using a local Ollama model.
+ * <p>
+ * Features include:
+ * <ul>
+ *   <li>Displaying and selecting existing quiz questions.</li>
+ *   <li>Creating, updating, and deleting quiz entries.</li>
+ *   <li>Auto-generating false answers via local LLM.</li>
+ *   <li>Randomizing multiple-choice answer order while maintaining correctness mapping.</li>
+ * </ul>
+ * This controller extends {@link BaseCourseAndSession} to manage both the current
+ * {@link com.example.projectcab302.Model.User} session and associated course context.
+ */
 public class EditQuizController extends BaseCourseAndSession {
 
     @FXML

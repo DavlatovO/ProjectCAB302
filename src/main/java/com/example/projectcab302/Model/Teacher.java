@@ -1,5 +1,9 @@
 package com.example.projectcab302.Model;
 
+/**
+ * Represents a Teacher user
+
+ */
 public class Teacher extends User{
     public Teacher(String username, String email, Roles role, String password) {
         super(username, email, role, password);

@@ -17,7 +17,18 @@ import java.lang.String;
 import java.util.List;
 import java.util.Objects;
 
-
+/**
+ * Controller for the "Create Quiz" view.
+ * <p>
+ * Handles course selection, quiz creation, and synchronization
+ * of quiz questions with the database. Provides functionality
+ * for rendering available courses, selecting one to associate
+ * with a quiz, and managing quiz questions within that course.
+ * <p>
+ * This controller interacts with {@link SqlQuizDAO} and {@link SqliteCoursesDAO}
+ * to retrieve and store quiz and course data, and manages UI components
+ * such as {@link ListView}, {@link RadioButton}, and {@link Label}.
+ */
 public class CreateQuizController {
 
     @FXML

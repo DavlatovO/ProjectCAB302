@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Represents a course in the flashcard application.
+ * Represents a course which is linked to flashcards and quizzes.
  * A course has a unique ID, a title, and is associated with multiple flashcards.
  */
 public class Course {

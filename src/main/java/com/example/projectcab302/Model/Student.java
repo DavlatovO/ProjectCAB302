@@ -1,5 +1,9 @@
 package com.example.projectcab302.Model;
 
+/**
+ * Represents a student user
+
+ */
 public class Student extends User{
 
 

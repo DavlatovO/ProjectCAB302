@@ -11,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Integration tests for SqliteFlashcardDAO.
- * NOTE: These hit the real DB behind SqliteConnection.getInstance().
- * Point that connection at a TEST database (or :memory:) before running.
+
  */
 class SqliteFlashcardDAOTest {
 

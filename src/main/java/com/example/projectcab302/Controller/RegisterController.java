@@ -12,7 +12,11 @@ import javafx.scene.control.*;
 
 import java.io.IOException;
 
-
+/**
+ * Controller for the register view.
+ * <p>
+ * Handles adding a new account to the database
+ */
 public class RegisterController extends BaseSession {
 
 

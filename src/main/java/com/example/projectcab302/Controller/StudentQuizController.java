@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
 public class StudentQuizController extends BaseCourseAndSession{
     // ───────────── Layouts ─────────────
     @FXML
@@ -49,14 +50,7 @@ public class StudentQuizController extends BaseCourseAndSession{
     private IScoresDAO scoresDAO = new SqliteScoreDAO();
 
 
-    /**
-     * Initializes the controller.
-     * <p>
-     * This method is automatically called after the FXML view is loaded.
-     * It initializes the {@link ICoursesDAO}, retrieves courses from the database,
-     * inserts sample data if the database is empty, and populates the courses grid.
-     * </p>
-     */
+
     @FXML
     private void initialize() {
 
@@ -133,7 +127,8 @@ public class StudentQuizController extends BaseCourseAndSession{
         }
     }
 
-    public void onButtonSelect(Button btn, Button btn1, Button btn2, Button btn3, Button btn4){
+    @FXML
+    private void onButtonSelect(Button btn, Button btn1, Button btn2, Button btn3, Button btn4){
         btn1.setStyle("");
         btn2.setStyle("");
         btn3.setStyle("");
@@ -143,11 +138,13 @@ public class StudentQuizController extends BaseCourseAndSession{
 
     }
 
-    public void storeAnswer(String answer, int index){
+    @FXML
+    private void storeAnswer(String answer, int index){
         selectedAnswers.set(index, answer);
     }
 
-    public void onSubmit(){
+    @FXML
+    private void onSubmit(){
         int tally = 0;
 
         System.out.println(selectedAnswers);

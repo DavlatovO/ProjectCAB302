@@ -16,6 +16,9 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Controller for the QuizMetrics view.
+ */
 public class QuizMetrics extends BaseCourseAndSession {
 
 

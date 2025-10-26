@@ -11,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Integration tests for SqliteCoursesDAO.
- * NOTE: These tests hit the actual SQLite DB from SqliteConnection.getInstance().
- * Point it at a TEST DB (or :memory:) before running.
+
  */
 class SqliteCoursesDAOTest {
 

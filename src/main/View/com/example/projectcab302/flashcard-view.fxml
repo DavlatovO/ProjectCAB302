@@ -71,11 +71,14 @@
             <StackPane fx:id="cubeGroup">
                 <Rectangle width="400" height="200"
                            fill="lightblue" stroke="black" strokeWidth="2"/>
-
-                <Text fx:id="test"
-                      fill="Black"
-                      wrappingWidth="360"
-                      textAlignment="CENTER"/>
+                <!-- Example 3D Box (commented out)
+                <Box fx:id="cube" width="800" height="400" depth="50">
+                    <material>
+                        <PhongMaterial diffuseColor="lightblue" />
+                    </material>
+                </Box>
+                -->
+                <Text fx:id="test" x="-50" y="0" fill="Black"/>
             </StackPane>
             <TextArea fx:id="answer"
                       promptText="Type your answer..."
